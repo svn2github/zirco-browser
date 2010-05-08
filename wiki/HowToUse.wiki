@@ -19,7 +19,7 @@ The url bar can be used to navigate to home, type urls, stop page loading, etc.
 
 The tool bar provide easy access to previous/next navigation buttons, open/close tabs and bookmarks.
 
-Note:
+Notes:
  * The bars hide automatically after a few time. This time can be changed through _Preferences_. If a page is loading, bars will hide after the page has loaded;
  * Touching the screen will hide the bars;
  * The _Bookmarks_ button in the tool bar can be changed to _History_ through _Preferences_;
