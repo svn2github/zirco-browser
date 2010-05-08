@@ -1,4 +1,5 @@
 #summary Screen shots of Zirco Browser
+#labels Featured
 
 ==Zirco main view==
 
