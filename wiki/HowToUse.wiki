@@ -1,2 +1,12 @@
 #summary How to use Zirco Browser.
 #labels Featured
+
+= Introduction =
+
+Zirco can be used almost as any other browser. It has
+
+= The bubble =
+
+The bubble is a small quarter-circle overlay at the bottom-right of the screen:
+
+http://img85.imageshack.us/img85/3264/zircobubble.png
