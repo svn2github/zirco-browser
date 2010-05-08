@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Zirco can be used almost as any other browser. It has
+Zirco can be used almost as any other browser. Here is a few tips to use it better.
 
 = The bubble =
 
