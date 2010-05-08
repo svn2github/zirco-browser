@@ -1,0 +1,9 @@
+#summary Screen shots of Zirco Browser
+
+Zirco main view. Touching the bubble (at the bottom-right corner) brings up the url bar, and the main tool bar.
+
+http://img197.imageshack.us/img197/1276/zircobrowser1.png
+
+The tool bar allow quick access to previous page, next page, open tag, close tab and bookmark.
+
+http://img12.imageshack.us/img12/2884/zircobrowser2.png
