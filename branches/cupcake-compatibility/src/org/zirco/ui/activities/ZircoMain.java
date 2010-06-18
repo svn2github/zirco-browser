@@ -51,7 +51,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -144,7 +143,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	
 	private DbAdapter mDbAdapter = null;
 	
-	private float mOldDistance;
+	//private float mOldDistance;
 	
 	private GestureMode mGestureMode;
 	
@@ -1024,7 +1023,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		
 		hideKeyboard(false);
 		
-		final int action = event.getAction();
+		//final int action = event.getAction();
 		
 		// Get the action that was done on this touch event
 		switch (event.getAction()) {
