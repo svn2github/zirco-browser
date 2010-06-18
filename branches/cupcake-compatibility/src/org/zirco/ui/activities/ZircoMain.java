@@ -785,7 +785,17 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 				mCurrentWebView.goBack();				
 			}
 			return true;
-			
+		
+		default: return super.onKeyUp(keyCode, event);
+		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			return true;
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
 			mCurrentWebView.zoomIn();
 			return true;
@@ -1229,7 +1239,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			
 			setToolbarsVisibility(true);
 			
-		} else if (event.equals(EventConstants.EVT_YOUTUBE_VIDEO)) {
+		} else if (event.equals(EventConstants.EVT_VND_URL)) {
 			
 			try {
 				
@@ -1238,10 +1248,10 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 				
 			} catch (Exception e) {
 				
-				// Notify user that the Youtube video cannot be viewed.
+				// Notify user that the vnd url cannot be viewed.
 				new AlertDialog.Builder(this)
-				.setTitle(R.string.Main_YoutubeErrorTitle)
-				.setMessage(R.string.Main_YoutubeErrorMessage)
+				.setTitle(R.string.Main_VndErrorTitle)
+				.setMessage(String.format(getString(R.string.Main_VndErrorMessage), (String) data))
 				.setPositiveButton(android.R.string.ok,
 						new AlertDialog.OnClickListener()
 				{
