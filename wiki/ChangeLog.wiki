@@ -1,4 +1,5 @@
 #summary Zirco ChangeLog.
+#labels Featured
 
 == 0.2.8 ==
   * VND url handler;
