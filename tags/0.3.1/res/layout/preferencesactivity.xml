@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+   Zirco Browser for Android
+  
+   Copyright (C) 2010 J. Devauchelle and contributors.
+ 
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   version 3 as published by the Free Software Foundation.
+ 
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+ -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/PreferencesActivity.GeneralSettingsCategoryTitle">
+		<EditTextPreference
+			android:name="@string/PreferencesActivity.HomePagePreferenceTitle"
+			android:summary="@string/PreferencesActivity.HomePagePreferenceSummary"
+			android:defaultValue="@string/PreferencesActivity.HomePagePreferenceDefaultValue"
+			android:title="@string/PreferencesActivity.HomePagePreferenceTitle"
+			android:key="GeneralHomePage" />
+		<ListPreference
+			android:title="@string/PreferencesActivity.BarDurationPreferenceTitle"
+			android:summary="@string/PreferencesActivity.BarDurationPreferenceSummary"
+			android:key="GeneralBarsDuration"
+			android:defaultValue="3000"
+			android:entries="@array/BarDurationEntries"
+			android:entryValues="@array/BarDurationValues" />
+		<ListPreference
+			android:title="@string/PreferencesActivity.BubblePositionPreferenceTitle"
+			android:summary="@string/PreferencesActivity.BubblePositionPreferenceSummary"
+			android:key="GeneralBubblePosition"
+			android:defaultValue="right"
+			android:entries="@array/BubblePositionEntries"
+			android:entryValues="@array/BubblePositionValues" />
+		<CheckBoxPreference
+			android:title="@string/PreferencesActivity.FullScreenPreferenceTitle"
+			android:defaultValue="true"
+			android:summary="@string/PreferencesActivity.FullScreenPreferenceSummary"
+			android:key="GeneralFullScreen" />
+		<CheckBoxPreference
+			android:title="@string/PreferencesActivity.ShowToastOnTabSwitchPreferenceTitle"
+			android:defaultValue="true"
+			android:summary="@string/PreferencesActivity.ShowToastOnTabSwitchPreferenceSummary"
+			android:key="GeneralShowToastOnTabSwitch" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/PreferencesActivity.BrowserSettingsCategoryTitle">	
+		<CheckBoxPreference
+			android:title="@string/PreferencesActivity.EnableJavascriptPreferenceTitle"
+			android:defaultValue="true"
+			android:summary="@string/PreferencesActivity.EnableJavascriptPreferenceSummary"
+			android:key="BrowserEnableJavascript" />
+		<CheckBoxPreference
+			android:title="@string/PreferencesActivity.LoadImagesPreferenceTitle"
+			android:defaultValue="true"
+			android:summary="@string/PreferencesActivity.LoadImagesPreferenceSummary"
+			android:key="BrowserEnableImages" />		
+		<PreferenceScreen
+			android:key="PrivacyPreferencesScreen"
+			android:title="@string/PreferencesActivity.PrivacyPreferenceTitle"
+			android:summary="@string/PreferencesActivity.PrivacyPreferenceSummary">
+			<EditTextPreference
+				android:name="@string/PreferencesActivity.HistorySizePreferenceTitle"
+				android:summary="@string/PreferencesActivity.HistorySizePreferenceSummary"
+				android:defaultValue="5"
+				android:title="@string/PreferencesActivity.HistorySizePreferenceTitle"
+				android:key="BrowserHistorySize" />
+			<CheckBoxPreference
+				android:title="@string/PreferencesActivity.EnableFormDataPreferenceTitle"
+				android:defaultValue="true"
+				android:summary="@string/PreferencesActivity.EnableFormDataPreferenceSummary"
+				android:key="BrowserEnableFormData" />
+			<CheckBoxPreference
+				android:title="@string/PreferencesActivity.EnablePasswordsPreferenceTitle"
+				android:defaultValue="true"
+				android:summary="@string/PreferencesActivity.EnablePasswordsPreferenceSummary"
+				android:key="BrowserEnablePasswords" />
+			<CheckBoxPreference
+				android:title="@string/PreferencesActivity.EnableCookiesPreferenceTitle"
+				android:defaultValue="true"
+				android:summary="@string/PreferencesActivity.EnableCookiesPreferenceSummary"
+				android:key="BrowserEnableCookies" />
+			<Preference
+				android:title="@string/PreferencesActivity.PrivacyClearHistoryTitle"
+				android:key="PrivacyClearHistory" />
+			<Preference
+				android:title="@string/PreferencesActivity.PrivacyClearFormDataTitle"
+				android:key="PrivacyClearFormData" />
+			<Preference
+				android:title="@string/PreferencesActivity.PrivacyClearCacheTitle"
+				android:key="PrivacyClearCache" />
+			<Preference
+				android:title="@string/PreferencesActivity.PrivacyClearCookiesTitle"
+				android:key="PrivacyClearCookies" />
+		</PreferenceScreen>		
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/PreferencesActivity.AdBlockerSettingsCategoryTitle">
+		<CheckBoxPreference
+			android:title="@string/PreferencesActivity.EnableAdBlockerPreferenceTitle"
+			android:defaultValue="true"
+			android:summary="@string/PreferencesActivity.EnableAdBlockerPreferenceSummary"
+			android:key="AdBlockerEnable" />
+		<Preference
+			android:title="@string/PreferencesActivity.AdBlockerWhiteListPreferenceTitle"
+			android:summary="@string/PreferencesActivity.AdBlockerWhiteListPreferenceSummary"
+			android:key="AdBlockerWhiteList" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/PreferencesActivity.AboutCategoryTitle">
+		<Preference
+			android:title="@string/PreferencesActivity.AboutPreferenceTitle"
+			android:summary="@string/PreferencesActivity.AboutPreferenceSummary"
+			android:key="About" />
+	</PreferenceCategory>
+</PreferenceScreen>
