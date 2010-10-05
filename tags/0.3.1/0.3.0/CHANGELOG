@@ -1,0 +1,12 @@
+0.2.9:
+- Pinch zoom;
+- "Bubble" position can be set to right, left or both.
+- Bookmark import/export from/to SD card.
+- Javascript prompt support;
+
+0.2.8:
+- VND url handler;
+- Long back press quit application;
+- Added french translation;
+
+0.2.7: First public release.
