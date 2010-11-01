@@ -1,0 +1,30 @@
+0.3.2:
+- Added start page, showing most used bookmarks and recent history.
+- Bookmarks can be sorted by hit count.
+- Change icon set to match Android guidelines.
+- Added icons for mdpi/hdpi devices.
+- Added changelog dialog.
+
+0.3.1:
+- Zoom by double-tap.
+- Combined bookmarks/history window.
+- Updated design.
+- Move about dialog to preferences.
+- Fix bug: sometimes a page load but do not show.
+
+0.3.0:
+- New design.
+- Bugfix: FC at start-up for locale other than english/french.
+
+0.2.9:
+- Pinch zoom;
+- "Bubble" position can be set to right, left or both.
+- Bookmark import/export from/to SD card.
+- Javascript prompt support;
+
+0.2.8:
+- VND url handler;
+- Long back press quit application;
+- Added french translation;
+
+0.2.7: First public release.
