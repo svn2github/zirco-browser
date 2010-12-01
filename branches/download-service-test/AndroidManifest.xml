@@ -22,6 +22,12 @@
     	android:icon="@drawable/icon"
     	android:label="@string/ApplicationName" android:debuggable="false">
     
+    	<service android:process=":remote" android:exported="false" android:name=".services.downloads.DownloadService">
+    		<intent-filter>
+    			<action android:name=".services.downloads.IRemoteDownloadService" />
+    		</intent-filter>
+    	</service>
+    
         <activity android:name=".ui.activities.ZircoMain"
                   android:label="@string/ApplicationName"
                   android:launchMode="singleTask"

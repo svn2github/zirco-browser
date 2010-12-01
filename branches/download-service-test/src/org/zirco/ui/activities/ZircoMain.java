@@ -28,6 +28,8 @@ import org.zirco.events.IWebEventListener;
 import org.zirco.model.DbAdapter;
 import org.zirco.model.DownloadItem;
 import org.zirco.model.UrlSuggestionCursorAdapter;
+import org.zirco.services.downloads.DownloadService;
+import org.zirco.services.downloads.IRemoteDownloadService;
 import org.zirco.ui.activities.preferences.PreferencesActivity;
 import org.zirco.ui.components.ZircoWebView;
 import org.zirco.ui.components.ZircoWebViewClient;
@@ -41,9 +43,11 @@ import org.zirco.utils.UrlUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -53,9 +57,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -155,6 +162,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private GestureMode mGestureMode;
 	private long mLastDownTimeForDoubleTap = -1;
 	
+	private IRemoteDownloadService mDownloadService = null;
+	private ServiceConnection mDownloadServiceConnection = null;
+	
 	/**
 	 * Gesture mode.
 	 */
@@ -168,6 +178,8 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
         super.onCreate(savedInstanceState);              
 
         INSTANCE = this;
+        
+        //bindDownloadService();
         
         Constants.initializeConstantsFromResources(this);
         
@@ -242,6 +254,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			mDbAdapter.close();
 		}
 		
+		//unbindDownloadService();
 		WebIconDatabase.getInstance().close();
 		
 		super.onDestroy();
@@ -262,6 +275,33 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		
 		super.onNewIntent(intent);
 	}
+    
+    private void bindDownloadService() {
+    	Intent intent = new Intent();
+    	intent.setClassName(getApplicationContext(), "org.zirco.services.downloads.DownloadService");
+    	
+    	mDownloadServiceConnection = new ServiceConnection() {
+			
+			@Override
+			public void onServiceDisconnected(ComponentName name) {
+				mDownloadService = null;				
+			}
+			
+			@Override
+			public void onServiceConnected(ComponentName name, IBinder service) {
+				mDownloadService = IRemoteDownloadService.Stub.asInterface(service);				
+			}
+		};
+		
+		bindService(intent, mDownloadServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+    
+    private void unbindDownloadService() {
+    	if (mDownloadServiceConnection != null) {
+    		unbindService(mDownloadServiceConnection);
+    		mDownloadService = null;
+    	}
+    }
     
     /**
      * Create main UI.
@@ -659,11 +699,29 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     private void doDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
     	    
         if (ApplicationUtils.checkCardState(this, true)) {
+        	/*
         	DownloadItem item = new DownloadItem(this, url);
         	Controller.getInstance().addToDownload(item);
         	item.startDownload();
 
         	Toast.makeText(this, getString(R.string.Main_DownloadStartedMsg), Toast.LENGTH_SHORT).show();
+        	*/
+        	/*
+        	if (mDownloadService != null) {
+        		try {
+        			Log.d("ZircoMain", "Before call binder");
+					mDownloadService.download(url);
+				} catch (RemoteException e) {
+					Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+					e.printStackTrace();
+				}
+        	}
+        	*/
+        	
+        	Intent intent = new Intent();
+        	intent.setClass(ZircoMain.this, DownloadService.class);
+        	intent.putExtra("url", url);
+        	startService(intent);
         }
     }
     
