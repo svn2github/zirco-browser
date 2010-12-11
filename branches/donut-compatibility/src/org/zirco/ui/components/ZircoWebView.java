@@ -25,7 +25,6 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebSettings.ZoomDensity;
 
 /**
  * A convenient extension of WebView.
@@ -76,7 +75,7 @@ public class ZircoWebView extends WebView {
 		settings.setLoadsImagesAutomatically(Controller.getInstance().getPreferences().getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_IMAGES, true));
 		settings.setSaveFormData(Controller.getInstance().getPreferences().getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_FORM_DATA, true));
 		settings.setSavePassword(Controller.getInstance().getPreferences().getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PASSWORDS, true));
-		settings.setDefaultZoom(ZoomDensity.valueOf(Controller.getInstance().getPreferences().getString(Constants.PREFERENCES_DEFAULT_ZOOM_LEVEL, ZoomDensity.MEDIUM.toString())));		
+		//settings.setDefaultZoom(ZoomDensity.valueOf(Controller.getInstance().getPreferences().getString(Constants.PREFERENCES_DEFAULT_ZOOM_LEVEL, ZoomDensity.MEDIUM.toString())));		
 		settings.setUserAgentString(Controller.getInstance().getPreferences().getString(Constants.PREFERENCES_BROWSER_USER_AGENT, Constants.USER_AGENT_DEFAULT));
 		
 		CookieManager.getInstance().setAcceptCookie(Controller.getInstance().getPreferences().getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_COOKIES, true));
@@ -86,7 +85,7 @@ public class ZircoWebView extends WebView {
 		// Technical settings
 		settings.setSupportMultipleWindows(true);						
     	setLongClickable(true);
-    	setScrollbarFadingEnabled(true);
+    	//setScrollbarFadingEnabled(true);
     	setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 	}
 	

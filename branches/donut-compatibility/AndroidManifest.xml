@@ -53,13 +53,13 @@
 		<activity android:name=".ui.activities.preferences.UserAgentPreferenceActivity" android:theme="@android:style/Theme.Dialog" android:label="@string/UserAgentPreferenceActivity.Title"></activity>
 	</application>
 
-	<uses-sdk android:minSdkVersion="7" />
+	<uses-sdk android:minSdkVersion="4" />
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>	
 	<uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS"></uses-permission>	
 	<uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"></uses-permission>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
-	<uses-feature android:name="android.hardware.touchscreen" android:required="true" />
+	<uses-feature android:name="android.hardware.touchscreen" />
 
 	<supports-screens
 		android:largeScreens="true"

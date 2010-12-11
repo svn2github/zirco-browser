@@ -95,6 +95,7 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/PreferencesActivity.BrowserSettingsCategoryTitle">
+		<!--  
 		<ListPreference
 			android:title="@string/PreferencesActivity.DefaultZoomPreferenceTitle"
 			android:summary="@string/PreferencesActivity.DefaultZoomPreferenceSummary"
@@ -102,6 +103,7 @@
 			android:defaultValue="MEDIUM"
 			android:entries="@array/DefaultZoomEntries"
 			android:entryValues="@array/DefaultZoomValues" />
+		-->
 		<Preference
 			android:title="@string/PreferencesActivity.UserAgentPreferenceTitle"
 			android:summary="@string/PreferencesActivity.UserAgentPreferenceSummary"

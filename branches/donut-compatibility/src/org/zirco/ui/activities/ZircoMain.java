@@ -57,7 +57,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.FloatMath;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -154,7 +153,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	
 	private DbAdapter mDbAdapter = null;
 	
-	private float mOldDistance;
+	//private float mOldDistance;
 	
 	private GestureMode mGestureMode;
 	private long mLastDownTimeForDoubleTap = -1;
@@ -913,6 +912,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     	mCurrentWebView.goForward();
     }
 
+    /*
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
 		
@@ -923,7 +923,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		default: return super.onKeyLongPress(keyCode, event);
 		}
 	}
+	*/
 
+    /*
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		
@@ -939,6 +941,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		default: return super.onKeyUp(keyCode, event);
 		}
 	}
+	*/
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -949,6 +952,13 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			return true;
 		case KeyEvent.KEYCODE_VOLUME_UP:
 			mCurrentWebView.zoomOut();
+			return true;
+		case KeyEvent.KEYCODE_BACK:
+			if (mCurrentWebView.canGoBack()) {
+				mCurrentWebView.goBack();				
+			} else {
+				this.moveTaskToBack(true);
+			}
 			return true;
 		default: return super.onKeyDown(keyCode, event);
 		}
@@ -1153,17 +1163,19 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 		}		
 	}
-	
+		
 	/**
 	 * Compute the distance between points of a motion event.
 	 * @param event The event.
 	 * @return The distance between the two points.
 	 */
+	/*
 	private float computeSpacing(MotionEvent event) {
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);
 		return FloatMath.sqrt(x * x + y * y);
 	}
+	*/
 	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -1174,7 +1186,8 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		
 		// Get the action that was done on this touch event
 		//switch (event.getAction()) {
-		switch (action & MotionEvent.ACTION_MASK) {
+		//switch (action & MotionEvent.ACTION_MASK) {
+		switch (action) {
 		case MotionEvent.ACTION_DOWN: {
 			
 			mGestureMode = GestureMode.SWIP;
@@ -1242,6 +1255,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			break;
 		}
 		
+		/*
 		case MotionEvent.ACTION_POINTER_DOWN: {
 			
 			mOldDistance = computeSpacing(event);
@@ -1287,6 +1301,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			}		
 			break;
 		}
+		*/
 		default: break;
 		}
 
