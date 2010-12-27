@@ -29,6 +29,7 @@ import org.zirco.model.DbAdapter;
 import org.zirco.model.DownloadItem;
 import org.zirco.model.UrlSuggestionCursorAdapter;
 import org.zirco.ui.activities.preferences.PreferencesActivity;
+import org.zirco.ui.compatibility.BaseTouchListener;
 import org.zirco.ui.components.ZircoWebView;
 import org.zirco.ui.components.ZircoWebViewClient;
 import org.zirco.ui.runnables.BookmarkThumbnailUpdater;
@@ -159,6 +160,8 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private GestureMode mGestureMode;
 	private long mLastDownTimeForDoubleTap = -1;
 	
+	private OnTouchListener mTouchListener;
+	
 	/**
 	 * Gesture mode.
 	 */
@@ -174,6 +177,8 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
         INSTANCE = this;                
         
         Constants.initializeConstantsFromResources(this);
+        
+        mTouchListener = BaseTouchListener.newTouchListenerInstance(this);
         
         Controller.getInstance().setPreferences(PreferenceManager.getDefaultSharedPreferences(this));       
         
@@ -470,7 +475,8 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     private void initializeCurrentWebView() {
     	
     	mCurrentWebView.setWebViewClient(new ZircoWebViewClient());
-    	mCurrentWebView.setOnTouchListener((OnTouchListener) this);
+    	//mCurrentWebView.setOnTouchListener((OnTouchListener) this);
+    	mCurrentWebView.setOnTouchListener(mTouchListener);
     	
     	mCurrentWebView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
@@ -819,6 +825,10 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     	}
     }
     
+    public void hideKeyboardNow() {
+    	hideKeyboard(false);
+    }
+    
     /**
      * Start a runnable to hide the tool bars after a user-defined delay.
      */
@@ -1152,6 +1162,44 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			}
 			Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 		}		
+	}
+	
+	public boolean currentWebViewHasMultipleTabs() {
+		return mViewFlipper.getChildCount() > 1;
+	}
+	
+	public void showPreviousTab() {
+		mViewFlipper.setInAnimation(AnimationManager.getInstance().getInFromLeftAnimation());
+		mViewFlipper.setOutAnimation(AnimationManager.getInstance().getOutToRightAnimation());
+
+		mViewFlipper.showPrevious();
+
+		mCurrentWebView = mWebViews.get(mViewFlipper.getDisplayedChild());
+
+		showToastOnTabSwitch();
+
+		updateUI();
+	}
+	
+	public void showNextTab() {
+		mViewFlipper.setInAnimation(AnimationManager.getInstance().getInFromRightAnimation());
+		mViewFlipper.setOutAnimation(AnimationManager.getInstance().getOutToLeftAnimation());
+
+		mViewFlipper.showNext();
+
+		mCurrentWebView = mWebViews.get(mViewFlipper.getDisplayedChild());
+
+		showToastOnTabSwitch();
+
+		updateUI();
+	}
+	
+	public void zoomIn() {
+		mCurrentWebView.zoomIn();
+	}
+	
+	public void zoomOut() {
+		mCurrentWebView.zoomOut();
 	}
 	
 	/**
