@@ -1,11 +1,11 @@
 package org.zirco2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class GalleryActivity extends Activity {	
@@ -22,20 +22,22 @@ public class GalleryActivity extends Activity {
 
         	@Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                //Toast.makeText(GalleryActivity.this, Integer.toString(position), Toast.LENGTH_SHORT).show();
-        		doFinish();
+        		doFinish(position);
             }
-
-
         });
 	}
 
 	@Override
 	public void onBackPressed() {
-		doFinish();
+		doFinish(-1);
 	}
 
-	private void doFinish() {
+	private void doFinish(int index) {
+		if (index != -1) {
+			Intent i = new Intent();
+			i.putExtra("TAB_INDEX", index);
+			setResult(RESULT_OK, i);
+		}
 		finish();
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}

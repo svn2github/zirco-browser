@@ -15,8 +15,8 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 	@Override
 	public void onLongPress(MotionEvent e) {
-		Intent i = new Intent(mActivity, GalleryActivity.class);
-		mActivity.startActivity(i);
+		Intent i = new Intent(mActivity, GalleryActivity.class);		
+		mActivity.startActivityForResult(i, Main.ACTIVITY_SHOW_TABS);
 		mActivity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 
