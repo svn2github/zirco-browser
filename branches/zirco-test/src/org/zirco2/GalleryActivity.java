@@ -4,34 +4,76 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 
-public class GalleryActivity extends Activity {	
+public class GalleryActivity extends Activity {
+	
+	private Gallery mGallery;
+	private AutoCompleteTextView mUrl;
+	private ImageButton mGo;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
         setContentView(R.layout.gallery);
         
-        Gallery g = (Gallery) findViewById(R.id.gallery);
-        g.setAdapter(new ImageAdapter(this));
+        mUrl = (AutoCompleteTextView) findViewById(R.id.UrlText);
         
-        g.setSpacing(5);
-        g.setUnselectedAlpha(0.5f);
+        mGo = (ImageButton) findViewById(R.id.GoBtn);
         
-        g.setOnItemClickListener(new OnItemClickListener() {
+        mGo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				int selected = 	mGallery.getSelectedItemPosition();
+				TabsController.getInstance().getWebViews().get(selected).getWebView().loadUrl(mUrl.getText().toString());
+				doFinish(selected);
+			}
+		});
+        
+        mGallery = (Gallery) findViewById(R.id.gallery);
+        mGallery.setAdapter(new ImageAdapter(this));
+
+        mGallery.setSpacing(5);
+        mGallery.setUnselectedAlpha(0.5f);
+        
+        mGallery.setOnItemClickListener(new OnItemClickListener() {
 
         	@Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         		doFinish(position);
             }
+        	
         });
+        
+        mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				
+				mUrl.setText(TabsController.getInstance().getWebViews().get(position).getWebView().getUrl());
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub				
+			}
+		});               
         
         Bundle extras = getIntent().getExtras();
     	if (extras != null) {        	
-        	g.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
+    		mGallery.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
         }
 	}
 

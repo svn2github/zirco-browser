@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Gallery xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:id="@+id/gallery"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/MainLayout" android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	
+	<RelativeLayout android:id="@+id/MainContainer"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		
+	<LinearLayout android:id="@+id/BarLayout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:scaleType="fitXY"
+			android:weightSum="0.75"
+			android:background="@drawable/tb_background_top"
+			android:layout_alignParentTop="true" android:orientation="horizontal">
+			
+		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/UrlText"
+					android:layout_marginTop="5dip"
+					android:layout_marginLeft="2dip"
+					android:layout_marginRight="2dip"
+					android:layout_width="fill_parent"
+					android:layout_weight="0.75"
+					android:dropDownHeight="wrap_content"
+					android:dropDownWidth="fill_parent"
+					android:inputType="textUri"  ></AutoCompleteTextView>
+		
+		<ImageButton android:layout_height="wrap_content"
+					android:id="@+id/GoBtn" android:layout_width="wrap_content"
+					android:background="@drawable/buttons"
+					android:layout_marginTop="5dip"
+					android:layout_marginBottom="3dip"
+					android:layout_marginRight="3dip"
+					android:src="@drawable/ic_btn_go"></ImageButton>		
+			
+	</LinearLayout>
+	
+	<Gallery android:id="@+id/gallery"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" android:layout_below="@+id/BarLayout"/>    
+
+</RelativeLayout>
+    
+ </LinearLayout>
