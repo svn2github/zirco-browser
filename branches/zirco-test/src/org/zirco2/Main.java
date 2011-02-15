@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,6 +23,8 @@ public class Main extends Activity implements OnTouchListener {
 	private FrameLayout mWebViewContainer;
 	private LayoutInflater mInflater = null;
 	
+	private int mCurrentViewIndex = -1;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class Main extends Activity implements OnTouchListener {
         
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
-        mGestureDetector = new GestureDetector(this, new GestureListener(this));
+        mGestureDetector = new GestureDetector(this, new GestureListener());
         
         mWebViewContainer = (FrameLayout) findViewById(R.id.WebWiewContainer);
         
@@ -74,7 +75,7 @@ public class Main extends Activity implements OnTouchListener {
 		
 		WebView webView = (WebView) view.findViewById(R.id.webview);
 		
-		TabsController.getInstance().addWebViewContainer(new WebViewContainer(view, webView));
+		mCurrentViewIndex = TabsController.getInstance().addWebViewContainer(new WebViewContainer(view, webView));
 		
 		webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient());        
@@ -95,11 +96,23 @@ public class Main extends Activity implements OnTouchListener {
 			if (data != null) {
         		Bundle b = data.getExtras();
         		if (b != null) {
-        			int position = b.getInt("TAB_INDEX");
-        			Log.d("Position:", Integer.toString(position));
+        			int position = b.getInt("TAB_INDEX");        			
         			mWebViewContainer.bringChildToFront(TabsController.getInstance().getWebViews().get(position).getView());
+        			mCurrentViewIndex = position;
         		}
 			}
 		}
 	}
+	
+	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+		@Override
+		public void onLongPress(MotionEvent e) {
+			Intent i = new Intent(Main.this, GalleryActivity.class);
+			i.putExtra("CURRENT_VIEW_INDEX", mCurrentViewIndex);
+			
+			Main.this.startActivityForResult(i, Main.ACTIVITY_SHOW_TABS);
+			Main.this.overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
+		}
+	}
+	
 }

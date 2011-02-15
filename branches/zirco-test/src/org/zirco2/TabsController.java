@@ -37,8 +37,9 @@ public class TabsController {
 		return mWebViews;
 	}
 	
-	public void addWebViewContainer(WebViewContainer webViewContainer) {
+	public int addWebViewContainer(WebViewContainer webViewContainer) {
 		mWebViews.add(webViewContainer);
+		return mWebViews.indexOf(webViewContainer);
 	}
 
 }

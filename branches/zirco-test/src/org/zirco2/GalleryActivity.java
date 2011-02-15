@@ -17,7 +17,10 @@ public class GalleryActivity extends Activity {
         
         Gallery g = (Gallery) findViewById(R.id.gallery);
         g.setAdapter(new ImageAdapter(this));
-
+        
+        g.setSpacing(5);
+        g.setUnselectedAlpha(0.5f);
+        
         g.setOnItemClickListener(new OnItemClickListener() {
 
         	@Override
@@ -25,6 +28,11 @@ public class GalleryActivity extends Activity {
         		doFinish(position);
             }
         });
+        
+        Bundle extras = getIntent().getExtras();
+    	if (extras != null) {        	
+        	g.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
+        }
 	}
 
 	@Override
@@ -39,7 +47,7 @@ public class GalleryActivity extends Activity {
 			setResult(RESULT_OK, i);
 		}
 		finish();
-		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		overridePendingTransition(R.anim.browser_view_enter, R.anim.tab_view_exit);
 	}
 	
 }
