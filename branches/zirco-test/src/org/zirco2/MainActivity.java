@@ -13,15 +13,16 @@ import android.view.View.OnTouchListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.ViewFlipper;
 
 public class MainActivity extends Activity implements OnTouchListener {
 	
 	public static int ACTIVITY_SHOW_TABS = 0;
 	
 	private GestureDetector mGestureDetector;
-	private FrameLayout mWebViewContainer;
+	//private FrameLayout mWebViewContainer;
+	private ViewFlipper mWebViewContainer;
 	private LayoutInflater mInflater = null;
 	
 	private int mCurrentViewIndex = -1;
@@ -39,7 +40,8 @@ public class MainActivity extends Activity implements OnTouchListener {
         
         mGestureDetector = new GestureDetector(this, new GestureListener());
         
-        mWebViewContainer = (FrameLayout) findViewById(R.id.WebWiewContainer);
+        //mWebViewContainer = (FrameLayout) findViewById(R.id.WebWiewContainer);
+        mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
         
         addTab("http://fr.m.wikipedia.org/");
@@ -92,14 +94,17 @@ public class MainActivity extends Activity implements OnTouchListener {
         webView.loadUrl(url);
         
         mWebViewContainer.addView(view);
+        
         showTab(mCurrentViewIndex);
 	}
 	
 	private void showTab(int tabIndex) {
-		View view = TabsController.getInstance().getWebViews().get(tabIndex).getView();
-		mWebViewContainer.bringChildToFront(view);
-		view.requestFocus();
 		mCurrentViewIndex = tabIndex;
+		//View view = TabsController.getInstance().getWebViews().get(tabIndex).getView();
+		//mWebViewContainer.bringChildToFront(view);
+		//view.requestFocus();
+		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
+		
 	}
 
 	@Override
