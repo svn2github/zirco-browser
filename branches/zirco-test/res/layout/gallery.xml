@@ -7,13 +7,15 @@
 		android:layout_width="fill_parent" android:layout_height="fill_parent">
 		
 	<LinearLayout android:id="@+id/BarLayout"
+	   android:focusable="true"
+          android:focusableInTouchMode="true"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:scaleType="fitXY"
 			android:weightSum="0.75"
 			android:background="@drawable/tb_background_top"
 			android:layout_alignParentTop="true" android:orientation="horizontal">
 			
-		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/UrlText"
+		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/UrlText"		  
 					android:layout_marginTop="5dip"
 					android:layout_marginLeft="2dip"
 					android:layout_marginRight="2dip"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Gallery;
@@ -28,6 +29,17 @@ public class GalleryActivity extends Activity {
         setContentView(R.layout.gallery);
         
         mUrl = (AutoCompleteTextView) findViewById(R.id.UrlText);
+        
+        mUrl.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View arg0, boolean hasFocus) {
+				// Select all when focus gained.
+                if (hasFocus) {
+                	mUrl.setSelection(0, mUrl.getText().length());
+                }
+			}
+		});
         
         mGo = (ImageButton) findViewById(R.id.GoBtn);
         

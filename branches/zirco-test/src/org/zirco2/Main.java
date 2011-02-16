@@ -41,6 +41,7 @@ public class Main extends Activity implements OnTouchListener {
         
         mWebViewContainer = (FrameLayout) findViewById(R.id.WebWiewContainer);
         
+        
         addTab("http://fr.m.wikipedia.org/");
         addTab("http://www.google.com/");
         
@@ -85,10 +86,20 @@ public class Main extends Activity implements OnTouchListener {
         webView.setWebViewClient(new WebViewClient());        
         webView.setOnTouchListener(this);
         
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);
+        
         webView.loadUrl(url);
         
         mWebViewContainer.addView(view);
-        mWebViewContainer.bringChildToFront(view);
+        showTab(mCurrentViewIndex);
+	}
+	
+	private void showTab(int tabIndex) {
+		View view = TabsController.getInstance().getWebViews().get(tabIndex).getView();
+		mWebViewContainer.bringChildToFront(view);
+		view.requestFocus();
+		mCurrentViewIndex = tabIndex;
 	}
 
 	@Override
@@ -100,9 +111,8 @@ public class Main extends Activity implements OnTouchListener {
 			if (data != null) {
         		Bundle b = data.getExtras();
         		if (b != null) {
-        			int position = b.getInt("TAB_INDEX");        			
-        			mWebViewContainer.bringChildToFront(TabsController.getInstance().getWebViews().get(position).getView());
-        			mCurrentViewIndex = position;
+        			int position = b.getInt("TAB_INDEX");
+        			showTab(position);        			
         		}
 			}
 		}
