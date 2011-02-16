@@ -1,12 +1,19 @@
-package org.zirco2;
+package org.zirco2.ui.activities;
+
+import org.zirco2.ImageAdapter;
+import org.zirco2.R;
+import org.zirco2.TabsController;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Gallery;
@@ -41,15 +48,25 @@ public class TabsActivity extends Activity {
 			}
 		});
         
+        mUrl.setOnKeyListener(new View.OnKeyListener() {
+
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+					navigateToCurrentUrl();
+					return true;
+				}
+				return false;
+			}			
+    	});
+        
         mGo = (ImageButton) findViewById(R.id.GoBtn);
         
         mGo.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				int selected = 	mGallery.getSelectedItemPosition();
-				TabsController.getInstance().getWebViews().get(selected).getWebView().loadUrl(mUrl.getText().toString());
-				doFinish(selected);
+				navigateToCurrentUrl();
 			}
 		});
         
@@ -73,7 +90,7 @@ public class TabsActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				
-				mUrl.setText(TabsController.getInstance().getWebViews().get(position).getWebView().getUrl());
+				mUrl.setText(TabsController.getInstance().getWebViewContainers().get(position).getWebView().getUrl());
 				
 			}
 
@@ -102,6 +119,18 @@ public class TabsActivity extends Activity {
 		}
 		finish();
 		overridePendingTransition(R.anim.browser_view_enter, R.anim.tab_view_exit);
+	}
+	
+	private void hideKeyboard() {
+    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    	imm.hideSoftInputFromWindow(mUrl.getWindowToken(), 0);
+	}
+	
+	private void navigateToCurrentUrl() {
+		hideKeyboard();
+		int selected = 	mGallery.getSelectedItemPosition();
+		TabsController.getInstance().getWebViewContainers().get(selected).getWebView().loadUrl(mUrl.getText().toString());
+		doFinish(selected);
 	}
 	
 }

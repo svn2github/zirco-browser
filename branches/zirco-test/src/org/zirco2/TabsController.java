@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TabsController {
 	
-	private List<WebViewContainer> mWebViews;
+	private List<WebViewContainer> mWebViewContainers;
 	
 	/**
 	 * Holder for singleton implementation.
@@ -30,16 +30,16 @@ public class TabsController {
 	 * Private Constructor.
 	 */
 	private TabsController() {
-		mWebViews = new ArrayList<WebViewContainer>();
+		mWebViewContainers = new ArrayList<WebViewContainer>();
 	}
 	
-	public List<WebViewContainer> getWebViews() {
-		return mWebViews;
+	public List<WebViewContainer> getWebViewContainers() {
+		return mWebViewContainers;
 	}
 	
 	public int addWebViewContainer(WebViewContainer webViewContainer) {
-		mWebViews.add(webViewContainer);
-		return mWebViews.indexOf(webViewContainer);
+		mWebViewContainers.add(webViewContainer);
+		return mWebViewContainers.indexOf(webViewContainer);
 	}
 
 }

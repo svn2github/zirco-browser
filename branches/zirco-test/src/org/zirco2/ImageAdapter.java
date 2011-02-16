@@ -36,7 +36,7 @@ public class ImageAdapter extends BaseAdapter {
         
         mBitmaps = new ArrayList<Bitmap>();
         
-        List<WebViewContainer> webViewContainers = TabsController.getInstance().getWebViews();
+        List<WebViewContainer> webViewContainers = TabsController.getInstance().getWebViewContainers();
         for (WebViewContainer webViewContainer : webViewContainers) {
         	mBitmaps.add(getWebWiewScreenShot(webViewContainer.getWebView()));
         }
@@ -67,6 +67,7 @@ public class ImageAdapter extends BaseAdapter {
     }
     
     private Bitmap getWebWiewScreenShot(WebView webView) {
+    	webView.postInvalidate();
     	Picture thumbnail = webView.capturePicture();
 		if (thumbnail == null) {
 			return null;

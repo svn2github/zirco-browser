@@ -1,4 +1,9 @@
-package org.zirco2;
+package org.zirco2.ui.activities;
+
+import org.zirco2.R;
+import org.zirco2.TabsController;
+import org.zirco2.WebViewContainer;
+import org.zirco2.ui.components.CustomWebView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnTouchListener;
 import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
@@ -80,16 +84,13 @@ public class MainActivity extends Activity implements OnTouchListener {
 	private void addTab(String url) {
 		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewContainer, false);
 		
-		WebView webView = (WebView) view.findViewById(R.id.webview);
+		CustomWebView webView = (CustomWebView) view.findViewById(R.id.webview);
 		
 		mCurrentViewIndex = TabsController.getInstance().addWebViewContainer(new WebViewContainer(view, webView));
 		
 		webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient());        
-        webView.setOnTouchListener(this);
-        
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadsImagesAutomatically(true);
+        webView.setOnTouchListener(this);        
         
         webView.loadUrl(url);
         

@@ -1,14 +1,15 @@
 package org.zirco2;
 
-import android.webkit.WebView;
+import org.zirco2.ui.components.CustomWebView;
+
 import android.widget.RelativeLayout;
 
 public class WebViewContainer {
 
 	private RelativeLayout mView;
-	private WebView mWebView;
+	private CustomWebView mWebView;
 	
-	public WebViewContainer(RelativeLayout view, WebView webView) {
+	public WebViewContainer(RelativeLayout view, CustomWebView webView) {
 		mView = view;
 		mWebView = webView;
 	}
@@ -17,7 +18,7 @@ public class WebViewContainer {
 		return mView;
 	}
 	
-	public WebView getWebView() {
+	public CustomWebView getWebView() {
 		return mWebView;
 	}
 	
