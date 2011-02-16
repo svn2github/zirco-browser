@@ -3,7 +3,9 @@ package org.zirco2.ui.activities;
 import org.zirco2.R;
 import org.zirco2.TabsController;
 import org.zirco2.WebViewContainer;
+import org.zirco2.ui.components.CustomWebChromeClient;
 import org.zirco2.ui.components.CustomWebView;
+import org.zirco2.ui.components.CustomWebViewClient;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,8 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnTouchListener;
-import android.webkit.WebChromeClient;
-import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
@@ -88,8 +88,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 		
 		mCurrentViewIndex = TabsController.getInstance().addWebViewContainer(new WebViewContainer(view, webView));
 		
-		webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebViewClient(new WebViewClient());        
+		webView.setWebChromeClient(new CustomWebChromeClient(view));
+        webView.setWebViewClient(new CustomWebViewClient(view));        
         webView.setOnTouchListener(this);        
         
         webView.loadUrl(url);
