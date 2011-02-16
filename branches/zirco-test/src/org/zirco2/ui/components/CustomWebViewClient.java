@@ -3,6 +3,7 @@ package org.zirco2.ui.components;
 import org.zirco2.R;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -30,6 +31,13 @@ public class CustomWebViewClient extends WebViewClient {
 		mProgressBar.setProgress(0);
 		mProgressBar.setVisibility(View.VISIBLE);
 		super.onPageStarted(view, url, favicon);
+	}
+
+	@Override
+	public void onScaleChanged(WebView view, float oldScale, float newScale) {
+		Log.d("NEW SCALE", newScale + "");
+
+		super.onScaleChanged(view, oldScale, newScale);
 	}
 
 }

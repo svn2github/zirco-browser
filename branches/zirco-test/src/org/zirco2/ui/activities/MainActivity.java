@@ -29,6 +29,9 @@ public class MainActivity extends Activity implements OnTouchListener {
 	private ViewFlipper mWebViewContainer;
 	private LayoutInflater mInflater = null;
 	
+	//private ScaleGestureDetector mScaleGestureDetector;	
+	//private float mScaleFactor = 1.f;
+	
 	private int mCurrentViewIndex = -1;
 	
     /** Called when the activity is first created. */
@@ -43,6 +46,7 @@ public class MainActivity extends Activity implements OnTouchListener {
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
         mGestureDetector = new GestureDetector(this, new GestureListener());
+        //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
         
         //mWebViewContainer = (FrameLayout) findViewById(R.id.WebWiewContainer);
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
@@ -79,6 +83,13 @@ public class MainActivity extends Activity implements OnTouchListener {
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		return mGestureDetector.onTouchEvent(event);
+		/*
+		if (mGestureDetector.onTouchEvent(event)) {
+			return true;
+		} else {
+			return mScaleGestureDetector.onTouchEvent(event);			
+		}
+		*/
 	}
 	
 	private void addTab(String url) {
@@ -135,7 +146,55 @@ public class MainActivity extends Activity implements OnTouchListener {
 			
 			return true;
 		}
-		
 	}
+	
+	/*
+	private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+		@Override
+		public boolean onScale(ScaleGestureDetector detector) {			
+			mScaleFactor *= detector.getScaleFactor();
+	        
+	        // Don't let the object get too small or too large.
+	        mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+			
+			CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+			currentWebView.setNextDrawZoomFactor(mScaleFactor, detector.getFocusX(), detector.getFocusY());
+			currentWebView.invalidate();
+			
+			return true;
+		}
+
+		@Override
+		public boolean onScaleBegin(ScaleGestureDetector detector) {
+			mScaleFactor *= detector.getScaleFactor();
+	        
+	        // Don't let the object get too small or too large.
+	        mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+			
+			CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+			currentWebView.setNextDrawZoomFactor(mScaleFactor, detector.getFocusX(), detector.getFocusY());
+			currentWebView.invalidate();
+			
+			return true;
+		}
+
+		@Override
+		public void onScaleEnd(ScaleGestureDetector detector) {
+			mScaleFactor *= detector.getScaleFactor();
+	        
+	        // Don't let the object get too small or too large.
+	        mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+			
+			CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+			currentWebView.setNextDrawZoomFactor(mScaleFactor, detector.getFocusX(), detector.getFocusY());
+			currentWebView.invalidate();
+			
+		}
+	}
+	*/
 	
 }
