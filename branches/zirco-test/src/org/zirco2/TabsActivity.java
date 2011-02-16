@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class GalleryActivity extends Activity {
+public class TabsActivity extends Activity {
 	
 	private Gallery mGallery;
 	private AutoCompleteTextView mUrl;
@@ -26,7 +26,7 @@ public class GalleryActivity extends Activity {
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-        setContentView(R.layout.gallery);
+        setContentView(R.layout.tabs_activity);
         
         mUrl = (AutoCompleteTextView) findViewById(R.id.UrlText);
         

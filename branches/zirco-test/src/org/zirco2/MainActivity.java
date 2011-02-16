@@ -16,7 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-public class Main extends Activity implements OnTouchListener {
+public class MainActivity extends Activity implements OnTouchListener {
 	
 	public static int ACTIVITY_SHOW_TABS = 0;
 	
@@ -33,7 +33,7 @@ public class Main extends Activity implements OnTouchListener {
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_activity);
         
         mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
@@ -120,13 +120,16 @@ public class Main extends Activity implements OnTouchListener {
 	
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 		@Override
-		public void onLongPress(MotionEvent e) {
-			Intent i = new Intent(Main.this, GalleryActivity.class);
+		public boolean onDoubleTap(MotionEvent e) {
+			Intent i = new Intent(MainActivity.this, TabsActivity.class);
 			i.putExtra("CURRENT_VIEW_INDEX", mCurrentViewIndex);
 			
-			Main.this.startActivityForResult(i, Main.ACTIVITY_SHOW_TABS);
-			Main.this.overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
+			MainActivity.this.startActivityForResult(i, MainActivity.ACTIVITY_SHOW_TABS);
+			MainActivity.this.overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
+			
+			return true;
 		}
+		
 	}
 	
 }
