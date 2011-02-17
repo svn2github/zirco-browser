@@ -45,7 +45,7 @@
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="3dip"
                     android:layout_marginRight="3dip"
-                    android:src="@drawable/ic_btn_open_tab" android:layout_alignLeft="@+id/gallery" android:layout_alignTop="@+id/gallery"></ImageButton>   
+                    android:src="@drawable/ic_btn_open_tab" android:layout_alignLeft="@+id/TabsGallery" android:layout_alignTop="@+id/TabsGallery"></ImageButton>   
 
     <ImageButton android:layout_height="wrap_content"
                     android:id="@+id/CloseTabBtn" android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="3dip"
                     android:layout_marginRight="3dip"
-                    android:src="@drawable/ic_btn_close_tab" android:layout_alignRight="@+id/gallery" android:layout_alignTop="@+id/gallery"></ImageButton>
+                    android:src="@drawable/ic_btn_close_tab" android:layout_alignRight="@+id/TabsGallery" android:layout_alignTop="@+id/TabsGallery"></ImageButton>
 
 </RelativeLayout>
     

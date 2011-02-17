@@ -157,6 +157,16 @@ public class TabsActivity extends Activity {
 	private void addTab() {
 		int newIndex = mTabsGallery.getSelectedItemPosition() + 1;
 		TabsController.getInstance().addTab(newIndex, UrlUtils.URL_ABOUT_BLANK);
+		
+		refreshTabsGallery(newIndex);
+	}
+	
+	private void refreshTabsGallery(int indexToShow) {		
+		mTabsGallery.setAdapter(new ImageAdapter(this));
+		
+		if (indexToShow > 0) {
+			mTabsGallery.setSelection(indexToShow);
+		}
 	}
 	
 	/**
