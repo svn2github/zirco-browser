@@ -3,10 +3,13 @@ package org.zirco2.ui.activities;
 import org.zirco2.ImageAdapter;
 import org.zirco2.R;
 import org.zirco2.TabsController;
+import org.zirco2.ui.components.CustomWebView;
+import org.zirco2.utils.ApplicationUtils;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -26,6 +29,8 @@ public class TabsActivity extends Activity {
 	private Gallery mGallery;
 	private AutoCompleteTextView mUrl;
 	private ImageButton mGo;
+	
+	private CustomWebView mCurrentWebView;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,8 @@ public class TabsActivity extends Activity {
 			}			
     	});
         
+        mUrl.setCompoundDrawablePadding(5);
+        
         mGo = (ImageButton) findViewById(R.id.GoBtn);
         
         mGo.setOnClickListener(new OnClickListener() {
@@ -89,9 +96,12 @@ public class TabsActivity extends Activity {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				
-				mUrl.setText(TabsController.getInstance().getWebViewContainers().get(position).getWebView().getUrl());
-				
+				mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(position).getWebView(); 
+				mUrl.setText(mCurrentWebView.getUrl());
+				mUrl.setCompoundDrawables(getNormalizedFavicon(),
+						null,
+						null,
+						null);
 			}
 
 			@Override
@@ -133,4 +143,18 @@ public class TabsActivity extends Activity {
 		doFinish(selected);
 	}
 	
+	/**
+	 * Get a Drawable of the current favicon, with its size normalized relative to current screen density.
+	 * @return The normalized favicon.
+	 */
+	private BitmapDrawable getNormalizedFavicon() {		
+		BitmapDrawable favIcon = new BitmapDrawable(mCurrentWebView.getFavicon());
+		
+		if (mCurrentWebView.getFavicon() != null) {
+			int favIconSize = ApplicationUtils.getFaviconSize(this);
+			favIcon.setBounds(0, 0, favIconSize, favIconSize);
+		}
+		
+		return favIcon;
+	}	
 }

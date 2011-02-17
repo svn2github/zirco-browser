@@ -10,6 +10,7 @@ import org.zirco2.ui.components.CustomWebViewClient;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -17,15 +18,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnTouchListener;
+import android.webkit.WebIconDatabase;
 import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
-public class MainActivity extends Activity implements OnTouchListener {
-	
+public class MainActivity extends Activity implements OnTouchListener {	
+
 	public static int ACTIVITY_SHOW_TABS = 0;
 	
 	private GestureDetector mGestureDetector;
-	//private FrameLayout mWebViewContainer;
 	private ViewFlipper mWebViewContainer;
 	private LayoutInflater mInflater = null;
 	
@@ -48,38 +49,25 @@ public class MainActivity extends Activity implements OnTouchListener {
         mGestureDetector = new GestureDetector(this, new GestureListener());
         //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
         
-        //mWebViewContainer = (FrameLayout) findViewById(R.id.WebWiewContainer);
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
+        initializeWebIconDatabase();
         
         addTab("http://fr.m.wikipedia.org/");
         addTab("http://www.google.com/");
-        
-        /*
-        WebView webView = (WebView) findViewById(R.id.webview);
-        
-        TabsController.getInstance().addWebView(webView);
-        
-        webView.loadUrl("http://fr.m.wikipedia.org/");
-        
-        webView.setLongClickable(true);
-        
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebViewClient(new WebViewClient());
-        
-        webView.setOnTouchListener(this);        
-        
-        webView.setOnLongClickListener(new OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				Toast.makeText(Main.this, "OnLongClickListenerOnLink", Toast.LENGTH_SHORT).show();
-				return true;
-			}
-		});
-		*/		
     }
 
+    @Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+    
+    @Override
+	protected void onDestroy() {
+    	WebIconDatabase.getInstance().close();
+		super.onDestroy();
+	}
+    
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		return mGestureDetector.onTouchEvent(event);
@@ -91,6 +79,31 @@ public class MainActivity extends Activity implements OnTouchListener {
 		}
 		*/
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if ((requestCode == ACTIVITY_SHOW_TABS) &&
+				(resultCode == RESULT_OK)) {
+			if (data != null) {
+        		Bundle b = data.getExtras();
+        		if (b != null) {
+        			int position = b.getInt("TAB_INDEX");
+        			showTab(position);        			
+        		}
+			}
+		}
+	}
+	
+	/**
+     * Initialize the Web icons database.
+     */
+    private void initializeWebIconDatabase() {
+        
+    	final WebIconDatabase db = WebIconDatabase.getInstance();
+    	db.open(getDir("icons", 0).getPath());   
+    }
 	
 	private void addTab(String url) {
 		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewContainer, false);
@@ -112,27 +125,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 	
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
-		//View view = TabsController.getInstance().getWebViews().get(tabIndex).getView();
-		//mWebViewContainer.bringChildToFront(view);
-		//view.requestFocus();
 		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
 		
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		if ((requestCode == ACTIVITY_SHOW_TABS) &&
-				(resultCode == RESULT_OK)) {
-			if (data != null) {
-        		Bundle b = data.getExtras();
-        		if (b != null) {
-        			int position = b.getInt("TAB_INDEX");
-        			showTab(position);        			
-        		}
-			}
-		}
 	}
 	
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -146,7 +140,7 @@ public class MainActivity extends Activity implements OnTouchListener {
 			
 			return true;
 		}
-	}
+	}	
 	
 	/*
 	private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
