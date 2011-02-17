@@ -15,9 +15,9 @@ import android.widget.ViewFlipper;
 
 public class TabsController {
 	
-	private List<WebViewContainer> mWebViewContainers;
+	private List<WebViewContainer> mWebViewList;
 	
-	private ViewFlipper mWebViewContainer;
+	private ViewFlipper mWebViewsContainer;
 	private OnTouchListener mTouchListener;
 	private LayoutInflater mInflater = null;
 	
@@ -44,17 +44,17 @@ public class TabsController {
 	 * Private Constructor.
 	 */
 	private TabsController() {
-		mWebViewContainers = new ArrayList<WebViewContainer>();
+		mWebViewList = new ArrayList<WebViewContainer>();
 	}
 	
 	public void initialize(Context context, OnTouchListener touchListener, ViewFlipper webViewContainer) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mWebViewContainer = webViewContainer;
+		mWebViewsContainer = webViewContainer;
 		mTouchListener = touchListener;
 	}
 	
 	public int addTab(int position, String url) {
-		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewContainer, false);
+		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewsContainer, false);
 		
 		CustomWebView webView = (CustomWebView) view.findViewById(R.id.webview);
 		
@@ -67,26 +67,31 @@ public class TabsController {
         webView.loadUrl(url);
         
         if (position >= 0) {
-        	mWebViewContainer.addView(view, position);
+        	mWebViewsContainer.addView(view, position);
         } else {
-        	mWebViewContainer.addView(view);
+        	mWebViewsContainer.addView(view);
         }
         
         return insertionIndex;
 	}
 	
+	public void removeTab(int index) {
+		mWebViewList.remove(index);
+		mWebViewsContainer.removeViewAt(index);
+	}
+	
 	public List<WebViewContainer> getWebViewContainers() {
-		return mWebViewContainers;
+		return mWebViewList;
 	}
 	
 	public int addWebViewContainer(int position, WebViewContainer webViewContainer) {
 		if (position >= 0) {
-			mWebViewContainers.add(position, webViewContainer);
+			mWebViewList.add(position, webViewContainer);
 		} else {
-			mWebViewContainers.add(webViewContainer);
+			mWebViewList.add(webViewContainer);
 		}
 		
-		return mWebViewContainers.indexOf(webViewContainer);
+		return mWebViewList.indexOf(webViewContainer);
 	}
 
 }

@@ -31,6 +31,7 @@ public class TabsActivity extends Activity {
 	private AutoCompleteTextView mUrl;
 	private ImageButton mGo;
 	private ImageButton mAddTab;
+	private ImageButton mCloseTab;
 		
 	private CustomWebView mCurrentWebView;
 
@@ -79,8 +80,7 @@ public class TabsActivity extends Activity {
 			}
 		});
         
-        mTabsGallery = (Gallery) findViewById(R.id.TabsGallery);
-        mTabsGallery.setAdapter(new ImageAdapter(this));
+        mTabsGallery = (Gallery) findViewById(R.id.TabsGallery);        
 
         mTabsGallery.setSpacing(5);
         mTabsGallery.setUnselectedAlpha(0.5f);
@@ -90,8 +90,7 @@ public class TabsActivity extends Activity {
         	@Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         		doFinish(position);
-            }
-        	
+            }        	
         });
         
         mTabsGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -120,6 +119,17 @@ public class TabsActivity extends Activity {
 				addTab();
 			}
 		});
+        
+        mCloseTab = (ImageButton) findViewById(R.id.CloseTabBtn);
+        mCloseTab.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				removeTab();
+			}
+		});
+        
+        refreshTabsGallery(0);
         
         Bundle extras = getIntent().getExtras();
     	if (extras != null) {        	
@@ -161,8 +171,22 @@ public class TabsActivity extends Activity {
 		refreshTabsGallery(newIndex);
 	}
 	
+	private void removeTab() {
+		int removedIndex = mTabsGallery.getSelectedItemPosition();
+		TabsController.getInstance().removeTab(removedIndex);
+		
+		removedIndex--;
+		refreshTabsGallery(removedIndex);
+	}
+	
 	private void refreshTabsGallery(int indexToShow) {		
 		mTabsGallery.setAdapter(new ImageAdapter(this));
+		
+		if (mTabsGallery.getCount() > 1) {
+			mCloseTab.setVisibility(View.VISIBLE);
+		} else {
+			mCloseTab.setVisibility(View.GONE);
+		}
 		
 		if (indexToShow > 0) {
 			mTabsGallery.setSelection(indexToShow);
