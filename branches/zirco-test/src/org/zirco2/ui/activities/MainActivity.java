@@ -132,7 +132,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 			MainActivity.this.startActivityForResult(i, MainActivity.ACTIVITY_SHOW_TABS);
 			MainActivity.this.overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
 			
-			return true;
+			// Should be better to return true here, but it breaks on Cyanogen 7RC1. Test with next releases.
+			return false;
 		}
 	}	
 	
