@@ -2,24 +2,16 @@ package org.zirco2.ui.activities;
 
 import org.zirco2.R;
 import org.zirco2.TabsController;
-import org.zirco2.WebViewContainer;
-import org.zirco2.ui.components.CustomWebChromeClient;
-import org.zirco2.ui.components.CustomWebView;
-import org.zirco2.ui.components.CustomWebViewClient;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnTouchListener;
 import android.webkit.WebIconDatabase;
-import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
 public class MainActivity extends Activity implements OnTouchListener {	
@@ -28,7 +20,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 	
 	private GestureDetector mGestureDetector;
 	private ViewFlipper mWebViewContainer;
-	private LayoutInflater mInflater = null;
 	
 	//private ScaleGestureDetector mScaleGestureDetector;	
 	//private float mScaleFactor = 1.f;
@@ -44,12 +35,12 @@ public class MainActivity extends Activity implements OnTouchListener {
         
         setContentView(R.layout.main_activity);
         
-        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        
         mGestureDetector = new GestureDetector(this, new GestureListener());
         //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
         
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
+        
+        TabsController.getInstance().initialize(this, this, mWebViewContainer);
         
         initializeWebIconDatabase();
         
@@ -106,6 +97,7 @@ public class MainActivity extends Activity implements OnTouchListener {
     }
 	
 	private void addTab(String url) {
+		/*
 		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewContainer, false);
 		
 		CustomWebView webView = (CustomWebView) view.findViewById(R.id.webview);
@@ -119,6 +111,8 @@ public class MainActivity extends Activity implements OnTouchListener {
         webView.loadUrl(url);
         
         mWebViewContainer.addView(view);
+        */
+		mCurrentViewIndex = TabsController.getInstance().addTab(-1, url);
         
         showTab(mCurrentViewIndex);
 	}

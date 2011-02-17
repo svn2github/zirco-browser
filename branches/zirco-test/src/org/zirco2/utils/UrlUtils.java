@@ -19,6 +19,9 @@ package org.zirco2.utils;
  * Url management utils.
  */
 public class UrlUtils {
+	
+	public static final String URL_ABOUT_BLANK = "about:blank";
+	public static final String URL_ABOUT_START = "about:start";
 
 	/**
 	 * Check if a string is an url.
@@ -27,8 +30,8 @@ public class UrlUtils {
 	 * @return True if the string is an url.
 	 */
 	public static boolean isUrl(String url) {
-		return url.equals(Constants.URL_ABOUT_BLANK) ||
-			url.equals(Constants.URL_ABOUT_START) ||
+		return url.equals(URL_ABOUT_BLANK) ||
+			url.equals(URL_ABOUT_START) ||
 			url.contains(".");
 	}
 		
@@ -56,8 +59,8 @@ public class UrlUtils {
     	
     		if ((!url.startsWith("http://")) &&
     				(!url.startsWith("https://")) &&
-    				(!url.startsWith(Constants.URL_ABOUT_BLANK)) &&
-    				(!url.startsWith(Constants.URL_ABOUT_START))) {
+    				(!url.startsWith(URL_ABOUT_BLANK)) &&
+    				(!url.startsWith(URL_ABOUT_START))) {
     			
     			url = "http://" + url;
     			

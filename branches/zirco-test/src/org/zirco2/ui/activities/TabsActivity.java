@@ -5,6 +5,7 @@ import org.zirco2.R;
 import org.zirco2.TabsController;
 import org.zirco2.ui.components.CustomWebView;
 import org.zirco2.utils.ApplicationUtils;
+import org.zirco2.utils.UrlUtils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,11 +27,11 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class TabsActivity extends Activity {
 	
-	private Gallery mGallery;
+	private Gallery mTabsGallery;
 	private AutoCompleteTextView mUrl;
 	private ImageButton mGo;
 	private ImageButton mAddTab;
-	
+		
 	private CustomWebView mCurrentWebView;
 
 	@Override
@@ -78,13 +79,13 @@ public class TabsActivity extends Activity {
 			}
 		});
         
-        mGallery = (Gallery) findViewById(R.id.gallery);
-        mGallery.setAdapter(new ImageAdapter(this));
+        mTabsGallery = (Gallery) findViewById(R.id.TabsGallery);
+        mTabsGallery.setAdapter(new ImageAdapter(this));
 
-        mGallery.setSpacing(5);
-        mGallery.setUnselectedAlpha(0.5f);
+        mTabsGallery.setSpacing(5);
+        mTabsGallery.setUnselectedAlpha(0.5f);
         
-        mGallery.setOnItemClickListener(new OnItemClickListener() {
+        mTabsGallery.setOnItemClickListener(new OnItemClickListener() {
 
         	@Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -93,7 +94,7 @@ public class TabsActivity extends Activity {
         	
         });
         
-        mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+        mTabsGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -122,7 +123,7 @@ public class TabsActivity extends Activity {
         
         Bundle extras = getIntent().getExtras();
     	if (extras != null) {        	
-    		mGallery.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
+    		mTabsGallery.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
         }
 	}
 
@@ -148,13 +149,14 @@ public class TabsActivity extends Activity {
 	
 	private void navigateToCurrentUrl() {
 		hideKeyboard();
-		int selected = 	mGallery.getSelectedItemPosition();
+		int selected = 	mTabsGallery.getSelectedItemPosition();
 		TabsController.getInstance().getWebViewContainers().get(selected).getWebView().loadUrl(mUrl.getText().toString());
 		doFinish(selected);
 	}
 	
 	private void addTab() {
-		
+		int newIndex = mTabsGallery.getSelectedItemPosition() + 1;
+		TabsController.getInstance().addTab(newIndex, UrlUtils.URL_ABOUT_BLANK);
 	}
 	
 	/**

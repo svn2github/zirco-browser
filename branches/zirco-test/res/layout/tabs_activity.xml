@@ -35,7 +35,7 @@
 			
 	</LinearLayout>
 	
-	<Gallery android:id="@+id/gallery"
+	<Gallery android:id="@+id/TabsGallery"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent" android:layout_below="@+id/BarLayout"/>
 	    
