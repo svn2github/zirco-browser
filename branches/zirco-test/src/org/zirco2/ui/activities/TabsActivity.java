@@ -29,6 +29,7 @@ public class TabsActivity extends Activity {
 	private Gallery mGallery;
 	private AutoCompleteTextView mUrl;
 	private ImageButton mGo;
+	private ImageButton mAddTab;
 	
 	private CustomWebView mCurrentWebView;
 
@@ -110,6 +111,15 @@ public class TabsActivity extends Activity {
 			}
 		});               
         
+        mAddTab = (ImageButton) findViewById(R.id.AddTabBtn);
+        mAddTab.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				addTab();
+			}
+		});
+        
         Bundle extras = getIntent().getExtras();
     	if (extras != null) {        	
     		mGallery.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
@@ -141,6 +151,10 @@ public class TabsActivity extends Activity {
 		int selected = 	mGallery.getSelectedItemPosition();
 		TabsController.getInstance().getWebViewContainers().get(selected).getWebView().loadUrl(mUrl.getText().toString());
 		doFinish(selected);
+	}
+	
+	private void addTab() {
+		
 	}
 	
 	/**
