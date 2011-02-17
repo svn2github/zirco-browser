@@ -2,6 +2,7 @@ package org.zirco2.ui.activities;
 
 import org.zirco2.R;
 import org.zirco2.TabsController;
+import org.zirco2.ui.IWebViewActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,7 +15,7 @@ import android.view.View.OnTouchListener;
 import android.webkit.WebIconDatabase;
 import android.widget.ViewFlipper;
 
-public class MainActivity extends Activity implements OnTouchListener {	
+public class MainActivity extends Activity implements OnTouchListener, IWebViewActivity {	
 
 	public static int ACTIVITY_SHOW_TABS = 0;
 	
@@ -40,7 +41,7 @@ public class MainActivity extends Activity implements OnTouchListener {
         
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
-        TabsController.getInstance().initialize(this, this, mWebViewContainer);
+        TabsController.getInstance().initialize(this, this, this, mWebViewContainer);
         
         initializeWebIconDatabase();
         
@@ -95,27 +96,18 @@ public class MainActivity extends Activity implements OnTouchListener {
     	final WebIconDatabase db = WebIconDatabase.getInstance();
     	db.open(getDir("icons", 0).getPath());   
     }
-	
-	private void addTab(String url) {
-		/*
-		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewContainer, false);
-		
-		CustomWebView webView = (CustomWebView) view.findViewById(R.id.webview);
-		
-		mCurrentViewIndex = TabsController.getInstance().addWebViewContainer(new WebViewContainer(view, webView));
-		
-		webView.setWebChromeClient(new CustomWebChromeClient(view));
-        webView.setWebViewClient(new CustomWebViewClient(view));        
-        webView.setOnTouchListener(this);        
-        
-        webView.loadUrl(url);
-        
-        mWebViewContainer.addView(view);
-        */
-		mCurrentViewIndex = TabsController.getInstance().addTab(-1, url);
-        
-        showTab(mCurrentViewIndex);
+	    
+    @Override
+	public int addTab(String url) {
+		return addTab(-1, url);
 	}
+    
+    @Override
+	public int addTab(int tabIndex, String url) {
+    	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
+        showTab(mCurrentViewIndex);
+        return mCurrentViewIndex;
+    }
 	
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
@@ -135,7 +127,12 @@ public class MainActivity extends Activity implements OnTouchListener {
 			// Should be better to return true here, but it breaks on Cyanogen 7RC1. Test with next releases.
 			return false;
 		}
-	}	
+	}
+
+	@Override
+	public int getCurrentWebViewIndex() {		
+		return mCurrentViewIndex;
+	}
 	
 	/*
 	private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {

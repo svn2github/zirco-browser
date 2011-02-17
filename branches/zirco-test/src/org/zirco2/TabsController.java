@@ -3,6 +3,7 @@ package org.zirco2;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zirco2.ui.IWebViewActivity;
 import org.zirco2.ui.components.CustomWebChromeClient;
 import org.zirco2.ui.components.CustomWebView;
 import org.zirco2.ui.components.CustomWebViewClient;
@@ -19,6 +20,7 @@ public class TabsController {
 	
 	private ViewFlipper mWebViewsContainer;
 	private OnTouchListener mTouchListener;
+	private IWebViewActivity mWebViewActivity;
 	private LayoutInflater mInflater = null;
 	
 	/**
@@ -47,10 +49,11 @@ public class TabsController {
 		mWebViewList = new ArrayList<WebViewContainer>();
 	}
 	
-	public void initialize(Context context, OnTouchListener touchListener, ViewFlipper webViewContainer) {
+	public void initialize(Context context, OnTouchListener touchListener, IWebViewActivity webViewActivity, ViewFlipper webViewContainer) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mWebViewsContainer = webViewContainer;
 		mTouchListener = touchListener;
+		mWebViewActivity = webViewActivity;
 	}
 	
 	public int addTab(int position, String url) {
@@ -60,11 +63,14 @@ public class TabsController {
 		
 		int insertionIndex = addWebViewContainer(position, new WebViewContainer(view, webView));
 		
-		webView.setWebChromeClient(new CustomWebChromeClient(view));
+		webView.setWebChromeClient(new CustomWebChromeClient(view, mWebViewActivity));
         webView.setWebViewClient(new CustomWebViewClient(view));        
         webView.setOnTouchListener(mTouchListener);        
         
-        webView.loadUrl(url);
+        if ((url != null) &&
+        		(url.length() > 0)) {
+        	webView.loadUrl(url);
+        }        
         
         if (position >= 0) {
         	mWebViewsContainer.addView(view, position);
