@@ -59,6 +59,7 @@ public class CustomWebView extends WebView {
     	setLongClickable(true);
     	setScrollbarFadingEnabled(true);
     	setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+    	setDrawingCacheEnabled(true);
 	}
 
 	@Override

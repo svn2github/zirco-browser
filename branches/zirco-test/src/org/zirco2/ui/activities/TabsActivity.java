@@ -222,7 +222,7 @@ public class TabsActivity extends Activity {
 		if (mTabsGallery.getCount() > 1) {
 			mCloseTab.setVisibility(View.VISIBLE);
 		} else {
-			mCloseTab.setVisibility(View.GONE);
+			mCloseTab.setVisibility(View.INVISIBLE);
 		}
 		
 		if (indexToShow > 0) {
