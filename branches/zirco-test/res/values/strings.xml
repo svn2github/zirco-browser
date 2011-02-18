@@ -3,4 +3,6 @@
     <string name="app_name">Zirco2</string>
     
     <string name="BookmarksListActivity.Empty">No bookmarks</string>
+    
+    <string name="BookmarksHistoryActivity.TabBookmarks">Bookmarks</string>
 </resources>

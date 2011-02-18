@@ -201,7 +201,7 @@ public class TabsActivity extends Activity {
 	}
 	
 	private void openBookmarks() {
-		Intent i = new Intent(this, BookmarksListActivity.class);
+		Intent i = new Intent(this, BookmarksHistoryActivity.class);
 		startActivity(i);
 	}
 	

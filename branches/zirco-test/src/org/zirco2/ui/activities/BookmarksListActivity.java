@@ -18,7 +18,7 @@ public class BookmarksListActivity extends Activity {
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);        
         setContentView(R.layout.bookmarks_list_activity);
         
         mBookmarksAdapter = new BookmarksAdapter(this);
