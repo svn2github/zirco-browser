@@ -150,7 +150,7 @@ public class TabsActivity extends Activity {
         
         Bundle extras = getIntent().getExtras();
     	if (extras != null) {        	
-    		mTabsGallery.setSelection(extras.getInt("CURRENT_VIEW_INDEX"));        	
+    		mTabsGallery.setSelection(extras.getInt(Constants.EXTRA_CURRENT_VIEW_INDEX));        	
         }
 	}
 
@@ -178,7 +178,7 @@ public class TabsActivity extends Activity {
 	private void doFinish(int index) {
 		if (index != -1) {
 			Intent i = new Intent();
-			i.putExtra("TAB_INDEX", index);
+			i.putExtra(Constants.EXTRA_CURRENT_VIEW_INDEX, index);
 			setResult(RESULT_OK, i);
 		}
 		finish();

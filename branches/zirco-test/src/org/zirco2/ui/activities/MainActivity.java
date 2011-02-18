@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			if (data != null) {
         		Bundle b = data.getExtras();
         		if (b != null) {
-        			int position = b.getInt("TAB_INDEX");
+        			int position = b.getInt(Constants.EXTRA_CURRENT_VIEW_INDEX);
         			showTab(position);        			
         		}
 			}
@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
 			Intent i = new Intent(MainActivity.this, TabsActivity.class);
-			i.putExtra("CURRENT_VIEW_INDEX", mCurrentViewIndex);
+			i.putExtra(Constants.EXTRA_CURRENT_VIEW_INDEX, mCurrentViewIndex);
 			
 			MainActivity.this.startActivityForResult(i, MainActivity.ACTIVITY_SHOW_TABS);
 			MainActivity.this.overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
