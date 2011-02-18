@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         initializeWebIconDatabase();
         
         addTab("http://fr.m.wikipedia.org/");
-        addTab("http://www.google.com/");        
+        addTab("http://www.google.com/");                
     }
 
     @Override

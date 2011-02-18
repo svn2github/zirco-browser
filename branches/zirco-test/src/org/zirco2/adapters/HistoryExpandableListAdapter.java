@@ -154,7 +154,7 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 	public Object getChild(int groupPosition, int childPosition) {
 		moveCursorToChildPosition(groupPosition, childPosition);
 
-		return new HistoryItem(mCursor.getLong(Browser.HISTORY_PROJECTION_ID_INDEX), mCursor.getString(Browser.HISTORY_PROJECTION_TITLE_INDEX), mCursor.getString(Browser.HISTORY_PROJECTION_TITLE_INDEX));
+		return new HistoryItem(mCursor.getLong(Browser.HISTORY_PROJECTION_ID_INDEX), mCursor.getString(Browser.HISTORY_PROJECTION_TITLE_INDEX), mCursor.getString(Browser.HISTORY_PROJECTION_URL_INDEX));
 	}
 
 	@Override
@@ -170,13 +170,12 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 		View view = getCustomChildView();
         
 		TextView titleView = (TextView) view.findViewById(R.id.HistoryRow_Title);
-		titleView.setText(((HistoryItem) getChild(groupPosition, childPosition)).getTitle());
 		
-		TextView urlView = (TextView) view.findViewById(R.id.HistoryRow_Url);
+		HistoryItem item = (HistoryItem) getChild(groupPosition, childPosition);
+		titleView.setText(item.getTitle());
 		
-		String url = ((HistoryItem) getChild(groupPosition, childPosition)).getUrl(); 				
-		
-		urlView.setText(url);
+		TextView urlView = (TextView) view.findViewById(R.id.HistoryRow_Url);		 					
+		urlView.setText(item.getUrl());
         
         return view;
 	}
