@@ -1,7 +1,11 @@
-package org.zirco2;
+package org.zirco2.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.zirco2.R;
+import org.zirco2.controllers.TabsController;
+import org.zirco2.controllers.WebViewContainer;
 
 import android.content.Context;
 import android.content.res.TypedArray;

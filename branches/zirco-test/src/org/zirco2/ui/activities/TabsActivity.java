@@ -1,8 +1,8 @@
 package org.zirco2.ui.activities;
 
-import org.zirco2.ImageAdapter;
 import org.zirco2.R;
-import org.zirco2.TabsController;
+import org.zirco2.adapters.ImageAdapter;
+import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.components.CustomWebView;
 import org.zirco2.utils.ApplicationUtils;
 import org.zirco2.utils.UrlUtils;
@@ -76,7 +76,8 @@ public class TabsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				navigateToCurrentUrl();
+				//navigateToCurrentUrl();
+				openBookmarks();
 			}
 		});
         
@@ -197,6 +198,11 @@ public class TabsActivity extends Activity {
 		if (indexToShow > 0) {
 			mTabsGallery.setSelection(indexToShow);
 		}
+	}
+	
+	private void openBookmarks() {
+		Intent i = new Intent(this, BookmarksListActivity.class);
+		startActivity(i);
 	}
 	
 	/**

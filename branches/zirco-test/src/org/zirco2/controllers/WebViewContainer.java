@@ -1,4 +1,4 @@
-package org.zirco2;
+package org.zirco2.controllers;
 
 import org.zirco2.ui.components.CustomWebView;
 

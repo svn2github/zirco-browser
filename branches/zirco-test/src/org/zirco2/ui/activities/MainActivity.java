@@ -1,7 +1,7 @@
 package org.zirco2.ui.activities;
 
 import org.zirco2.R;
-import org.zirco2.TabsController;
+import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.IWebViewActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +46,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         initializeWebIconDatabase();
         
         addTab("http://fr.m.wikipedia.org/");
-        addTab("http://www.google.com/");
+        addTab("http://www.google.com/");        
     }
 
     @Override

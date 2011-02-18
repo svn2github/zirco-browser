@@ -1,8 +1,9 @@
-package org.zirco2;
+package org.zirco2.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zirco2.R;
 import org.zirco2.ui.IWebViewActivity;
 import org.zirco2.ui.components.CustomWebChromeClient;
 import org.zirco2.ui.components.CustomWebView;
