@@ -29,6 +29,16 @@ public class BookmarksHistoryActivity extends TabActivity {
                 res.getDrawable(R.drawable.ic_tab_bookmarks))
                 .setContent(intent);
 		tabHost.addTab(spec);
+		
+		// History
+		intent = new Intent().setClass(this, HistoryListActivity.class);
+
+		spec = tabHost.newTabSpec("history").setIndicator(res.getString(R.string.BookmarksHistoryActivity_TabHistory),
+                res.getDrawable(R.drawable.ic_tab_history))
+                .setContent(intent);
+		tabHost.addTab(spec);
+		
+		tabHost.setCurrentTab(0);
 	}
 
 }

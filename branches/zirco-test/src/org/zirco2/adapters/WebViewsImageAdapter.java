@@ -25,7 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
-public class ImageAdapter extends BaseAdapter {
+public class WebViewsImageAdapter extends BaseAdapter {
 	
     int mGalleryItemBackground;
     private Context mContext;
@@ -38,7 +38,7 @@ public class ImageAdapter extends BaseAdapter {
     
     private List<Bitmap> mBitmaps;    
 
-    public ImageAdapter(Context c) {
+    public WebViewsImageAdapter(Context c) {
         mContext = c;
         TypedArray a = mContext.obtainStyledAttributes(R.styleable.TestGallery);
         mGalleryItemBackground = a.getResourceId(R.styleable.TestGallery_android_galleryItemBackground, 0);
@@ -114,6 +114,7 @@ public class ImageAdapter extends BaseAdapter {
 			canvas.scale(widthFactor, widthFactor);
 			thumbnail.draw(canvas);
 		} else {
+			// No image for this WebView, draw a white rectangle.
 			Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 			p.setColor(0xFFFFFFFF);
 			canvas.drawRect(new RectF(0, 0, mThumbWidth, mThumbHeight), p);

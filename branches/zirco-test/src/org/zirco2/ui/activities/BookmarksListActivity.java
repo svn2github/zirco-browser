@@ -1,7 +1,7 @@
 package org.zirco2.ui.activities;
 
 import org.zirco2.R;
-import org.zirco2.adapters.BookmarksAdapter;
+import org.zirco2.adapters.BookmarksHistoryAdapter;
 import org.zirco2.utils.Constants;
 
 import android.app.Activity;
@@ -17,7 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class BookmarksListActivity extends Activity {
 	
-	private BookmarksAdapter mBookmarksAdapter;
+	private BookmarksHistoryAdapter mBookmarksAdapter;
 	private ListView mList;
 	
 	@Override
@@ -25,7 +25,7 @@ public class BookmarksListActivity extends Activity {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.bookmarks_list_activity);
         
-        mBookmarksAdapter = new BookmarksAdapter(this);
+        mBookmarksAdapter = new BookmarksHistoryAdapter(this);
         
         View emptyView = findViewById(R.id.BookmarksListActivity_EmptyTextView);
         mList = (ListView) findViewById(R.id.BookmarksListActivity_List);

@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.provider.Browser;
 
-public class BookmarksAdapter {
+public class BookmarksHistoryAdapter {
 
 	private Activity mActivity;
 	
-	public BookmarksAdapter(Activity activity) {
+	public BookmarksHistoryAdapter(Activity activity) {
 		mActivity = activity;
 	}
 	
@@ -26,6 +26,13 @@ public class BookmarksAdapter {
 		}
 		
 		return null;
+	}
+	
+	public Cursor getHistory() {
+		String whereClause = Browser.BookmarkColumns.VISITS + " > 0";
+		String orderClause = Browser.BookmarkColumns.DATE + " DESC";
+		
+		return mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, Browser.HISTORY_PROJECTION, whereClause, null, orderClause);
 	}
 	
 }

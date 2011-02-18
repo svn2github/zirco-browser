@@ -15,6 +15,7 @@
         <activity android:name=".ui.activities.TabsActivity"></activity>
         <activity android:name=".ui.activities.BookmarksListActivity"></activity>
         <activity android:name=".ui.activities.BookmarksHistoryActivity"></activity>
+<activity android:name=".ui.activities.HistoryListActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="8" />
 

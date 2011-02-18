@@ -1,7 +1,7 @@
 package org.zirco2.ui.activities;
 
 import org.zirco2.R;
-import org.zirco2.adapters.ImageAdapter;
+import org.zirco2.adapters.WebViewsImageAdapter;
 import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.components.CustomWebView;
 import org.zirco2.utils.ApplicationUtils;
@@ -217,7 +217,7 @@ public class TabsActivity extends Activity {
 	}
 	
 	private void refreshTabsGallery(int indexToShow) {		
-		mTabsGallery.setAdapter(new ImageAdapter(this));
+		mTabsGallery.setAdapter(new WebViewsImageAdapter(this));
 		
 		if (mTabsGallery.getCount() > 1) {
 			mCloseTab.setVisibility(View.VISIBLE);
