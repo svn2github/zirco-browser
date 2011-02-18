@@ -7,6 +7,7 @@ import org.zirco2.R;
 import org.zirco2.controllers.TabsController;
 import org.zirco2.controllers.WebViewContainer;
 
+import android.R.color;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -100,22 +101,21 @@ public class ImageAdapter extends BaseAdapter {
     }
     
     private Bitmap getWebWiewScreenShot(WebView webView) {
-    	webView.postInvalidate();
-    	Picture thumbnail = webView.capturePicture();
-		if (thumbnail == null) {
-			return null;
-		}
+    	Picture thumbnail = webView.capturePicture();		
 		
 		Bitmap bm = Bitmap.createBitmap(mThumbWidth, mThumbHeight, Bitmap.Config.ARGB_4444);
 		
 		Canvas canvas = new Canvas(bm);
 		
-		if (thumbnail.getWidth() > 0) {			
+		if ((thumbnail != null) &&
+				(thumbnail.getWidth() > 0)) {			
 			float widthFactor = (float) mThumbWidth / (float) thumbnail.getWidth();
 			canvas.scale(widthFactor, widthFactor);
+			thumbnail.draw(canvas);
+		} else {
+			canvas.drawColor(color.white);
 		}
-		
-		thumbnail.draw(canvas);
+				
 		return bm;
     }
     

@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Gallery;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -35,6 +36,7 @@ public class TabsActivity extends Activity {
 	private ImageButton mGo;
 	private ImageButton mAddTab;
 	private ImageButton mCloseTab;
+	private TextView mTabTitle;
 		
 	private CustomWebView mCurrentWebView;
 
@@ -109,10 +111,13 @@ public class TabsActivity extends Activity {
 				} else {
 					mUrl.setText(null);
 				}
+				
 				mUrl.setCompoundDrawables(getNormalizedFavicon(),
 						null,
 						null,
 						null);
+				
+				mTabTitle.setText(mCurrentWebView.getTitle());
 			}
 
 			@Override
@@ -138,6 +143,8 @@ public class TabsActivity extends Activity {
 				removeTab();
 			}
 		});
+        
+        mTabTitle = (TextView) findViewById(R.id.TabTitle);
         
         refreshTabsGallery(0);
         
