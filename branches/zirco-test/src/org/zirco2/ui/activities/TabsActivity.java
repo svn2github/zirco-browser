@@ -173,7 +173,7 @@ public class TabsActivity extends Activity {
         		}
 			}
 		}
-	}
+	}	
 	
 	private void doFinish(int index) {
 		if (index != -1) {

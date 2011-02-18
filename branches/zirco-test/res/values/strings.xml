@@ -5,4 +5,7 @@
     <string name="BookmarksListActivity.Empty">No bookmarks</string>
     
     <string name="BookmarksHistoryActivity.TabBookmarks">Bookmarks</string>
+    
+    <string name="ContextMenu.Open">Open</string>
+    <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
 </resources>

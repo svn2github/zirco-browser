@@ -4,6 +4,7 @@ import org.zirco2.R;
 import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.IWebViewActivity;
 import org.zirco2.ui.components.CustomWebView;
+import org.zirco2.utils.Constants;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -129,11 +131,38 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         showTab(mCurrentViewIndex);
         return mCurrentViewIndex;
     }
+    
+    @Override
+	public boolean onContextItemSelected(MenuItem item) {
+		
+		Bundle b = item.getIntent().getExtras();
+		
+		switch(item.getItemId()) {
+		case TabsController.TAB_CONTEXT_MENU_OPEN:
+			if (b != null) {
+				navigateToUrl(b.getString(Constants.EXTRA_ID_URL));
+			}			
+			return true;
+			
+		case TabsController.TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB:
+			if (b != null) {
+				addTab(mCurrentViewIndex + 1, b.getString(Constants.EXTRA_ID_URL));
+			}			
+			return true;
+				
+		default: return super.onContextItemSelected(item);
+		}		
+	}
 	
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
 		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
 		
+	}
+	
+	private void navigateToUrl(String url) {
+		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+		webView.loadUrl(url);
 	}
 	
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
