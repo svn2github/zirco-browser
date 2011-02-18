@@ -3,11 +3,14 @@ package org.zirco2.ui.activities;
 import org.zirco2.R;
 import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.IWebViewActivity;
+import org.zirco2.ui.components.CustomWebView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -85,6 +88,24 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         			showTab(position);        			
         		}
 			}
+		}
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		
+		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+		
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			if (webView.canGoBack()) {
+				webView.goBack();				
+			} else {
+				this.moveTaskToBack(true);
+			}
+			return true;
+		
+		default: return super.onKeyUp(keyCode, event);
 		}
 	}
 	

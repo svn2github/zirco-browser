@@ -5,6 +5,7 @@ import org.zirco2.adapters.ImageAdapter;
 import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.components.CustomWebView;
 import org.zirco2.utils.ApplicationUtils;
+import org.zirco2.utils.Constants;
 import org.zirco2.utils.UrlUtils;
 
 import android.app.Activity;
@@ -26,6 +27,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class TabsActivity extends Activity {
+
+	private static final int ACTIVITY_OPEN_HISTORY_BOOKMARKS = 0;
 	
 	private Gallery mTabsGallery;
 	private AutoCompleteTextView mUrl;
@@ -149,6 +152,22 @@ public class TabsActivity extends Activity {
 		doFinish(-1);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if ((requestCode == ACTIVITY_OPEN_HISTORY_BOOKMARKS) &&
+				(resultCode == RESULT_OK)) {
+			if (data != null) {
+        		Bundle b = data.getExtras();
+        		if (b != null) {
+        			String url = b.getString(Constants.EXTRA_ID_URL);
+        			navigateToUrl(url);
+        		}
+			}
+		}
+	}
+	
 	private void doFinish(int index) {
 		if (index != -1) {
 			Intent i = new Intent();
@@ -165,9 +184,13 @@ public class TabsActivity extends Activity {
 	}
 	
 	private void navigateToCurrentUrl() {
+		navigateToUrl(mUrl.getText().toString());
+	}
+	
+	private void navigateToUrl(String url) {
 		hideKeyboard();
 		int selected = 	mTabsGallery.getSelectedItemPosition();
-		TabsController.getInstance().getWebViewContainers().get(selected).getWebView().loadUrl(mUrl.getText().toString());
+		TabsController.getInstance().getWebViewContainers().get(selected).getWebView().loadUrl(url);
 		doFinish(selected);
 	}
 	
@@ -202,7 +225,7 @@ public class TabsActivity extends Activity {
 	
 	private void openBookmarks() {
 		Intent i = new Intent(this, BookmarksHistoryActivity.class);
-		startActivity(i);
+		startActivityForResult(i, ACTIVITY_OPEN_HISTORY_BOOKMARKS);
 	}
 	
 	/**
