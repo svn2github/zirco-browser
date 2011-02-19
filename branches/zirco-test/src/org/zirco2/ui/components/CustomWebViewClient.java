@@ -12,7 +12,7 @@ public class CustomWebViewClient extends WebViewClient {
 	
 	private ProgressBar mProgressBar;
 	
-	public CustomWebViewClient(View view) {
+	public CustomWebViewClient(View view) {		
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
 		mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setMax(100);
@@ -31,5 +31,5 @@ public class CustomWebViewClient extends WebViewClient {
 		mProgressBar.setVisibility(View.VISIBLE);
 		super.onPageStarted(view, url, favicon);
 	}
-
+	
 }

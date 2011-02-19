@@ -17,15 +17,12 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class BookmarksListActivity extends Activity {
 	
-	private BookmarksHistoryAdapter mBookmarksAdapter;
 	private ListView mList;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.bookmarks_list_activity);
-        
-        mBookmarksAdapter = new BookmarksHistoryAdapter(this);
         
         View emptyView = findViewById(R.id.BookmarksListActivity_EmptyTextView);
         mList = (ListView) findViewById(R.id.BookmarksListActivity_List);
@@ -37,7 +34,7 @@ public class BookmarksListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 				
-				String url = mBookmarksAdapter.getBookmarkUrlById(id);
+				String url = BookmarksHistoryAdapter.getInstance().getBookmarkUrlById(id);
 				if (url != null) {				
 					Intent result = new Intent();
 					result.putExtra(Constants.EXTRA_ID_NEW_TAB, false);
@@ -58,7 +55,7 @@ public class BookmarksListActivity extends Activity {
 	}
 
 	private void fillData() {
-		Cursor cursor = mBookmarksAdapter.getBookmarks();
+		Cursor cursor = BookmarksHistoryAdapter.getInstance().getBookmarks();
 		
 		String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
 		int[] to = new int[] {R.id.BookmarkRow_Title, R.id.BookmarkRow_Url};

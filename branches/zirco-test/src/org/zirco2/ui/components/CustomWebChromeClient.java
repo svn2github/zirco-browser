@@ -2,6 +2,7 @@ package org.zirco2.ui.components;
 
 import org.zirco2.R;
 import org.zirco2.controllers.TabsController;
+import org.zirco2.runnables.HistoryUpdaterRunnable;
 import org.zirco2.ui.IWebViewActivity;
 
 import android.os.Message;
@@ -39,6 +40,14 @@ public class CustomWebChromeClient extends WebChromeClient {
 		resultMsg.sendToTarget();
 		
 		return false;
+	}
+
+	@Override
+	public void onReceivedTitle(WebView view, String title) {
+		
+		new Thread(new HistoryUpdaterRunnable(title, view.getOriginalUrl())).start();
+		
+		super.onReceivedTitle(view, title);
 	}
 
 }

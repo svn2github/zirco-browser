@@ -1,6 +1,7 @@
 package org.zirco2.ui.activities;
 
 import org.zirco2.R;
+import org.zirco2.adapters.BookmarksHistoryAdapter;
 import org.zirco2.controllers.TabsController;
 import org.zirco2.ui.IWebViewActivity;
 import org.zirco2.ui.components.CustomWebView;
@@ -46,6 +47,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
+        BookmarksHistoryAdapter.getInstance().initialize(this);
         TabsController.getInstance().initialize(this, this, this, mWebViewContainer);
         
         initializeWebIconDatabase();
