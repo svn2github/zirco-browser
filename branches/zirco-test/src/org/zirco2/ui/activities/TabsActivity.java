@@ -103,10 +103,14 @@ public class TabsActivity extends Activity {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				
 				mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(position).getWebView();
 				
 				String currentUrl = mCurrentWebView.getUrl();
-				if (!currentUrl.equals(UrlUtils.URL_ABOUT_BLANK)) {
+				
+				
+				if ((currentUrl != null) &&
+					(!currentUrl.equals(UrlUtils.URL_ABOUT_BLANK))) {
 					mUrl.setText(currentUrl);
 				} else {
 					mUrl.setText(null);

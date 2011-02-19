@@ -187,7 +187,16 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		return "Test";
+		
+		int binIndex = groupPositionToBin(groupPosition);
+		
+		switch (binIndex) {
+		case 0: return mContext.getResources().getString(R.string.HistoryListActivity_Today);
+		case 1: return mContext.getResources().getString(R.string.HistoryListActivity_Yesterday);
+		case 2:
+		case 3: return String.format(mContext.getResources().getString(R.string.HistoryListActivity_DaysAgo), groupPosition);
+		default: return mContext.getResources().getString(R.string.HistoryListActivity_Older);
+		}
 	}
 
 	@Override

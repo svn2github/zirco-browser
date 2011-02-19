@@ -13,8 +13,10 @@ public class BookmarksHistoryAdapter {
 	}
 	
 	public Cursor getBookmarks() {
+		String whereClause = Browser.BookmarkColumns.BOOKMARK + " = 1";
+		String orderClause = Browser.BookmarkColumns.VISITS + " DESC";
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL, Browser.BookmarkColumns.FAVICON };		
-		return mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, Browser.BookmarkColumns.BOOKMARK + "=1", null, null);
+		return mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
 	public String getBookmarkUrlById(long id) {

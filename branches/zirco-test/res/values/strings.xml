@@ -4,6 +4,11 @@
     
     <string name="BookmarksListActivity.Empty">No bookmarks</string>
     
+    <string name="HistoryListActivity.Today">Today</string>
+    <string name="HistoryListActivity.Yesterday">Yesterday</string>
+    <string name="HistoryListActivity.DaysAgo">%1$s days ago</string>
+    <string name="HistoryListActivity.Older">Older</string>
+    
     <string name="BookmarksHistoryActivity.TabBookmarks">Bookmarks</string>
     <string name="BookmarksHistoryActivity.TabHistory">History</string>
     

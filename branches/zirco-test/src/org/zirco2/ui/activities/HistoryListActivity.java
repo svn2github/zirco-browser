@@ -15,6 +15,10 @@ public class HistoryListActivity extends ExpandableListActivity {
                 
         HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, new BookmarksHistoryAdapter(this).getHistory(), Browser.HISTORY_PROJECTION_DATE_INDEX);
         setListAdapter(adapter);
+        
+        if (getExpandableListAdapter().getGroupCount() > 0) {
+        	getExpandableListView().expandGroup(0);
+        }
 	}
 
 }
