@@ -5,6 +5,7 @@ import org.tint.controllers.TabsController;
 import org.tint.runnables.HistoryUpdaterRunnable;
 import org.tint.ui.IWebViewActivity;
 
+import android.app.Activity;
 import android.os.Message;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -13,10 +14,12 @@ import android.widget.ProgressBar;
 
 public class CustomWebChromeClient extends WebChromeClient {
 	
+	private Activity mMainActivity;
 	private IWebViewActivity mWebViewActivity;
 	private ProgressBar mProgressBar;
 	
-	public CustomWebChromeClient(View view, IWebViewActivity webViewActivity) {
+	public CustomWebChromeClient(Activity activity, View view, IWebViewActivity webViewActivity) {
+		mMainActivity = activity;
 		mWebViewActivity = webViewActivity;
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
 	}
@@ -45,7 +48,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 	@Override
 	public void onReceivedTitle(WebView view, String title) {
 		
-		new Thread(new HistoryUpdaterRunnable(title, view.getOriginalUrl())).start();
+		new Thread(new HistoryUpdaterRunnable(mMainActivity, title, view.getOriginalUrl())).start();
 		
 		super.onReceivedTitle(view, title);
 	}

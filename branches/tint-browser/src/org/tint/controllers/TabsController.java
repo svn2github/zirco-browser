@@ -10,6 +10,7 @@ import org.tint.ui.components.CustomWebView;
 import org.tint.ui.components.CustomWebViewClient;
 import org.tint.utils.Constants;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.ContextMenu;
@@ -32,6 +33,7 @@ public class TabsController {
 	
 	private List<WebViewContainer> mWebViewList;
 	
+	private Activity mMainActivity;
 	private ViewFlipper mWebViewsContainer;
 	private OnTouchListener mTouchListener;
 	private IWebViewActivity mWebViewActivity;
@@ -63,11 +65,13 @@ public class TabsController {
 		mWebViewList = new ArrayList<WebViewContainer>();
 	}
 	
-	public void initialize(Context context, OnTouchListener touchListener, IWebViewActivity webViewActivity, ViewFlipper webViewContainer) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public void initialize(Activity activity, OnTouchListener touchListener, IWebViewActivity webViewActivity, ViewFlipper webViewContainer) {
+		mMainActivity = activity;		
 		mWebViewsContainer = webViewContainer;
 		mTouchListener = touchListener;
 		mWebViewActivity = webViewActivity;
+		
+		mInflater = (LayoutInflater) mMainActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	public int addTab(int position, String url) {
@@ -77,7 +81,7 @@ public class TabsController {
 		
 		int insertionIndex = addWebViewContainer(position, new WebViewContainer(view, webView));
 		
-		webView.setWebChromeClient(new CustomWebChromeClient(view, mWebViewActivity));
+		webView.setWebChromeClient(new CustomWebChromeClient(mMainActivity, view, mWebViewActivity));
         webView.setWebViewClient(new CustomWebViewClient(view));        
         webView.setOnTouchListener(mTouchListener);
         

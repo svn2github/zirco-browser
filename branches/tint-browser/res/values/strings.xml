@@ -14,4 +14,7 @@
     
     <string name="ContextMenu.Open">Open</string>
     <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
+    
+    <string name="MainActivity.AddBookmarkMenu">Add bookmark</string>
+    <string name="MainActivity.ShowBookmarksMenu">Bookmarks</string>
 </resources>

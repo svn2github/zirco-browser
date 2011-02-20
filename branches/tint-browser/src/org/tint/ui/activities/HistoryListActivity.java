@@ -9,10 +9,8 @@ import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Browser;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class HistoryListActivity extends ExpandableListActivity {
 	
@@ -20,7 +18,7 @@ public class HistoryListActivity extends ExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
                 
-        HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryAdapter.getInstance().getHistory(), Browser.HISTORY_PROJECTION_DATE_INDEX);
+        HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryAdapter.getInstance().getHistory(this), Browser.HISTORY_PROJECTION_DATE_INDEX);
         setListAdapter(adapter);
         
         if (getExpandableListAdapter().getGroupCount() > 0) {
@@ -38,6 +36,7 @@ public class HistoryListActivity extends ExpandableListActivity {
 		return super.onChildClick(parent, v, groupPosition, childPosition, id);
 	}
 
+	/*
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
@@ -50,6 +49,7 @@ public class HistoryListActivity extends ExpandableListActivity {
 		
 		return super.onContextItemSelected(item);
 	}
+	*/
 	
 	/**
 	 * Load the given url.

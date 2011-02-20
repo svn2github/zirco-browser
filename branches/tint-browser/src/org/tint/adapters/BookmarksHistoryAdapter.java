@@ -8,8 +8,6 @@ import android.database.Cursor;
 import android.provider.Browser;
 
 public class BookmarksHistoryAdapter {
-
-	private Activity mActivity;
 	
 	/**
 	 * Holder for singleton implementation.
@@ -32,21 +30,17 @@ public class BookmarksHistoryAdapter {
 	
 	private BookmarksHistoryAdapter() { }
 	
-	public void initialize(Activity activity) {
-		mActivity = activity;
-	}
-	
-	public Cursor getBookmarks() {
+	public Cursor getBookmarks(Activity currentActivity) {
 		String whereClause = Browser.BookmarkColumns.BOOKMARK + " = 1";
 		String orderClause = Browser.BookmarkColumns.VISITS + " DESC";
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL, Browser.BookmarkColumns.FAVICON };
 		
-		return mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
+		return currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
-	public String getBookmarkUrlById(long id) {
+	public String getBookmarkUrlById(Activity currentActivity, long id) {
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.URL };
-		Cursor cursor = mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, Browser.BookmarkColumns._ID + "=" + id, null, null);
+		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, Browser.BookmarkColumns._ID + "=" + id, null, null);
 		
 		if (cursor.moveToFirst()) {
 			return cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
@@ -55,18 +49,18 @@ public class BookmarksHistoryAdapter {
 		return null;
 	}
 	
-	public Cursor getHistory() {
+	public Cursor getHistory(Activity currentActivity) {
 		String whereClause = Browser.BookmarkColumns.VISITS + " > 0";
 		String orderClause = Browser.BookmarkColumns.DATE + " DESC";
 		
-		return mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, Browser.HISTORY_PROJECTION, whereClause, null, orderClause);
+		return currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, Browser.HISTORY_PROJECTION, whereClause, null, orderClause);
 	}
 	
-	public void updateHistory(String title, String url) {
+	public void updateHistory(Activity currentActivity, String title, String url) {
 		String[] colums = new String[] { Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS };
 		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\"";
 		
-		Cursor cursor = mActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
+		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
 		
 		if (cursor.moveToFirst()) {
 			
@@ -78,7 +72,7 @@ public class BookmarksHistoryAdapter {
 			values.put(Browser.BookmarkColumns.DATE, new Date().getTime());
 			values.put(Browser.BookmarkColumns.VISITS, visits);
 			
-			mActivity.getContentResolver().update(android.provider.Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);
+			currentActivity.getContentResolver().update(android.provider.Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);
 			
 		} else {
 			ContentValues values = new ContentValues();
@@ -87,7 +81,7 @@ public class BookmarksHistoryAdapter {
 			values.put(Browser.BookmarkColumns.DATE, new Date().getTime());
 			values.put(Browser.BookmarkColumns.VISITS, 1);
 			
-			mActivity.getContentResolver().insert(android.provider.Browser.BOOKMARKS_URI, values);
+			currentActivity.getContentResolver().insert(android.provider.Browser.BOOKMARKS_URI, values);
 		}
 		
 	}

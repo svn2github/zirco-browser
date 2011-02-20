@@ -1,7 +1,6 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
-import org.tint.adapters.BookmarksHistoryAdapter;
 import org.tint.controllers.TabsController;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.components.CustomWebView;
@@ -13,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +24,10 @@ import android.widget.ViewFlipper;
 public class MainActivity extends Activity implements OnTouchListener, IWebViewActivity {	
 
 	public static int ACTIVITY_SHOW_TABS = 0;
+	public static int ACTIVITY_SHOW_BOOKMARKS_HISTORY = 1;
+	
+	private static final int MENU_ADD_BOOKMARK = Menu.FIRST;
+	private static final int MENU_OPEN_HISTORY_BOOKMARKS = Menu.FIRST + 1;
 	
 	private GestureDetector mGestureDetector;
 	private ViewFlipper mWebViewContainer;
@@ -47,7 +51,6 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
-        BookmarksHistoryAdapter.getInstance().initialize(this);
         TabsController.getInstance().initialize(this, this, this, mWebViewContainer);
         
         initializeWebIconDatabase();
@@ -56,7 +59,33 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         addTab("http://www.google.com/");                
     }
 
-    @Override
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {		
+		
+		MenuItem item;
+		
+		item = menu.add(0, MENU_ADD_BOOKMARK, 0, R.string.MainActivity_AddBookmarkMenu);
+		item.setIcon(R.drawable.ic_menu_add_bookmark);
+		
+		item = menu.add(0, MENU_OPEN_HISTORY_BOOKMARKS, 0, R.string.MainActivity_ShowBookmarksMenu);
+		item.setIcon(R.drawable.ic_menu_bookmarks);
+		
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_ADD_BOOKMARK: return true;
+		case MENU_OPEN_HISTORY_BOOKMARKS:
+			Intent i = new Intent(this, BookmarksHistoryActivity.class);
+			startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);			
+			return true;
+		default: return super.onMenuItemSelected(featureId, item); 
+		}		
+	}
+
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}
@@ -91,6 +120,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         			int position = b.getInt(Constants.EXTRA_CURRENT_VIEW_INDEX);
         			showTab(position);        			
         		}
+			}
+		} else if ((requestCode == ACTIVITY_SHOW_BOOKMARKS_HISTORY) &&
+				(resultCode == RESULT_OK)) {
+			if (data != null) {
+				Bundle b = data.getExtras();
+				if (b != null) {
+					navigateToUrl(b.getString(Constants.EXTRA_ID_URL));
+				}
 			}
 		}
 	}

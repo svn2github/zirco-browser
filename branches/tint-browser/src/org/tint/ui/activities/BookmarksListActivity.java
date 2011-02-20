@@ -19,13 +19,15 @@ public class BookmarksListActivity extends Activity {
 	
 	private ListView mList;
 	
+	private SimpleCursorAdapter mCursorAdapter;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.bookmarks_list_activity);
         
-        View emptyView = findViewById(R.id.BookmarksListActivity_EmptyTextView);
-        mList = (ListView) findViewById(R.id.BookmarksListActivity_List);
+        View emptyView = findViewById(android.R.id.empty);
+        mList = (ListView) findViewById(android.R.id.list);
         
         mList.setEmptyView(emptyView);
         
@@ -34,7 +36,7 @@ public class BookmarksListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 				
-				String url = BookmarksHistoryAdapter.getInstance().getBookmarkUrlById(id);
+				String url = BookmarksHistoryAdapter.getInstance().getBookmarkUrlById(BookmarksListActivity.this, id);
 				if (url != null) {				
 					Intent result = new Intent();
 					result.putExtra(Constants.EXTRA_ID_NEW_TAB, false);
@@ -55,13 +57,13 @@ public class BookmarksListActivity extends Activity {
 	}
 
 	private void fillData() {
-		Cursor cursor = BookmarksHistoryAdapter.getInstance().getBookmarks();
+		Cursor cursor = BookmarksHistoryAdapter.getInstance().getBookmarks(this);
 		
 		String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
 		int[] to = new int[] {R.id.BookmarkRow_Title, R.id.BookmarkRow_Url};
 		
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.bookmark_row, cursor, from, to);
-		mList.setAdapter(adapter);
+		mCursorAdapter = new SimpleCursorAdapter(this, R.layout.bookmark_row, cursor, from, to);
+		mList.setAdapter(mCursorAdapter);
 	}
 	
 }
