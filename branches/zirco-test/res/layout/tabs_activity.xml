@@ -46,7 +46,7 @@
                     android:background="@drawable/buttons"
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="3dip"
-                    android:layout_marginRight="3dip"
+                    android:layout_marginLeft="5dip"
                     android:src="@drawable/ic_btn_open_tab"
                     android:layout_alignLeft="@+id/TabsGallery"
                     android:layout_alignTop="@+id/TabsGallery"></ImageButton>   
@@ -65,10 +65,45 @@
                     android:background="@drawable/buttons"
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="3dip"
-                    android:layout_marginRight="3dip"
+                    android:layout_marginRight="5dip"
                     android:src="@drawable/ic_btn_close_tab"
                     android:layout_alignRight="@+id/TabsGallery"
                     android:layout_alignTop="@+id/TabsGallery"></ImageButton>
+                    
+	<ImageButton android:id="@+id/BackBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+                    android:background="@drawable/buttons"
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/ic_btn_back"
+                    android:layout_alignLeft="@+id/TabsGallery"
+                    android:layout_alignBottom="@+id/TabsGallery"></ImageButton>
+                    
+    <ImageButton android:id="@+id/BookmarksBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+                    android:background="@drawable/buttons"
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_btn_bookmarks"
+                    android:layout_toLeftOf="@+id/ForwardBtn"
+                    android:layout_toRightOf="@+id/BackBtn"
+                    android:layout_alignBottom="@+id/TabsGallery"></ImageButton>
+    
+    <ImageButton android:id="@+id/ForwardBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+                    android:background="@drawable/buttons"
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_btn_forward"
+                    android:layout_alignRight="@+id/TabsGallery"
+                    android:layout_alignBottom="@+id/TabsGallery"></ImageButton>
 
 </RelativeLayout>
     

@@ -37,8 +37,11 @@ public class TabsActivity extends Activity {
 	private ImageButton mAddTab;
 	private ImageButton mCloseTab;
 	private TextView mTabTitle;
+	private ImageButton mBack;
+	private ImageButton mForward;
+	private ImageButton mBookmarks;
 		
-	private CustomWebView mCurrentWebView;
+	private CustomWebView mCurrentWebView = null;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,8 +84,7 @@ public class TabsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//navigateToCurrentUrl();
-				openBookmarks();
+				navigateToCurrentUrl();
 			}
 		});
         
@@ -122,6 +124,9 @@ public class TabsActivity extends Activity {
 						null);
 				
 				mTabTitle.setText(mCurrentWebView.getTitle());
+				
+				mBack.setEnabled(mCurrentWebView.canGoBack());
+				mForward.setEnabled(mCurrentWebView.canGoForward());
 			}
 
 			@Override
@@ -149,6 +154,41 @@ public class TabsActivity extends Activity {
 		});
         
         mTabTitle = (TextView) findViewById(R.id.TabTitle);
+        
+        mBack = (ImageButton) findViewById(R.id.BackBtn);
+        mBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (mCurrentWebView != null) {
+					mCurrentWebView.goBack();
+					int selected = 	mTabsGallery.getSelectedItemPosition();
+					doFinish(selected);
+				}				
+			}
+		});
+        
+        mForward = (ImageButton) findViewById(R.id.ForwardBtn);
+        mForward.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (mCurrentWebView != null) {
+					mCurrentWebView.goForward();
+					int selected = 	mTabsGallery.getSelectedItemPosition();
+					doFinish(selected);
+				}
+			}
+		});
+        
+        mBookmarks = (ImageButton) findViewById(R.id.BookmarksBtn);
+        mBookmarks.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				openBookmarks();
+			}
+		});
         
         refreshTabsGallery(0);
         
