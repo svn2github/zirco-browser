@@ -75,10 +75,18 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		Intent i;
 		switch (item.getItemId()) {
-		case MENU_ADD_BOOKMARK: return true;
+		case MENU_ADD_BOOKMARK:
+			CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+			i = new Intent(this, EditBookmarkActivity.class);
+			i.putExtra(Constants.EXTRA_ID_BOOKMARK_ID, (long) -1);
+			i.putExtra(Constants.EXTRA_ID_BOOKMARK_TITLE, currentWebView.getTitle());
+			i.putExtra(Constants.EXTRA_ID_BOOKMARK_URL, currentWebView.getUrl());
+			startActivity(i);
+			return true;
 		case MENU_OPEN_HISTORY_BOOKMARKS:
-			Intent i = new Intent(this, BookmarksHistoryActivity.class);
+			i = new Intent(this, BookmarksHistoryActivity.class);
 			startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);			
 			return true;
 		default: return super.onMenuItemSelected(featureId, item); 

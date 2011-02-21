@@ -68,7 +68,7 @@ public class BookmarksHistoryAdapter {
 			int visits = cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.VISITS)) + 1;
 			
 			ContentValues values = new ContentValues();
-			values.put(Browser.BookmarkColumns.TITLE, title);
+			//values.put(Browser.BookmarkColumns.TITLE, title);
 			values.put(Browser.BookmarkColumns.DATE, new Date().getTime());
 			values.put(Browser.BookmarkColumns.VISITS, visits);
 			
@@ -82,8 +82,41 @@ public class BookmarksHistoryAdapter {
 			values.put(Browser.BookmarkColumns.VISITS, 1);
 			
 			currentActivity.getContentResolver().insert(android.provider.Browser.BOOKMARKS_URI, values);
+		}		
+	}
+	
+	public void setAsBookmark(Activity currentActivity, long id, String title, String url) {
+		
+		boolean bookmarkExist = false;
+		
+		if (id != -1) {
+			String[] colums = new String[] { Browser.BookmarkColumns._ID };
+			String whereClause = Browser.BookmarkColumns._ID + " = " + id;
+			
+			Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
+			bookmarkExist = cursor.moveToFirst();
+		} else {
+			String[] colums = new String[] { Browser.BookmarkColumns._ID };
+			String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\"";
+			
+			Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
+			bookmarkExist = cursor.moveToFirst();
+			if (bookmarkExist) {
+				id = cursor.getLong(cursor.getColumnIndex(Browser.BookmarkColumns._ID));
+			}
 		}
 		
+		ContentValues values = new ContentValues();
+		values.put(Browser.BookmarkColumns.TITLE, title);
+		values.put(Browser.BookmarkColumns.URL, url);
+		values.put(Browser.BookmarkColumns.BOOKMARK, 1);
+		values.put(Browser.BookmarkColumns.CREATED, new Date().getTime());
+		
+		if (bookmarkExist) {						
+			currentActivity.getContentResolver().update(android.provider.Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);
+		} else {			
+			currentActivity.getContentResolver().insert(android.provider.Browser.BOOKMARKS_URI, values);
+		}
 	}
 	
 }
