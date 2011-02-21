@@ -154,4 +154,28 @@ public class BookmarksHistoryAdapter {
 		}
 	}
 	
+	public void deleteBookmark(Activity currentActivity, long id) {
+		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.BOOKMARK, Browser.BookmarkColumns.VISITS };
+		String whereClause = Browser.BookmarkColumns._ID + " = " + id;
+		
+		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
+		if (cursor.moveToFirst()) {
+			if (cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.BOOKMARK)) == 1) {
+				if (cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.VISITS)) > 0) {
+
+					// If this record has been visited, keep it in history, but remove its bookmark flag.
+					ContentValues values = new ContentValues();
+					values.put(Browser.BookmarkColumns.BOOKMARK, 0);
+					
+					currentActivity.getContentResolver().update(Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);
+					
+				} else {
+					// never visited, it can be deleted.
+					currentActivity.getContentResolver().delete(Browser.BOOKMARKS_URI, Browser.BookmarkColumns._ID + " = " + id, null);
+					
+				}
+			}
+		}
+	}
+	
 }

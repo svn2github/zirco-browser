@@ -1,5 +1,8 @@
 package org.tint.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 /**
  * Represent an history element.
  */
@@ -8,6 +11,7 @@ public class HistoryItem {
 	private long mId;
 	private String mTitle;
 	private String mUrl;
+	private Bitmap mFavicon;
 
 	/**
 	 * Constructor.
@@ -15,10 +19,15 @@ public class HistoryItem {
 	 * @param title The title.
 	 * @param url The url.
 	 */
-	public HistoryItem(long id, String title, String url) {
+	public HistoryItem(long id, String title, String url, byte[] faviconData) {
 		mId = id;
 		mTitle = title;
 		mUrl = url;
+		if (faviconData != null) {
+			mFavicon = BitmapFactory.decodeByteArray(faviconData, 0, faviconData.length);
+		} else {
+			mFavicon = null;
+		}
 	}
 
 	/**
@@ -43,6 +52,10 @@ public class HistoryItem {
 	 */
 	public String getUrl() {
 		return mUrl;
+	}
+	
+	public Bitmap getFavicon() {
+		return mFavicon;
 	}
 	
 }

@@ -144,7 +144,7 @@ public class BookmarksListActivity extends Activity {
 			
 			return true;
 		case CONTEXT_MENU_DELETE_BOOKMARK:
-			BookmarksHistoryAdapter.getInstance().setAsBookmark(this, info.id, null, null, false);
+			BookmarksHistoryAdapter.getInstance().deleteBookmark(this, info.id);
 			fillData();
 			
 			return true;

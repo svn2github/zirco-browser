@@ -3,6 +3,7 @@ package org.tint.adapters;
 import org.tint.R;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.provider.BaseColumns;
 import android.provider.Browser;
 import android.view.Gravity;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.webkit.DateSorter;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -154,7 +156,10 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 	public Object getChild(int groupPosition, int childPosition) {
 		moveCursorToChildPosition(groupPosition, childPosition);
 
-		return new HistoryItem(mCursor.getLong(Browser.HISTORY_PROJECTION_ID_INDEX), mCursor.getString(Browser.HISTORY_PROJECTION_TITLE_INDEX), mCursor.getString(Browser.HISTORY_PROJECTION_URL_INDEX));
+		return new HistoryItem(mCursor.getLong(Browser.HISTORY_PROJECTION_ID_INDEX),
+				mCursor.getString(Browser.HISTORY_PROJECTION_TITLE_INDEX),
+				mCursor.getString(Browser.HISTORY_PROJECTION_URL_INDEX),
+				mCursor.getBlob(Browser.HISTORY_PROJECTION_FAVICON_INDEX));
 	}
 
 	@Override
@@ -176,6 +181,14 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 		
 		TextView urlView = (TextView) view.findViewById(R.id.HistoryRow_Url);		 					
 		urlView.setText(item.getUrl());
+		
+		ImageView faviconView = (ImageView) view.findViewById(R.id.HistoryRow_Thumbnail);
+		Bitmap favicon = item.getFavicon();
+		if (favicon != null) {
+			faviconView.setImageBitmap(item.getFavicon());
+		} else {
+			faviconView.setImageResource(R.drawable.fav_icn_unknown);
+		}
         
         return view;
 	}
@@ -193,8 +206,8 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 		switch (binIndex) {
 		case 0: return mContext.getResources().getString(R.string.HistoryListActivity_Today);
 		case 1: return mContext.getResources().getString(R.string.HistoryListActivity_Yesterday);
-		case 2:
-		case 3: return String.format(mContext.getResources().getString(R.string.HistoryListActivity_DaysAgo), groupPosition);
+		case 2: return mContext.getResources().getString(R.string.HistoryListActivity_LastSevenDays);
+		case 3: return mContext.getResources().getString(R.string.HistoryListActivity_LastMonth);
 		default: return mContext.getResources().getString(R.string.HistoryListActivity_Older);
 		}
 	}
