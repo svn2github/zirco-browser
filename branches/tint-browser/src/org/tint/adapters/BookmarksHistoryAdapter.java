@@ -38,12 +38,14 @@ public class BookmarksHistoryAdapter {
 		return currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
-	public String getBookmarkUrlById(Activity currentActivity, long id) {
-		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.URL };
+	public BookmarkItem getBookmarkById(Activity currentActivity, long id) {
+		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
 		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, Browser.BookmarkColumns._ID + "=" + id, null, null);
 		
 		if (cursor.moveToFirst()) {
-			return cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
+			String title = cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.TITLE));
+			String url = cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
+			return new BookmarkItem(title, url);
 		}
 		
 		return null;

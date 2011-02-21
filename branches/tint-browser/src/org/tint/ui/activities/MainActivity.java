@@ -134,7 +134,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			if (data != null) {
 				Bundle b = data.getExtras();
 				if (b != null) {
-					navigateToUrl(b.getString(Constants.EXTRA_ID_URL));
+					if (b.getBoolean(Constants.EXTRA_ID_NEW_TAB)) {
+						addTab(b.getString(Constants.EXTRA_ID_URL));
+					} else {
+						navigateToUrl(b.getString(Constants.EXTRA_ID_URL));
+					}					
 				}
 			}
 		}

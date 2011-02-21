@@ -213,7 +213,7 @@ public class TabsActivity extends Activity {
         		Bundle b = data.getExtras();
         		if (b != null) {
         			String url = b.getString(Constants.EXTRA_ID_URL);
-        			navigateToUrl(url);
+        			navigateToUrl(url, b.getBoolean(Constants.EXTRA_ID_NEW_TAB));
         		}
 			}
 		}
@@ -235,11 +235,16 @@ public class TabsActivity extends Activity {
 	}
 	
 	private void navigateToCurrentUrl() {
-		navigateToUrl(mUrl.getText().toString());
+		navigateToUrl(mUrl.getText().toString(), false);
 	}
 	
-	private void navigateToUrl(String url) {
+	private void navigateToUrl(String url, boolean newTab) {
 		hideKeyboard();
+		
+		if (newTab) {
+			addTab();
+		}
+		
 		int selected = 	mTabsGallery.getSelectedItemPosition();
 		TabsController.getInstance().getWebViewContainers().get(selected).getWebView().loadUrl(url);
 		doFinish(selected);

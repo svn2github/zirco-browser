@@ -5,7 +5,10 @@
     <string name="Commons.Ok">Ok</string>
     <string name="Commons.Cancel">Cancel</string>
     
-    <string name="BookmarksListActivity.Empty">No bookmarks</string>
+    <string name="BookmarksListActivity.Empty">No bookmarks.</string>
+    <string name="BookmarksListActivity.ContextMenuOpenInTab">Open in new tab</string>
+    <string name="BookmarksListActivity.ContextMenuEdit">Edit bookmark</string>
+    <string name="BookmarksListActivity.ContextMenuDelete">Delete bookmark</string>
     
     <string name="HistoryListActivity.Today">Today</string>
     <string name="HistoryListActivity.Yesterday">Yesterday</string>
