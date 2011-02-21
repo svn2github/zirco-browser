@@ -6,6 +6,7 @@
     <string name="Commons.Cancel">Cancel</string>
     
     <string name="BookmarksListActivity.Empty">No bookmarks.</string>
+    <string name="BookmarksListActivity.MenuAddBookmark">Add bookmark</string>
     <string name="BookmarksListActivity.ContextMenuOpenInTab">Open in new tab</string>
     <string name="BookmarksListActivity.ContextMenuEdit">Edit bookmark</string>
     <string name="BookmarksListActivity.ContextMenuDelete">Delete bookmark</string>
@@ -21,8 +22,8 @@
     <string name="ContextMenu.Open">Open</string>
     <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
     
-    <string name="MainActivity.AddBookmarkMenu">Add bookmark</string>
-    <string name="MainActivity.ShowBookmarksMenu">Bookmarks</string>
+    <string name="MainActivity.MenuAddBookmark">Add bookmark</string>
+    <string name="MainActivity.MenuShowBookmarks">Bookmarks</string>
     
     <string name="EditBookmarkActivity.TitleAdd">Add bookmark</string>
     <string name="EditBookmarkActivity.TitleEdit">Edit bookmark</string>

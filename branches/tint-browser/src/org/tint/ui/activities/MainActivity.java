@@ -64,10 +64,10 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		
 		MenuItem item;
 		
-		item = menu.add(0, MENU_ADD_BOOKMARK, 0, R.string.MainActivity_AddBookmarkMenu);
+		item = menu.add(0, MENU_ADD_BOOKMARK, 0, R.string.MainActivity_MenuAddBookmark);
 		item.setIcon(R.drawable.ic_menu_add_bookmark);
 		
-		item = menu.add(0, MENU_OPEN_HISTORY_BOOKMARKS, 0, R.string.MainActivity_ShowBookmarksMenu);
+		item = menu.add(0, MENU_OPEN_HISTORY_BOOKMARKS, 0, R.string.MainActivity_MenuShowBookmarks);
 		item.setIcon(R.drawable.ic_menu_bookmarks);
 		
 		return true;

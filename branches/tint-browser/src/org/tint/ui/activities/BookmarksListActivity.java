@@ -25,6 +25,8 @@ public class BookmarksListActivity extends Activity {
 	
 	public static int ACTIVITY_EDIT_BOOKMARK = 0;
 	
+	private static final int MENU_ADD_BOOKMARK = Menu.FIRST;
+	
 	private static final int CONTEXT_MENU_OPEN_IN_TAB = Menu.FIRST + 10;
     private static final int CONTEXT_MENU_EDIT_BOOKMARK = Menu.FIRST + 11;
     private static final int CONTEXT_MENU_DELETE_BOOKMARK = Menu.FIRST + 12;
@@ -140,6 +142,11 @@ public class BookmarksListActivity extends Activity {
 			}
 			
 			return true;
+		case CONTEXT_MENU_DELETE_BOOKMARK:
+			BookmarksHistoryAdapter.getInstance().setAsBookmark(this, info.id, null, null, false);
+			fillData();
+			
+			return true;
 		default: return super.onContextItemSelected(item);
 		}
 	}
@@ -151,6 +158,30 @@ public class BookmarksListActivity extends Activity {
 		if (resultCode == RESULT_OK) {
 			fillData();
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem item;
+		
+		item = menu.add(0, MENU_ADD_BOOKMARK, 0, R.string.BookmarksListActivity_MenuAddBookmark);
+		item.setIcon(R.drawable.ic_menu_add_bookmark);
+		
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		Intent i;
+		switch (item.getItemId()) {
+		case MENU_ADD_BOOKMARK:
+			i = new Intent(this, EditBookmarkActivity.class);
+			i.putExtra(Constants.EXTRA_ID_BOOKMARK_ID, (long) -1);
+			
+			startActivityForResult(i, ACTIVITY_EDIT_BOOKMARK);
+			return true;
+		default: return super.onMenuItemSelected(featureId, item);
+		}		
 	}
 	
 }

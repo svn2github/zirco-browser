@@ -87,7 +87,16 @@ public class BookmarksHistoryAdapter {
 		}		
 	}
 	
-	public void setAsBookmark(Activity currentActivity, long id, String title, String url) {
+	/**
+	 * Modify a bookmark/history record. If an id is provided, it look for it and update its values. If not, values will be inserted.
+	 * If no id is provided, it look for a record with the given url. It found, its values are updated. If not, values will be inserted.
+	 * @param currentActivity The current activity.
+	 * @param id The record id to look for.
+	 * @param title The record title.
+	 * @param url The record url.
+	 * @param isBookmark If True, the record will be a bookmark.
+	 */
+	public void setAsBookmark(Activity currentActivity, long id, String title, String url, boolean isBookmark) {
 		
 		boolean bookmarkExist = false;
 		
@@ -109,10 +118,20 @@ public class BookmarksHistoryAdapter {
 		}
 		
 		ContentValues values = new ContentValues();
-		values.put(Browser.BookmarkColumns.TITLE, title);
-		values.put(Browser.BookmarkColumns.URL, url);
-		values.put(Browser.BookmarkColumns.BOOKMARK, 1);
-		values.put(Browser.BookmarkColumns.CREATED, new Date().getTime());
+		if (title != null) {
+			values.put(Browser.BookmarkColumns.TITLE, title);
+		}
+		
+		if (url != null) {
+			values.put(Browser.BookmarkColumns.URL, url);
+		}
+		
+		if (isBookmark) {
+			values.put(Browser.BookmarkColumns.BOOKMARK, 1);
+			values.put(Browser.BookmarkColumns.CREATED, new Date().getTime());
+		} else {
+			values.put(Browser.BookmarkColumns.BOOKMARK, 0);
+		}
 		
 		if (bookmarkExist) {						
 			currentActivity.getContentResolver().update(android.provider.Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);

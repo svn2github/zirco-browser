@@ -91,7 +91,7 @@ public class EditBookmarkActivity extends Activity {
 	}
 	
 	private void setAsBookmark() {
-		BookmarksHistoryAdapter.getInstance().setAsBookmark(this, mRowId, mTitleEditText.getText().toString(), mUrlEditText.getText().toString());
+		BookmarksHistoryAdapter.getInstance().setAsBookmark(this, mRowId, mTitleEditText.getText().toString(), mUrlEditText.getText().toString(), true);
 	}
 	
 }
