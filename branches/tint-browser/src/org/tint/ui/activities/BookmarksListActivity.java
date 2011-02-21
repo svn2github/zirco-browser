@@ -2,6 +2,7 @@ package org.tint.ui.activities;
 
 import org.tint.R;
 import org.tint.adapters.BookmarkItem;
+import org.tint.adapters.BookmarksCursorAdapter;
 import org.tint.adapters.BookmarksHistoryAdapter;
 import org.tint.utils.Constants;
 
@@ -84,8 +85,8 @@ public class BookmarksListActivity extends Activity {
 		
 		String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
 		int[] to = new int[] {R.id.BookmarkRow_Title, R.id.BookmarkRow_Url};
-		
-		mCursorAdapter = new SimpleCursorAdapter(this, R.layout.bookmark_row, cursor, from, to);
+
+		mCursorAdapter = new BookmarksCursorAdapter(this, R.layout.bookmark_row, cursor, from, to);
 		mList.setAdapter(mCursorAdapter);
 	}
 

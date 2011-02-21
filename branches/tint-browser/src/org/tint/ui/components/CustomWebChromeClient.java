@@ -2,10 +2,12 @@ package org.tint.ui.components;
 
 import org.tint.R;
 import org.tint.controllers.TabsController;
+import org.tint.runnables.FaviconUpdaterRunnable;
 import org.tint.runnables.HistoryUpdaterRunnable;
 import org.tint.ui.IWebViewActivity;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Message;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -53,4 +55,11 @@ public class CustomWebChromeClient extends WebChromeClient {
 		super.onReceivedTitle(view, title);
 	}
 
+	@Override
+	public void onReceivedIcon(WebView view, Bitmap icon) {
+		
+		new Thread(new FaviconUpdaterRunnable(mMainActivity, view.getUrl(), view.getOriginalUrl(), icon)).start();
+		
+		super.onReceivedIcon(view, icon);
+	}
 }

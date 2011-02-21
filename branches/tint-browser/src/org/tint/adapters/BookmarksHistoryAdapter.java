@@ -1,10 +1,12 @@
 package org.tint.adapters;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.provider.Browser;
 
 public class BookmarksHistoryAdapter {
@@ -85,6 +87,18 @@ public class BookmarksHistoryAdapter {
 			
 			currentActivity.getContentResolver().insert(android.provider.Browser.BOOKMARKS_URI, values);
 		}		
+	}
+	
+	public void updateFavicon(Activity currentActivity, String url, String originalUrl, Bitmap favicon) {
+		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
+		
+		ByteArrayOutputStream os = new ByteArrayOutputStream();    	
+		favicon.compress(Bitmap.CompressFormat.PNG, 100, os);
+		
+		ContentValues values = new ContentValues();
+		values.put(Browser.BookmarkColumns.FAVICON, os.toByteArray());
+		
+		currentActivity.getContentResolver().update(android.provider.Browser.BOOKMARKS_URI, values, whereClause, null);
 	}
 	
 	/**
