@@ -166,6 +166,7 @@ public class BookmarksHistoryAdapter {
 					// If this record has been visited, keep it in history, but remove its bookmark flag.
 					ContentValues values = new ContentValues();
 					values.put(Browser.BookmarkColumns.BOOKMARK, 0);
+					values.putNull(Browser.BookmarkColumns.CREATED);
 					
 					currentActivity.getContentResolver().update(Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);
 					
@@ -196,6 +197,15 @@ public class BookmarksHistoryAdapter {
 				currentActivity.getContentResolver().delete(Browser.BOOKMARKS_URI, Browser.BookmarkColumns._ID + " = " + id, null);
 			}
 		}
+	}
+	
+	public Cursor getSuggestion(Activity currentActivity, String pattern) {
+		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL, Browser.BookmarkColumns.BOOKMARK };
+		String sqlPattern = "%" + pattern + "%";
+		String whereClause = Browser.BookmarkColumns.TITLE + " LIKE \"" + sqlPattern + "\" OR " + Browser.BookmarkColumns.URL + " LIKE \"" + sqlPattern + "\"";
+		String orderClause = Browser.BookmarkColumns.VISITS + " DESC, " + Browser.BookmarkColumns.DATE + " DESC";
+		
+		return currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
 }

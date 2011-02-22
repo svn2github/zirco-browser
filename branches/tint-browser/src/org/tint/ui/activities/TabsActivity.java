@@ -1,6 +1,8 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
+import org.tint.adapters.BookmarksHistoryAdapter;
+import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.adapters.WebViewsImageAdapter;
 import org.tint.controllers.TabsController;
 import org.tint.ui.components.CustomWebView;
@@ -11,8 +13,10 @@ import org.tint.utils.UrlUtils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.Browser;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -21,11 +25,13 @@ import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.FilterQueryProvider;
 import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
 public class TabsActivity extends Activity {
 
@@ -77,6 +83,34 @@ public class TabsActivity extends Activity {
     	});
         
         mUrl.setCompoundDrawablePadding(5);
+        
+        String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
+        int[] to = new int[] {R.id.AutocompleteTitle, R.id.AutocompleteUrl};
+        
+        UrlSuggestionCursorAdapter suggestionAdapter = new UrlSuggestionCursorAdapter(this, R.layout.url_autocomplete_line, null, from, to);
+        suggestionAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+			
+			@Override
+			public CharSequence convertToString(Cursor cursor) {
+				String aColumnString = cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
+                return aColumnString;
+			}
+		});
+        
+        suggestionAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+			
+			@Override
+			public Cursor runQuery(CharSequence constraint) {
+				if ((constraint != null) &&
+						(constraint.length() > 0)) {
+					return BookmarksHistoryAdapter.getInstance().getSuggestion(TabsActivity.this, constraint.toString());
+				}
+				return null;
+			}
+		});
+        
+        mUrl.setThreshold(1);
+        mUrl.setAdapter(suggestionAdapter);
         
         mGo = (ImageButton) findViewById(R.id.GoBtn);
         
