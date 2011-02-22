@@ -1,5 +1,6 @@
 package org.tint.ui.activities;
 
+import org.tint.R;
 import org.tint.adapters.BookmarksHistoryAdapter;
 import org.tint.adapters.HistoryExpandableListAdapter;
 import org.tint.adapters.HistoryItem;
@@ -9,23 +10,35 @@ import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Browser;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class HistoryListActivity extends ExpandableListActivity {
 	
+	private static final int CONTEXT_MENU_OPEN_IN_TAB = Menu.FIRST + 10;
+	private static final int CONTEXT_MENU_DELETE_FROM_HISTORY = Menu.FIRST + 11;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-                
-        HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryAdapter.getInstance().getHistory(this), Browser.HISTORY_PROJECTION_DATE_INDEX);
+        super.onCreate(savedInstanceState);                      
+        
+        registerForContextMenu(getExpandableListView());
+        
+        fillData();
+	}
+	
+	private void fillData() {
+		HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryAdapter.getInstance().getHistory(this), Browser.HISTORY_PROJECTION_DATE_INDEX);
         setListAdapter(adapter);
         
         if (getExpandableListAdapter().getGroupCount() > 0) {
         	getExpandableListView().expandGroup(0);
         }
-        
-        registerForContextMenu(getExpandableListView());
 	}
 
 	@Override
@@ -36,7 +49,27 @@ public class HistoryListActivity extends ExpandableListActivity {
 		return super.onChildClick(parent, v, groupPosition, childPosition, id);
 	}
 
-	/*
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		
+		ExpandableListView.ExpandableListContextMenuInfo info =
+			(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+
+		int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+		int group = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+		int child =	ExpandableListView.getPackedPositionChild(info.packedPosition);
+		
+		if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			HistoryItem item = (HistoryItem) getExpandableListAdapter().getChild(group, child);
+			if (item != null) {
+				menu.setHeaderTitle(item.getTitle());
+				menu.add(0, CONTEXT_MENU_OPEN_IN_TAB, 0, R.string.HistoryListActivity_ContextMenuOpenInTab);
+				menu.add(0, CONTEXT_MENU_DELETE_FROM_HISTORY, 0, R.string.HistoryListActivity_ContextMenuDeleteFromHistory);
+			}
+		}
+	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
@@ -44,12 +77,37 @@ public class HistoryListActivity extends ExpandableListActivity {
 		int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 		
 		if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			int group = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+			int child =	ExpandableListView.getPackedPositionChild(info.packedPosition);
 			
+			HistoryItem historyItem = (HistoryItem) getExpandableListAdapter().getChild(group, child);
+			
+			if (historyItem != null) {
+				switch (item.getItemId()) {
+				case CONTEXT_MENU_OPEN_IN_TAB:
+					Intent i = new Intent();
+		            i.putExtra(Constants.EXTRA_ID_NEW_TAB, true);
+		            i.putExtra(Constants.EXTRA_ID_URL, historyItem.getUrl());
+		            
+		            if (getParent() != null) {
+			        	getParent().setResult(RESULT_OK, i);
+			        } else {
+			        	setResult(RESULT_OK, i);
+			        }
+			        
+			        finish();
+					break;
+				case CONTEXT_MENU_DELETE_FROM_HISTORY:
+					BookmarksHistoryAdapter.getInstance().deleteHistoryRecord(this, info.id);
+					fillData();
+					break;
+				default: break;
+				}
+			}
 		}
 		
 		return super.onContextItemSelected(item);
 	}
-	*/
 	
 	/**
 	 * Load the given url.

@@ -16,6 +16,8 @@
     <string name="HistoryListActivity.LastSevenDays">Last 7 days</string>
     <string name="HistoryListActivity.LastMonth">Last month</string>
     <string name="HistoryListActivity.Older">Older</string>
+    <string name="HistoryListActivity.ContextMenuOpenInTab">Open in new tab</string>
+    <string name="HistoryListActivity.ContextMenuDeleteFromHistory">Delete from history</string>
     
     <string name="BookmarksHistoryActivity.TabBookmarks">Bookmarks</string>
     <string name="BookmarksHistoryActivity.TabHistory">History</string>

@@ -50,7 +50,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 	@Override
 	public void onReceivedTitle(WebView view, String title) {
 		
-		new Thread(new HistoryUpdaterRunnable(mMainActivity, title, view.getOriginalUrl())).start();
+		new Thread(new HistoryUpdaterRunnable(mMainActivity, title, view.getUrl(), view.getOriginalUrl())).start();
 		
 		super.onReceivedTitle(view, title);
 	}

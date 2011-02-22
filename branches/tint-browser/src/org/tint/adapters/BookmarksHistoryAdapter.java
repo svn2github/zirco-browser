@@ -60,9 +60,9 @@ public class BookmarksHistoryAdapter {
 		return currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, Browser.HISTORY_PROJECTION, whereClause, null, orderClause);
 	}
 	
-	public void updateHistory(Activity currentActivity, String title, String url) {
+	public void updateHistory(Activity currentActivity, String title, String url, String originalUrl) {
 		String[] colums = new String[] { Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS };
-		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\"";
+		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
 		
 		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
 		
@@ -174,6 +174,26 @@ public class BookmarksHistoryAdapter {
 					currentActivity.getContentResolver().delete(Browser.BOOKMARKS_URI, Browser.BookmarkColumns._ID + " = " + id, null);
 					
 				}
+			}
+		}
+	}
+	
+	public void deleteHistoryRecord(Activity currentActivity, long id) {
+		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.BOOKMARK, Browser.BookmarkColumns.VISITS };
+		String whereClause = Browser.BookmarkColumns._ID + " = " + id;
+		
+		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
+		if (cursor.moveToFirst()) {
+			if (cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.BOOKMARK)) == 1) {
+				// The record is a bookmark, so we cannot delete it. Instead, reset its visited count and last visited date.
+				ContentValues values = new ContentValues();
+				values.put(Browser.BookmarkColumns.VISITS, 0);
+				values.putNull(Browser.BookmarkColumns.DATE);
+				
+				currentActivity.getContentResolver().update(Browser.BOOKMARKS_URI, values, Browser.BookmarkColumns._ID + " = " + id, null);
+			} else {
+				// The record is not a bookmark, we can delete it.
+				currentActivity.getContentResolver().delete(Browser.BOOKMARKS_URI, Browser.BookmarkColumns._ID + " = " + id, null);
 			}
 		}
 	}
