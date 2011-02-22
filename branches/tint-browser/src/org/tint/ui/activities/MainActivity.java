@@ -21,6 +21,9 @@ import android.view.View.OnTouchListener;
 import android.webkit.WebIconDatabase;
 import android.widget.ViewFlipper;
 
+/**
+ * Main application activity.
+ */
 public class MainActivity extends Activity implements OnTouchListener, IWebViewActivity {	
 
 	public static int ACTIVITY_SHOW_TABS = 0;
@@ -39,7 +42,6 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	
 	private int mCurrentViewIndex = -1;
 	
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,6 +222,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		}		
 	}
 	
+    /**
+     * Open the TabsActivity activity.
+     */
     private void openTabsActivity() {
     	Intent i = new Intent(MainActivity.this, TabsActivity.class);
 		i.putExtra(Constants.EXTRA_CURRENT_VIEW_INDEX, mCurrentViewIndex);
@@ -228,17 +233,28 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
     }
     
+    /**
+     * Show a tab given its index.
+     * @param tabIndex The tab's index to show.
+     */
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
 		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
 		
 	}
 	
+	/**
+	 * Navigate to the given url using the current WebView.
+	 * @param url The url.
+	 */
 	private void navigateToUrl(String url) {
 		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
 		webView.loadUrl(url);
 	}
 	
+	/**
+	 * Gesture listener implementation.
+	 */
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {

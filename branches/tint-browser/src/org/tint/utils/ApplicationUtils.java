@@ -9,6 +9,9 @@ import android.content.DialogInterface;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
+/**
+ * Application-level helpers.
+ */
 public class ApplicationUtils {
 	
 	private static int mFaviconSize = -1;

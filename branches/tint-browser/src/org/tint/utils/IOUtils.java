@@ -6,6 +6,9 @@ import java.util.Calendar;
 
 import android.os.Environment;
 
+/**
+ * Helpers from read/write to SD card.
+ */
 public class IOUtils {
 	
 	private static final String APPLICATION_FOLDER_1 = "Android";
