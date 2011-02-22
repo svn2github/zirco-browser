@@ -28,6 +28,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	
 	private static final int MENU_ADD_BOOKMARK = Menu.FIRST;
 	private static final int MENU_OPEN_HISTORY_BOOKMARKS = Menu.FIRST + 1;
+	private static final int MENU_OPEN_TABS_ACTIVITY = Menu.FIRST + 2;
+	private static final int MENU_OPEN_PREFERENCES_ACTIVITY = Menu.FIRST + 3;
 	
 	private GestureDetector mGestureDetector;
 	private ViewFlipper mWebViewContainer;
@@ -70,6 +72,12 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		item = menu.add(0, MENU_OPEN_HISTORY_BOOKMARKS, 0, R.string.MainActivity_MenuShowBookmarks);
 		item.setIcon(R.drawable.ic_menu_bookmarks);
 		
+		item = menu.add(0, MENU_OPEN_TABS_ACTIVITY, 0, R.string.MainActivity_MenuShowTabs);
+		item.setIcon(R.drawable.ic_menu_tabs);
+		
+		item = menu.add(0, MENU_OPEN_PREFERENCES_ACTIVITY, 0, R.string.MainActivity_MenuShowPreferences);
+		item.setIcon(R.drawable.ic_menu_preferences);
+		
 		return true;
 	}
 
@@ -88,6 +96,13 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		case MENU_OPEN_HISTORY_BOOKMARKS:
 			i = new Intent(this, BookmarksHistoryActivity.class);
 			startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);			
+			return true;
+		case MENU_OPEN_TABS_ACTIVITY:
+			openTabsActivity();
+			return true;
+		case MENU_OPEN_PREFERENCES_ACTIVITY:
+			i = new Intent(this, PreferencesActivity.class);
+			startActivity(i);
 			return true;
 		default: return super.onMenuItemSelected(featureId, item); 
 		}		
@@ -205,6 +220,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		}		
 	}
 	
+    private void openTabsActivity() {
+    	Intent i = new Intent(MainActivity.this, TabsActivity.class);
+		i.putExtra(Constants.EXTRA_CURRENT_VIEW_INDEX, mCurrentViewIndex);
+		
+		startActivityForResult(i, MainActivity.ACTIVITY_SHOW_TABS);
+		overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
+    }
+    
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
 		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
@@ -219,11 +242,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
-			Intent i = new Intent(MainActivity.this, TabsActivity.class);
-			i.putExtra(Constants.EXTRA_CURRENT_VIEW_INDEX, mCurrentViewIndex);
-			
-			MainActivity.this.startActivityForResult(i, MainActivity.ACTIVITY_SHOW_TABS);
-			MainActivity.this.overridePendingTransition(R.anim.tab_view_enter, R.anim.browser_view_exit);
+			openTabsActivity();
 			
 			// Should be better to return true here, but it breaks on Cyanogen 7RC1. Test with next releases.
 			return false;
