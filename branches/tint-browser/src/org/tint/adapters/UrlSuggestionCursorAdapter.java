@@ -10,8 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 
+/**
+ * Custom cursor adapter for displaying suggestion in the url bar.
+ */
 public class UrlSuggestionCursorAdapter extends SimpleCursorAdapter {
 
+	/**
+	 * Constructor.
+	 * @param context The current context.
+	 * @param layout The layout to use.
+	 * @param c The data cursor.
+	 * @param from The input array.
+	 * @param to The output array.
+	 */
 	public UrlSuggestionCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
 		super(context, layout, c, from, to);
 	}
@@ -26,6 +37,7 @@ public class UrlSuggestionCursorAdapter extends SimpleCursorAdapter {
 		switch (resultType) {
 		case 0: iconView.setImageResource(R.drawable.ic_tab_history_unselected); break;
 		case 1: iconView.setImageResource(R.drawable.ic_tab_bookmarks_unselected); break;
+		default: break;
 		}
 		
 		return superView;

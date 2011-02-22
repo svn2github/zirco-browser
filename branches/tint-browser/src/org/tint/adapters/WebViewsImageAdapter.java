@@ -25,6 +25,9 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
+/**
+ * Custom adapter for displaying WebView screenshots in a Gallery.
+ */
 public class WebViewsImageAdapter extends BaseAdapter {
 	
     int mGalleryItemBackground;
@@ -38,6 +41,10 @@ public class WebViewsImageAdapter extends BaseAdapter {
     
     private List<Bitmap> mBitmaps;    
 
+    /**
+     * Constructor.
+     * @param c The current context.
+     */
     public WebViewsImageAdapter(Context c) {
         mContext = c;
         TypedArray a = mContext.obtainStyledAttributes(R.styleable.TestGallery);
@@ -63,7 +70,9 @@ public class WebViewsImageAdapter extends BaseAdapter {
         case Surface.ROTATION_270:
         	mHeightFactor = 0.5f;
         	mWidthFactor = 0.6f;
-        	break;        	
+        	break;   
+        default:
+        	break;
         }
         
         mThumbHeight = (int) (mHeightFactor * mContext.getResources().getDisplayMetrics().heightPixels);
@@ -77,18 +86,22 @@ public class WebViewsImageAdapter extends BaseAdapter {
         }
     }
 
+    @Override
     public int getCount() {
         return mBitmaps.size();
     }
 
+    @Override
     public Object getItem(int position) {
         return position;
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView i = new ImageView(mContext);
 
@@ -101,6 +114,11 @@ public class WebViewsImageAdapter extends BaseAdapter {
         return i;
     }
     
+    /**
+     * Get a bitmap screenshot of the given WebView. 
+     * @param webView The WebView to take the screenshot from.
+     * @return A screenshot of the WebView, or a white rectangle if we cannot have a screenshot from the WebView.
+     */
     private Bitmap getWebWiewScreenShot(WebView webView) {
     	Picture thumbnail = webView.capturePicture();				    	
     	

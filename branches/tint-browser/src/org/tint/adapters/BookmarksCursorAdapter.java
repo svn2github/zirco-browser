@@ -11,8 +11,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 
+/**
+ * Custom cursor adapter for displaying bookmarks.
+ */
 public class BookmarksCursorAdapter extends SimpleCursorAdapter {
 
+	/**
+	 * Constructor.
+	 * @param context The current context.
+	 * @param layout The layout to use.
+	 * @param c The data cursor.
+	 * @param from The input array.
+	 * @param to The output array.
+	 */
 	public BookmarksCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
 		super(context, layout, c, from, to);
 	}

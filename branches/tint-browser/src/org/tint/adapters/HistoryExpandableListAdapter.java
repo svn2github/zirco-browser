@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
+ * Custom adapter for displaying history, splitted in bins.
  * Adapted from:
  * https://github.com/CyanogenMod/android_packages_apps_Browser/blob/gingerbread/src/com/android/browser/BrowserHistoryPage.java
  * http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/2.2_r1.1/com/android/browser/DateSortedExpandableListAdapter.java/?v=source
@@ -28,7 +29,7 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 
 	private LayoutInflater mInflater = null;
 	
-	private int mItemMap[];
+	private int[] mItemMap;
 	private int mNumberOfBins;
 	private int mIdIndex;
 	private DateSorter mDateSorter;
@@ -37,6 +38,12 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 	private Cursor mCursor;
 	private int mDateIndex;
 	
+	/**
+	 * Constructor.
+	 * @param context The current context.
+	 * @param cursor The data cursor.
+	 * @param dateIndex The date index ?
+	 */
 	public HistoryExpandableListAdapter(Context context, Cursor cursor, int dateIndex) {
 		mContext = context;
 		mCursor = cursor;
@@ -50,8 +57,11 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 		buildMap();
 	}
 	
+	/**
+	 * Split the data in the cursor into several "bins": today, yesterday, last 7 days, last month, older.
+	 */
 	private void buildMap() {
-		int array[] = new int[DateSorter.DAY_COUNT];
+		int[] array = new int[DateSorter.DAY_COUNT];
         // Zero out the array.
         for (int j = 0; j < DateSorter.DAY_COUNT; j++) {
             array[j] = 0;
@@ -82,6 +92,11 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
         mItemMap = array;
 	}
 	
+	/**
+	 * Get a long-typed data from mCursor.
+	 * @param cursorIndex The column index.
+	 * @return The long data.
+	 */
 	private long getLong(int cursorIndex) {
         return mCursor.getLong(cursorIndex);
     }	
@@ -116,8 +131,16 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
         return arrayPosition;
     }
     
+    /**
+     * Move the cursor to the record corresponding to the given group position and child position. 
+     * @param groupPosition The group position.
+     * @param childPosition The child position.
+     * @return True if the move has succeeded.
+     */
 	private boolean moveCursorToChildPosition(int groupPosition, int childPosition) {
-        if (mCursor.isClosed()) return false;
+        if (mCursor.isClosed()) {
+        	return false;
+        }
         groupPosition = groupPositionToBin(groupPosition);
         int index = childPosition;
         for (int i = 0; i < groupPosition; i++) {
