@@ -75,6 +75,13 @@
                 android:key="PrivacyClearCookies" />
         </PreferenceScreen>
     </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/PreferencesActivity.ToolsCategoryTitle">
+    	<Preference
+            android:title="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceTitle"
+            android:summary="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceSummary"
+            android:key="ExportHistoryBookmarks" />
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferencesActivity.AboutCategoryTitle">
         <Preference

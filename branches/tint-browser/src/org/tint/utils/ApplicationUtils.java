@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 
 public class ApplicationUtils {
@@ -37,6 +38,76 @@ public class ApplicationUtils {
     	});
     	AlertDialog alert = builder.create();
     	alert.show();
+	}
+	
+	/**
+	 * Show an error dialog.
+	 * @param context The current context.
+	 * @param title The title string id.
+	 * @param message The message string id.
+	 */
+	public static void showErrorDialog(Context context, int title, int message) {
+		new AlertDialog.Builder(context)
+        .setTitle(title)
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setMessage(message)
+        .setPositiveButton(R.string.Commons_Ok, null)
+        .show();
+	}
+	
+	/**
+	 * Display a standard Ok dialog.
+	 * @param context The current context.
+	 * @param icon The dialog icon.
+	 * @param title The dialog title.
+	 * @param message The dialog message.
+	 */
+	public static void showOkDialog(Context context, int icon, String title, String message) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setCancelable(false);
+    	builder.setIcon(icon);
+    	builder.setTitle(title);
+    	builder.setMessage(message);
+    	
+    	builder.setInverseBackgroundForced(true);
+    	builder.setPositiveButton(context.getResources().getString(R.string.Commons_Ok), new DialogInterface.OnClickListener() {
+    		@Override
+    		public void onClick(DialogInterface dialog, int which) {
+    			dialog.dismiss();
+    		}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+	}
+	
+	/**
+	 * Check if the SD card is available. Display an alert if not.
+	 * @param context The current context.
+	 * @param showMessage If true, will display a message for the user.
+	 * @return True if the SD card is available, false otherwise.
+	 */
+	public static boolean checkCardState(Context context, boolean showMessage) {
+		// Check to see if we have an SDCard
+        String status = Environment.getExternalStorageState();
+        if (!status.equals(Environment.MEDIA_MOUNTED)) {
+            
+        	int messageId;
+
+            // Check to see if the SDCard is busy, same as the music app
+            if (status.equals(Environment.MEDIA_SHARED)) {
+                messageId = R.string.Commons_SDCardErrorSDUnavailable;
+            } else {
+                messageId = R.string.Commons_SDCardErrorNoSDMsg;
+            }
+            
+            if (showMessage) {
+            	ApplicationUtils.showErrorDialog(context, R.string.Commons_SDCardErrorTitle, messageId);
+            }
+            
+            return false;
+        }
+        
+        return true;
 	}
 	
 	/**

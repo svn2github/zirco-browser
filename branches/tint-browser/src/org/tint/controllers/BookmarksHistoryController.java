@@ -34,6 +34,12 @@ public class BookmarksHistoryController {
 	
 	private BookmarksHistoryController() { }
 	
+	public Cursor getAllRecords(Activity currentActivity) {
+		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS, Browser.BookmarkColumns.DATE, Browser.BookmarkColumns.CREATED, Browser.BookmarkColumns.BOOKMARK };
+		
+		return currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, null, null, null);
+	}
+	
 	public Cursor getBookmarks(Activity currentActivity) {
 		String whereClause = Browser.BookmarkColumns.BOOKMARK + " = 1";
 		String orderClause = Browser.BookmarkColumns.VISITS + " DESC";

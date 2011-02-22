@@ -1,9 +1,12 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
+import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
+import org.tint.runnables.XmlHistoryBookmarksExporter;
 import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
+import org.tint.utils.IOUtils;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -83,7 +86,31 @@ public class PreferencesActivity extends PreferenceActivity {
 				return true;
 			}			
 		});
+		
+		Preference exportHistoryBookmarksPref = (Preference) findPreference("ExportHistoryBookmarks");
+		exportHistoryBookmarksPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				exportHistoryBookmarks();
+				return true;
+			}			
+		});
 	}
+	
+	private void exportHistoryBookmarks() {
+		if (ApplicationUtils.checkCardState(this, true)) {
+			mProgressDialog = ProgressDialog.show(this,
+	    			this.getResources().getString(R.string.Commons_PleaseWait),
+	    			this.getResources().getString(R.string.Commons_ExportingHistoryBookmarks));
+			
+			final XmlHistoryBookmarksExporter exporter = new XmlHistoryBookmarksExporter(this,
+					IOUtils.getNowForFileName() + ".xml",
+					BookmarksHistoryController.getInstance().getAllRecords(this),
+					mProgressDialog);
+			
+			new Thread(exporter).start();
+		}
+	}		
 	
 	private void clearHistory() {
 		ApplicationUtils.showYesNoDialog(this,
