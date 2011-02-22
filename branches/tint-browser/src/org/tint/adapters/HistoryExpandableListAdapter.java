@@ -1,6 +1,8 @@
 package org.tint.adapters;
 
 import org.tint.R;
+import org.tint.model.HistoryItem;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;

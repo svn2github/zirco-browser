@@ -1,4 +1,4 @@
-package org.tint.adapters;
+package org.tint.model;
 
 public class BookmarkItem {
 	

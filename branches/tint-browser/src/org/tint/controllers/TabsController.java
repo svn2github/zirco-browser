@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tint.R;
+import org.tint.model.WebViewContainer;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.components.CustomWebChromeClient;
 import org.tint.ui.components.CustomWebView;
@@ -13,6 +14,9 @@ import org.tint.utils.Constants;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +43,8 @@ public class TabsController {
 	private IWebViewActivity mWebViewActivity;
 	private LayoutInflater mInflater = null;
 	
+	private OnSharedPreferenceChangeListener mPreferenceChangeListener;
+	
 	/**
 	 * Holder for singleton implementation.
 	 */
@@ -62,7 +68,13 @@ public class TabsController {
 	 * Private Constructor.
 	 */
 	private TabsController() {
-		mWebViewList = new ArrayList<WebViewContainer>();
+		mWebViewList = new ArrayList<WebViewContainer>();		
+	}
+	
+	private void onPreferencesChanged() {
+		for (WebViewContainer view : mWebViewList) {
+			view.getWebView().initializeOptions();
+		}
 	}
 	
 	public void initialize(Activity activity, OnTouchListener touchListener, IWebViewActivity webViewActivity, ViewFlipper webViewContainer) {
@@ -72,6 +84,16 @@ public class TabsController {
 		mWebViewActivity = webViewActivity;
 		
 		mInflater = (LayoutInflater) mMainActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		mPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
+
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+				onPreferencesChanged();
+			}			
+		};
+		
+		PreferenceManager.getDefaultSharedPreferences(mMainActivity).registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
 	}
 	
 	public int addTab(int position, String url) {
@@ -148,6 +170,19 @@ public class TabsController {
 		}
 		
 		return mWebViewList.indexOf(webViewContainer);
+	}
+	
+	public void clearFormData() {
+		for (WebViewContainer view : mWebViewList) {
+			view.getWebView().clearFormData();
+		}
+	}
+	
+	public void clearCache() {
+		if (!mWebViewList.isEmpty()) {
+			// Clear cache only need to be done on one WebView. See http://developer.android.com/reference/android/webkit/WebView.html#clearCache%28boolean%29
+			mWebViewList.get(0).getWebView().clearCache(true);
+		}
 	}
 
 }

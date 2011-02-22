@@ -1,4 +1,4 @@
-package org.tint.adapters;
+package org.tint.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.tint.R;
 import org.tint.controllers.TabsController;
-import org.tint.controllers.WebViewContainer;
+import org.tint.model.WebViewContainer;
 
 import android.content.Context;
 import android.content.res.TypedArray;

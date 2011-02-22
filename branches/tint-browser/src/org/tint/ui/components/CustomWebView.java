@@ -1,13 +1,18 @@
 package org.tint.ui.components;
 
+import org.tint.utils.Constants;
 import org.tint.utils.UrlUtils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebSettings.PluginState;
 import android.webkit.WebSettings.ZoomDensity;
 
 public class CustomWebView extends WebView {
@@ -42,19 +47,27 @@ public class CustomWebView extends WebView {
         //mDefaultHeight = mHeight = Math.round(getContext().getResources().getDisplayMetrics().heightPixels);
 	}
 	
-	private void initializeOptions() {
+	public void initializeOptions() {
 		WebSettings settings = getSettings();
 		
-		settings.setJavaScriptEnabled(true);
-		settings.setLoadsImagesAutomatically(true);
-		settings.setSaveFormData(true);
-		settings.setSavePassword(true);
-		settings.setDefaultZoom(ZoomDensity.MEDIUM);
-		settings.setSupportZoom(true);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		
-		CookieManager.getInstance().setAcceptCookie(true);
+		settings.setJavaScriptEnabled(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_JAVASCRIPT, true));
+		settings.setLoadsImagesAutomatically(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_IMAGES, true));
+		settings.setSaveFormData(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_FORM_DATA, true));
+		settings.setSavePassword(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PASSWORDS, true));
+		settings.setDefaultZoom(ZoomDensity.valueOf(prefs.getString(Constants.PREFERENCES_DEFAULT_ZOOM_LEVEL, ZoomDensity.MEDIUM.toString())));
+		
+		if (Build.VERSION.SDK_INT <= 7) {
+			settings.setPluginsEnabled(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS_ECLAIR, true));
+		} else {
+			settings.setPluginState(PluginState.valueOf(prefs.getString(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS, PluginState.ON_DEMAND.toString())));
+		}		
+		
+		CookieManager.getInstance().setAcceptCookie(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_COOKIES, true));
 		
 		// Technical settings
+		settings.setSupportZoom(true);
 		settings.setSupportMultipleWindows(true);						
     	setLongClickable(true);
     	setScrollbarFadingEnabled(true);

@@ -1,9 +1,9 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
-import org.tint.adapters.BookmarksHistoryAdapter;
 import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.adapters.WebViewsImageAdapter;
+import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
 import org.tint.ui.components.CustomWebView;
 import org.tint.utils.ApplicationUtils;
@@ -103,7 +103,7 @@ public class TabsActivity extends Activity {
 			public Cursor runQuery(CharSequence constraint) {
 				if ((constraint != null) &&
 						(constraint.length() > 0)) {
-					return BookmarksHistoryAdapter.getInstance().getSuggestion(TabsActivity.this, constraint.toString());
+					return BookmarksHistoryController.getInstance().getSuggestion(TabsActivity.this, constraint.toString());
 				}
 				return null;
 			}

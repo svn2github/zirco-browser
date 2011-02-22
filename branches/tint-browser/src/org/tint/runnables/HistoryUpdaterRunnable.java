@@ -1,6 +1,6 @@
 package org.tint.runnables;
 
-import org.tint.adapters.BookmarksHistoryAdapter;
+import org.tint.controllers.BookmarksHistoryController;
 
 import android.app.Activity;
 
@@ -20,7 +20,7 @@ public class HistoryUpdaterRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		BookmarksHistoryAdapter.getInstance().updateHistory(mActivity, mTitle, mUrl, mOriginalUrl);		
+		BookmarksHistoryController.getInstance().updateHistory(mActivity, mTitle, mUrl, mOriginalUrl);		
 	}
 
 }

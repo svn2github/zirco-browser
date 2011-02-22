@@ -1,6 +1,6 @@
 package org.tint.runnables;
 
-import org.tint.adapters.BookmarksHistoryAdapter;
+import org.tint.controllers.BookmarksHistoryController;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -21,7 +21,7 @@ public class FaviconUpdaterRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		BookmarksHistoryAdapter.getInstance().updateFavicon(mActivity, mUrl, mOriginalUrl, mFavIcon);
+		BookmarksHistoryController.getInstance().updateFavicon(mActivity, mUrl, mOriginalUrl, mFavIcon);
 	}
 
 }

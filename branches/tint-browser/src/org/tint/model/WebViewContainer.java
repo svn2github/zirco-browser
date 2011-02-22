@@ -1,4 +1,4 @@
-package org.tint.controllers;
+package org.tint.model;
 
 import org.tint.ui.components.CustomWebView;
 

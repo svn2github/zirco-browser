@@ -1,7 +1,7 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
-import org.tint.adapters.BookmarksHistoryAdapter;
+import org.tint.controllers.BookmarksHistoryController;
 import org.tint.utils.Constants;
 
 import android.app.Activity;
@@ -91,7 +91,7 @@ public class EditBookmarkActivity extends Activity {
 	}
 	
 	private void setAsBookmark() {
-		BookmarksHistoryAdapter.getInstance().setAsBookmark(this, mRowId, mTitleEditText.getText().toString(), mUrlEditText.getText().toString(), true);
+		BookmarksHistoryController.getInstance().setAsBookmark(this, mRowId, mTitleEditText.getText().toString(), mUrlEditText.getText().toString(), true);
 	}
 	
 }

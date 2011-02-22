@@ -1,9 +1,9 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
-import org.tint.adapters.BookmarksHistoryAdapter;
 import org.tint.adapters.HistoryExpandableListAdapter;
-import org.tint.adapters.HistoryItem;
+import org.tint.controllers.BookmarksHistoryController;
+import org.tint.model.HistoryItem;
 import org.tint.utils.Constants;
 
 import android.app.ExpandableListActivity;
@@ -33,7 +33,7 @@ public class HistoryListActivity extends ExpandableListActivity {
 	}
 	
 	private void fillData() {
-		HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryAdapter.getInstance().getHistory(this), Browser.HISTORY_PROJECTION_DATE_INDEX);
+		HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryController.getInstance().getHistory(this), Browser.HISTORY_PROJECTION_DATE_INDEX);
         setListAdapter(adapter);
         
         if (getExpandableListAdapter().getGroupCount() > 0) {
@@ -98,7 +98,7 @@ public class HistoryListActivity extends ExpandableListActivity {
 			        finish();
 					break;
 				case CONTEXT_MENU_DELETE_FROM_HISTORY:
-					BookmarksHistoryAdapter.getInstance().deleteHistoryRecord(this, info.id);
+					BookmarksHistoryController.getInstance().deleteHistoryRecord(this, info.id);
 					fillData();
 					break;
 				default: break;

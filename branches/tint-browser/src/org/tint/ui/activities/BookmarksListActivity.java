@@ -1,9 +1,9 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
-import org.tint.adapters.BookmarkItem;
 import org.tint.adapters.BookmarksCursorAdapter;
-import org.tint.adapters.BookmarksHistoryAdapter;
+import org.tint.controllers.BookmarksHistoryController;
+import org.tint.model.BookmarkItem;
 import org.tint.utils.Constants;
 
 import android.app.Activity;
@@ -52,7 +52,7 @@ public class BookmarksListActivity extends Activity {
 			public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 				
 				String url;
-				BookmarkItem selectedItem = BookmarksHistoryAdapter.getInstance().getBookmarkById(BookmarksListActivity.this, id);
+				BookmarkItem selectedItem = BookmarksHistoryController.getInstance().getBookmarkById(BookmarksListActivity.this, id);
 				if (selectedItem != null) {
 					url = selectedItem.getUrl();
 				} else {
@@ -81,7 +81,7 @@ public class BookmarksListActivity extends Activity {
 	}
 
 	private void fillData() {
-		Cursor cursor = BookmarksHistoryAdapter.getInstance().getBookmarks(this);
+		Cursor cursor = BookmarksHistoryController.getInstance().getBookmarks(this);
 		
 		String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
 		int[] to = new int[] {R.id.BookmarkRow_Title, R.id.BookmarkRow_Url};
@@ -96,7 +96,7 @@ public class BookmarksListActivity extends Activity {
 		
 		long id = ((AdapterContextMenuInfo) menuInfo).id;
 		if (id != -1) {
-			BookmarkItem selectedItem = BookmarksHistoryAdapter.getInstance().getBookmarkById(BookmarksListActivity.this, id);
+			BookmarkItem selectedItem = BookmarksHistoryController.getInstance().getBookmarkById(BookmarksListActivity.this, id);
 			if (selectedItem != null) {
 				menu.setHeaderTitle(selectedItem.getTitle());
 			}
@@ -115,7 +115,7 @@ public class BookmarksListActivity extends Activity {
 		BookmarkItem selectedItem;
 		switch (item.getItemId()) {
 		case CONTEXT_MENU_OPEN_IN_TAB:
-			selectedItem = BookmarksHistoryAdapter.getInstance().getBookmarkById(this, info.id);
+			selectedItem = BookmarksHistoryController.getInstance().getBookmarkById(this, info.id);
 			if (selectedItem != null) {
 				i = new Intent();
 	            i.putExtra(Constants.EXTRA_ID_NEW_TAB, true);
@@ -132,7 +132,7 @@ public class BookmarksListActivity extends Activity {
 			
 			return true;
 		case CONTEXT_MENU_EDIT_BOOKMARK:
-			selectedItem = BookmarksHistoryAdapter.getInstance().getBookmarkById(this, info.id);
+			selectedItem = BookmarksHistoryController.getInstance().getBookmarkById(this, info.id);
 			if (selectedItem != null) {
 				i = new Intent(this, EditBookmarkActivity.class);
 				i.putExtra(Constants.EXTRA_ID_BOOKMARK_ID, info.id);
@@ -144,7 +144,7 @@ public class BookmarksListActivity extends Activity {
 			
 			return true;
 		case CONTEXT_MENU_DELETE_BOOKMARK:
-			BookmarksHistoryAdapter.getInstance().deleteBookmark(this, info.id);
+			BookmarksHistoryController.getInstance().deleteBookmark(this, info.id);
 			fillData();
 			
 			return true;

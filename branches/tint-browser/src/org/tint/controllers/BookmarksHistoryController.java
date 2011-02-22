@@ -1,7 +1,9 @@
-package org.tint.adapters;
+package org.tint.controllers;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
+
+import org.tint.model.BookmarkItem;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -9,13 +11,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.provider.Browser;
 
-public class BookmarksHistoryAdapter {
+public class BookmarksHistoryController {
 	
 	/**
 	 * Holder for singleton implementation.
 	 */
 	private static final class BookmarksHistoryAdapterHolder {
-		private static final BookmarksHistoryAdapter INSTANCE = new BookmarksHistoryAdapter();
+		private static final BookmarksHistoryController INSTANCE = new BookmarksHistoryController();
 		/**
 		 * Private Constructor.
 		 */
@@ -26,11 +28,11 @@ public class BookmarksHistoryAdapter {
 	 * Get the unique instance of the Controller.
 	 * @return The instance of the Controller
 	 */
-	public static BookmarksHistoryAdapter getInstance() {
+	public static BookmarksHistoryController getInstance() {
 		return BookmarksHistoryAdapterHolder.INSTANCE;
 	}
 	
-	private BookmarksHistoryAdapter() { }
+	private BookmarksHistoryController() { }
 	
 	public Cursor getBookmarks(Activity currentActivity) {
 		String whereClause = Browser.BookmarkColumns.BOOKMARK + " = 1";
