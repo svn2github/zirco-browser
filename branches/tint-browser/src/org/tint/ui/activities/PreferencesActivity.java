@@ -1,16 +1,21 @@
 package org.tint.ui.activities;
 
+import java.util.List;
+
 import org.tint.R;
 import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
 import org.tint.runnables.XmlHistoryBookmarksExporter;
+import org.tint.runnables.XmlHistoryBookmarksImporter;
 import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
 import org.tint.utils.IOUtils;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -95,22 +100,86 @@ public class PreferencesActivity extends PreferenceActivity {
 				return true;
 			}			
 		});
+		
+		Preference importHistoryBookmarksPref = (Preference) findPreference("ImportHistoryBookmarks");
+		importHistoryBookmarksPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				importHistoryBookmarks();
+				return true;
+			}			
+		});
 	}
 	
-	private void exportHistoryBookmarks() {
+	private void doImportHistoryBookmarks(String fileName) {
+		
+		if (ApplicationUtils.checkCardState(this, true)) {
+			mProgressDialog = ProgressDialog.show(this,
+	    			this.getResources().getString(R.string.Commons_PleaseWait),
+	    			this.getResources().getString(R.string.Commons_ImportingHistoryBookmarks));
+			
+			XmlHistoryBookmarksImporter importer = new XmlHistoryBookmarksImporter(this, fileName, mProgressDialog);
+			new Thread(importer).start();
+		}
+		
+	}
+	
+	private void importHistoryBookmarks() {
+		List<String> exportedFiles = IOUtils.getExportedBookmarksFileList();    	
+    	
+    	final String[] choices = exportedFiles.toArray(new String[exportedFiles.size()]);
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setInverseBackgroundForced(true);
+    	builder.setIcon(android.R.drawable.ic_dialog_info);
+    	builder.setTitle(getResources().getString(R.string.Commons_ImportHistoryBookmarksSource));
+    	builder.setSingleChoiceItems(choices,
+    			0,
+    			new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+								
+				doImportHistoryBookmarks(choices[which]);				
+				
+				dialog.dismiss();				
+			}    		
+    	});    	
+    	
+    	builder.setCancelable(true);
+    	builder.setNegativeButton(R.string.Commons_Cancel, null);
+    	
+    	AlertDialog alert = builder.create();
+    	alert.show();
+	}
+	
+	private void doExportHistoryBookmarks() {
 		if (ApplicationUtils.checkCardState(this, true)) {
 			mProgressDialog = ProgressDialog.show(this,
 	    			this.getResources().getString(R.string.Commons_PleaseWait),
 	    			this.getResources().getString(R.string.Commons_ExportingHistoryBookmarks));
 			
-			final XmlHistoryBookmarksExporter exporter = new XmlHistoryBookmarksExporter(this,
+			XmlHistoryBookmarksExporter exporter = new XmlHistoryBookmarksExporter(this,
 					IOUtils.getNowForFileName() + ".xml",
 					BookmarksHistoryController.getInstance().getAllRecords(this),
 					mProgressDialog);
 			
 			new Thread(exporter).start();
 		}
-	}		
+	}
+	
+	private void exportHistoryBookmarks() {
+		ApplicationUtils.showYesNoDialog(this,
+				android.R.drawable.ic_dialog_info,
+				R.string.Commons_HistoryBookmarksExportSDCardConfirmation,
+				R.string.Commons_OperationCanBeLongMessage,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						doExportHistoryBookmarks();
+					}			
+		});
+	}
 	
 	private void clearHistory() {
 		ApplicationUtils.showYesNoDialog(this,

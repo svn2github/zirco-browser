@@ -25,13 +25,18 @@
     <string name="Commons.ClearCookies">Clear cookies</string>
     <string name="Commons.ClearingCookies">Clearing cookies...</string>
     <string name="Commons.ExportingHistoryBookmarks">Exporting history and bookmarks...</string>
+    <string name="Commons.ImportingHistoryBookmarks">Importing history and bookmarks...</string>
+    <string name="Commons.ImportHistoryBookmarksSource">Choose the import source</string>
     <string name="Commons.SDCardErrorTitle">SD Card unavailable</string>
     <string name="Commons.SDCardErrorNoSDMsg">No SD Card found.</string>
     <string name="Commons.SDCardErrorSDUnavailable">SD Card is not available.</string>
+    <string name="Commons.OperationCanBeLongMessage">This operation can take some times. Do you wish to proceed?</string>
+    <string name="Commons.HistoryBookmarksExportSDCardConfirmation">Export history and bookmarks</string>
     <string name="Commons.HistoryBookmarksExportSDCardDoneTitle">Export done</string>
     <string name="Commons.HistoryBookmarksExportSDCardDoneMessage">Your history and bookmarks have been saved to %s.</string>
     <string name="Commons.HistoryBookmarksExportSDCardFailedTitle">Export failed</string>
-    <string name="Commons.HistoryBookmarksExportSDCardFailedMessage">Error message: %s.</string>
+    <string name="Commons.HistoryBookmarksFailedMessage">Error message: %s.</string>
+    <string name="Commons.HistoryBookmarksImportSDCardFailedTitle">Import failed</string>
     
     <string name="BookmarksListActivity.Empty">No bookmarks.</string>
     <string name="BookmarksListActivity.MenuAddBookmark">Add bookmark</string>
@@ -137,6 +142,8 @@
     <string name="PreferencesActivity.ToolsCategoryTitle">Tools</string>
     <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceTitle">Export bookmarks and history</string>
     <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceSummary">Export the bookmarks and history to the SD card.</string>
+    <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceTitle">Import bookmarks and history</string>
+    <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceSummary">Import the bookmarks and history from the SD card.</string>
     
     <string name="PreferencesActivity.AboutCategoryTitle">About</string>
     <string name="PreferencesActivity.AboutPreferenceTitle">About</string>

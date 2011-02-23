@@ -81,6 +81,10 @@
             android:title="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceTitle"
             android:summary="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceSummary"
             android:key="ExportHistoryBookmarks" />
+        <Preference
+            android:title="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceTitle"
+            android:summary="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceSummary"
+            android:key="ImportHistoryBookmarks" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferencesActivity.AboutCategoryTitle">

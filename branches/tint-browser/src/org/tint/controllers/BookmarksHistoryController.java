@@ -216,4 +216,31 @@ public class BookmarksHistoryController {
 		return currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
+	public void insertRawRecord(Activity currentActivity, String title, String url, int visits, long date, long created, int bookmark) {
+		ContentValues values = new ContentValues();
+		values.put(Browser.BookmarkColumns.TITLE, title);
+		values.put(Browser.BookmarkColumns.URL, url);
+		values.put(Browser.BookmarkColumns.VISITS, visits);
+		
+		if (date > 0) {
+			values.put(Browser.BookmarkColumns.DATE, date);
+		} else {
+			values.putNull(Browser.BookmarkColumns.DATE);
+		}
+		
+		if (created > 0) {
+			values.put(Browser.BookmarkColumns.CREATED, created);
+		} else {
+			values.putNull(Browser.BookmarkColumns.CREATED);
+		}
+		
+		if (bookmark > 0) {
+			values.put(Browser.BookmarkColumns.BOOKMARK, 1);
+		} else {
+			values.put(Browser.BookmarkColumns.BOOKMARK, 0);
+		}
+		
+		currentActivity.getContentResolver().insert(Browser.BOOKMARKS_URI, values);
+	}
+	
 }

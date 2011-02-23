@@ -102,7 +102,7 @@ public class XmlHistoryBookmarksExporter implements Runnable {
 				ApplicationUtils.showOkDialog(mContext,
 						android.R.drawable.ic_dialog_alert,
 						mContext.getResources().getString(R.string.Commons_HistoryBookmarksExportSDCardFailedTitle),
-						String.format(mContext.getResources().getString(R.string.Commons_HistoryBookmarksExportSDCardFailedMessage), mErrorMessage));
+						String.format(mContext.getResources().getString(R.string.Commons_HistoryBookmarksFailedMessage), mErrorMessage));
 			}
 		}
 	};
