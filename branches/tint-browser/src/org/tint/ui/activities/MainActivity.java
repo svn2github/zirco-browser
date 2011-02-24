@@ -239,8 +239,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
      */
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
-		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
-		
+		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);		
 	}
 	
 	/**
