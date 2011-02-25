@@ -40,10 +40,10 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent" android:layout_below="@+id/BarLayout"/>
 	    
+	    <!-- android:background="@drawable/buttons_on_dark" -->
 	<ImageButton android:id="@+id/AddTabBtn"
 	   android:layout_height="wrap_content"
-       android:layout_width="wrap_content"
-                    android:background="@drawable/buttons_on_dark"
+       android:layout_width="wrap_content"                    
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="5dip"
                     android:layout_marginLeft="5dip"
@@ -53,8 +53,7 @@
 
     <ImageButton android:id="@+id/BookmarksBtn"
 	   android:layout_height="wrap_content"
-       android:layout_width="wrap_content"
-                    android:background="@drawable/buttons_on_dark"
+       android:layout_width="wrap_content"                   
                     android:layout_marginBottom="5dip"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
@@ -64,8 +63,7 @@
                     android:layout_alignTop="@+id/AddTabBtn"></ImageButton>
 
     <ImageButton android:layout_height="wrap_content"
-                    android:id="@+id/CloseTabBtn" android:layout_width="wrap_content"
-                    android:background="@drawable/buttons_on_dark"
+                    android:id="@+id/CloseTabBtn" android:layout_width="wrap_content"                    
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="5dip"
                     android:layout_marginRight="5dip"
@@ -75,8 +73,7 @@
                     
 	<ImageButton android:id="@+id/BackBtn"
 	   android:layout_height="wrap_content"
-       android:layout_width="wrap_content"
-                    android:background="@drawable/buttons_on_dark"
+       android:layout_width="wrap_content"                    
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="5dip"
                     android:layout_marginLeft="5dip"
@@ -95,8 +92,7 @@
     
     <ImageButton android:id="@+id/ForwardBtn"
 	   android:layout_height="wrap_content"
-       android:layout_width="wrap_content"
-                    android:background="@drawable/buttons_on_dark"
+       android:layout_width="wrap_content"                    
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="5dip"
                     android:layout_marginRight="5dip"
