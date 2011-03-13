@@ -30,7 +30,11 @@ import android.webkit.WebView.HitTestResult;
 import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
-public class TabsController {
+/**
+ * Controller managing tabs.
+ * Responsible for tabs creation, selection, deletion.
+ */
+public final class TabsController {
 	
 	public static final int TAB_CONTEXT_MENU_OPEN = Menu.FIRST + 10;
 	public static final int TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB = Menu.FIRST + 11;
@@ -71,12 +75,22 @@ public class TabsController {
 		mWebViewList = new ArrayList<WebViewContainer>();		
 	}
 	
+	/**
+	 * Event when a preference has changed. Reinitialize all WebViews, to update them with new preferences.
+	 */
 	private void onPreferencesChanged() {
 		for (WebViewContainer view : mWebViewList) {
 			view.getWebView().initializeOptions();
 		}
 	}
 	
+	/**
+	 * Initialize the Controller.
+	 * @param activity The main activity.
+	 * @param touchListener The TouchListener to be set on each created WebView.
+	 * @param webViewActivity 
+	 * @param webViewContainer The main ViewFlipper, containing all the WebView.
+	 */
 	public void initialize(Activity activity, OnTouchListener touchListener, IWebViewActivity webViewActivity, ViewFlipper webViewContainer) {
 		mMainActivity = activity;		
 		mWebViewsContainer = webViewContainer;
@@ -96,6 +110,12 @@ public class TabsController {
 		PreferenceManager.getDefaultSharedPreferences(mMainActivity).registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
 	}
 	
+	/**
+	 * Add a new tab at the given position, and navigate to the given url.
+	 * @param position The position to insert the tab.
+	 * @param url The url to navigate to.
+	 * @return The new tab index.
+	 */
 	public int addTab(int position, String url) {
 		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewsContainer, false);
 		
@@ -153,16 +173,51 @@ public class TabsController {
         return insertionIndex;
 	}
 	
+	/**
+	 * Remove the tab at the given index.
+	 * @param index The index of the tab to remove.
+	 */
 	public void removeTab(int index) {
 		mWebViewList.remove(index);
 		mWebViewsContainer.removeViewAt(index);
 	}
 	
+	/**
+	 * Get the list of WebViewContainer, e.g. the association of a WebView and its parent layout.
+	 * @return The list of WebViewContainer.
+	 * @see WebViewContainer
+	 */
 	public List<WebViewContainer> getWebViewContainers() {
 		return mWebViewList;
 	}
 	
-	public int addWebViewContainer(int position, WebViewContainer webViewContainer) {
+	/**
+	 * Clear the form data on all existants WebView.
+	 */
+	public void clearFormData() {
+		for (WebViewContainer view : mWebViewList) {
+			view.getWebView().clearFormData();
+		}
+	}
+	
+	/**
+	 * Clear the cache.
+	 */
+	public void clearCache() {
+		if (!mWebViewList.isEmpty()) {
+			// Clear cache only need to be done on one WebView. See http://developer.android.com/reference/android/webkit/WebView.html#clearCache%28boolean%29
+			mWebViewList.get(0).getWebView().clearCache(true);
+		}
+	}
+
+	/**
+	 * Add the given WebViewContainer at the given position.
+	 * @param position The insertion position. Can be < 0. If so, the insertion will be at the end of the list.
+	 * @param webViewContainer The WebViewContainer to add.
+	 * @return The index of the insertion.
+	 * @see WebViewContainer
+	 */
+	private int addWebViewContainer(int position, WebViewContainer webViewContainer) {
 		if (position >= 0) {
 			mWebViewList.add(position, webViewContainer);
 		} else {
@@ -172,17 +227,4 @@ public class TabsController {
 		return mWebViewList.indexOf(webViewContainer);
 	}
 	
-	public void clearFormData() {
-		for (WebViewContainer view : mWebViewList) {
-			view.getWebView().clearFormData();
-		}
-	}
-	
-	public void clearCache() {
-		if (!mWebViewList.isEmpty()) {
-			// Clear cache only need to be done on one WebView. See http://developer.android.com/reference/android/webkit/WebView.html#clearCache%28boolean%29
-			mWebViewList.get(0).getWebView().clearCache(true);
-		}
-	}
-
 }

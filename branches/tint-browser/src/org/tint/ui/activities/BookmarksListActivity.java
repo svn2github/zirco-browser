@@ -22,6 +22,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * Bookmarks activity.
+ */
 public class BookmarksListActivity extends Activity {
 	
 	public static int ACTIVITY_EDIT_BOOKMARK = 0;
@@ -80,6 +83,9 @@ public class BookmarksListActivity extends Activity {
         fillData();
 	}
 
+	/**
+	 * Fills the bookmarks list.
+	 */
 	private void fillData() {
 		Cursor cursor = BookmarksHistoryController.getInstance().getBookmarks(this);
 		

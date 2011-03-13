@@ -11,6 +11,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Adit/Add bookmark activity.
+ */
 public class EditBookmarkActivity extends Activity {
 	
 	private EditText mTitleEditText;
@@ -90,6 +93,9 @@ public class EditBookmarkActivity extends Activity {
     	}
 	}
 	
+	/**
+	 * Set the current title and url values as a bookmark, e.g. adding a record if necessary or set only the bookmark flag.
+	 */
 	private void setAsBookmark() {
 		BookmarksHistoryController.getInstance().setAsBookmark(this, mRowId, mTitleEditText.getText().toString(), mUrlEditText.getText().toString(), true);
 	}

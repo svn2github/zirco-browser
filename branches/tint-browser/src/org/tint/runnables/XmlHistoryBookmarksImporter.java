@@ -24,6 +24,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+/**
+ * Runnable to import history and bookmarks from an XML file.
+ */
 public class XmlHistoryBookmarksImporter implements Runnable {	
 	
 	private Activity mActivity;
@@ -33,6 +36,12 @@ public class XmlHistoryBookmarksImporter implements Runnable {
 	
 	private String mErrorMessage = null;
 	
+	/**
+	 * Constructor.
+	 * @param activity The parent activity.
+	 * @param fileName The file to import.
+	 * @param progressDialog The progress dialog shown during import.
+	 */
 	public XmlHistoryBookmarksImporter(Activity activity, String fileName, ProgressDialog progressDialog) {
 		mActivity = activity;
 		mFileName = fileName;
@@ -135,8 +144,8 @@ public class XmlHistoryBookmarksImporter implements Runnable {
 										} catch (Exception e) {
 											bookmark = 0;
 										}
-									}																									
-								}																								
+									}
+								}
 							}
 							
 							BookmarksHistoryController.getInstance().insertRawRecord(mActivity, title, url, visits, date, created, bookmark);

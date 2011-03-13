@@ -12,10 +12,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+/**
+ * Custom WebViewClient implementation.
+ */
 public class CustomWebViewClient extends WebViewClient {
 	
 	private ProgressBar mProgressBar;
 	
+	/**
+	 * Constructor.
+	 * @param view The parent view.
+	 */
 	public CustomWebViewClient(View view) {		
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
 		mProgressBar.setVisibility(View.GONE);

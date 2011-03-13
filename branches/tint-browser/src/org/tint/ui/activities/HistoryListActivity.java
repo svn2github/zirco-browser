@@ -18,6 +18,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
+/**
+ * History list activity.
+ */
 public class HistoryListActivity extends ExpandableListActivity {
 	
 	private static final int CONTEXT_MENU_OPEN_IN_TAB = Menu.FIRST + 10;
@@ -32,6 +35,9 @@ public class HistoryListActivity extends ExpandableListActivity {
         fillData();
 	}
 	
+	/**
+	 * Fill the history list.
+	 */
 	private void fillData() {
 		HistoryExpandableListAdapter adapter = new HistoryExpandableListAdapter(this, BookmarksHistoryController.getInstance().getHistory(this), Browser.HISTORY_PROJECTION_DATE_INDEX);
         setListAdapter(adapter);

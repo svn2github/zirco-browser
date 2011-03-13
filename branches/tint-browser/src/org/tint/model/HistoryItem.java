@@ -18,6 +18,7 @@ public class HistoryItem {
 	 * @param id The element id.
 	 * @param title The title.
 	 * @param url The url.
+	 * @param faviconData The favicon.
 	 */
 	public HistoryItem(long id, String title, String url, byte[] faviconData) {
 		mId = id;
@@ -54,6 +55,10 @@ public class HistoryItem {
 		return mUrl;
 	}
 	
+	/**
+	 * Get the favicon.
+	 * @return The favicon.
+	 */
 	public Bitmap getFavicon() {
 		return mFavicon;
 	}

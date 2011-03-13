@@ -11,7 +11,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.provider.Browser;
 
-public class BookmarksHistoryController {
+/**
+ * Class to manage history and bookmarks database. The Android history/bookmarks database is used.
+ */
+public final class BookmarksHistoryController {
 	
 	/**
 	 * Holder for singleton implementation.
@@ -32,14 +35,35 @@ public class BookmarksHistoryController {
 		return BookmarksHistoryAdapterHolder.INSTANCE;
 	}
 	
+	/**
+	 * Private constructor (singleton implementation).
+	 */
 	private BookmarksHistoryController() { }
 	
+	/**
+	 * Get a Cursor on the whole content of the history/bookmarks database.
+	 * @param currentActivity The parent activity.
+	 * @return A Cursor.
+	 * @see Cursor
+	 */
 	public Cursor getAllRecords(Activity currentActivity) {
-		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS, Browser.BookmarkColumns.DATE, Browser.BookmarkColumns.CREATED, Browser.BookmarkColumns.BOOKMARK };
+		String[] colums = new String[] { Browser.BookmarkColumns._ID,
+				Browser.BookmarkColumns.TITLE,
+				Browser.BookmarkColumns.URL,
+				Browser.BookmarkColumns.VISITS,
+				Browser.BookmarkColumns.DATE,
+				Browser.BookmarkColumns.CREATED,
+				Browser.BookmarkColumns.BOOKMARK };
 		
 		return currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, null, null, null);
 	}
 	
+	/**
+	 * Get a Cursor on bookmarks.
+	 * @param currentActivity The parent activity.
+	 * @return A Cursor on bookmarks.
+	 * @see Cursor
+	 */
 	public Cursor getBookmarks(Activity currentActivity) {
 		String whereClause = Browser.BookmarkColumns.BOOKMARK + " = 1";
 		String orderClause = Browser.BookmarkColumns.VISITS + " DESC";
@@ -48,6 +72,13 @@ public class BookmarksHistoryController {
 		return currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
+	/**
+	 * Get a bookmark, given its id.
+	 * @param currentActivity The parent activity.
+	 * @param id The bookmark id.
+	 * @return The bookmark, as a BookmarkItem.
+	 * @see BookmarkItem
+	 */
 	public BookmarkItem getBookmarkById(Activity currentActivity, long id) {
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
 		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, Browser.BookmarkColumns._ID + "=" + id, null, null);
@@ -61,6 +92,12 @@ public class BookmarksHistoryController {
 		return null;
 	}
 	
+	/**
+	 * Get a Cursor the history, e.g. records wich have a visits count > 0. Sorted by last visited date.
+	 * @param currentActivity The parent activity.
+	 * @return A Cursor to history records.
+	 * @see Cursor
+	 */
 	public Cursor getHistory(Activity currentActivity) {
 		String whereClause = Browser.BookmarkColumns.VISITS + " > 0";
 		String orderClause = Browser.BookmarkColumns.DATE + " DESC";
@@ -68,6 +105,13 @@ public class BookmarksHistoryController {
 		return currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, Browser.HISTORY_PROJECTION, whereClause, null, orderClause);
 	}
 	
+	/**
+	 * Update the history: visit count and last visited date.
+	 * @param currentActivity The parent activity.
+	 * @param title The title.
+	 * @param url The url.
+	 * @param originalUrl The original url 
+	 */
 	public void updateHistory(Activity currentActivity, String title, String url, String originalUrl) {
 		String[] colums = new String[] { Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS };
 		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
@@ -97,6 +141,13 @@ public class BookmarksHistoryController {
 		}		
 	}
 	
+	/**
+	 * Update the favicon in history/bookmarks database.
+	 * @param currentActivity The parent activity.
+	 * @param url The url.
+	 * @param originalUrl The original url.
+	 * @param favicon The favicon.
+	 */
 	public void updateFavicon(Activity currentActivity, String url, String originalUrl, Bitmap favicon) {
 		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
 		
@@ -162,6 +213,11 @@ public class BookmarksHistoryController {
 		}
 	}
 	
+	/**
+	 * Delete a bookmark, e.g. delete it if it has never been visited, or remove the bookmark flag, to keep history.
+	 * @param currentActivity The parent activity.
+	 * @param id The bookmark id.
+	 */
 	public void deleteBookmark(Activity currentActivity, long id) {
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.BOOKMARK, Browser.BookmarkColumns.VISITS };
 		String whereClause = Browser.BookmarkColumns._ID + " = " + id;
@@ -187,6 +243,11 @@ public class BookmarksHistoryController {
 		}
 	}
 	
+	/**
+	 * Delete an history record, e.g. reset the visited count and visited date if its a bookmark, or delete it if not.
+	 * @param currentActivity The parent activity.
+	 * @param id The history id.
+	 */
 	public void deleteHistoryRecord(Activity currentActivity, long id) {
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.BOOKMARK, Browser.BookmarkColumns.VISITS };
 		String whereClause = Browser.BookmarkColumns._ID + " = " + id;
@@ -207,6 +268,13 @@ public class BookmarksHistoryController {
 		}
 	}
 	
+	/**
+	 * Get a Cursor on suggestions.
+	 * @param currentActivity The parent activity.
+	 * @param pattern The string to search for.
+	 * @return A Cursor on suggestions from history/bookmarks.
+	 * @see Cursor
+	 */
 	public Cursor getSuggestion(Activity currentActivity, String pattern) {
 		String[] colums = new String[] { Browser.BookmarkColumns._ID, Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL, Browser.BookmarkColumns.BOOKMARK };
 		String sqlPattern = "%" + pattern + "%";
@@ -216,6 +284,16 @@ public class BookmarksHistoryController {
 		return currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, whereClause, null, orderClause);
 	}
 	
+	/**
+	 * Insert a full record in history/bookmarks database.
+	 * @param currentActivity The parent activity.
+	 * @param title The record title.
+	 * @param url The record url.
+	 * @param visits The record visit count.
+	 * @param date The record last visit date.
+	 * @param created The record bookmark creation date.
+	 * @param bookmark The bookmark flag.
+	 */
 	public void insertRawRecord(Activity currentActivity, String title, String url, int visits, long date, long created, int bookmark) {
 		ContentValues values = new ContentValues();
 		values.put(Browser.BookmarkColumns.TITLE, title);

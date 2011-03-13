@@ -14,12 +14,21 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+/**
+ * Custom WebChromeClient implementation.
+ */
 public class CustomWebChromeClient extends WebChromeClient {
 	
 	private Activity mMainActivity;
 	private IWebViewActivity mWebViewActivity;
 	private ProgressBar mProgressBar;
 	
+	/**
+	 * Constructor.
+	 * @param activity The parent activity.
+	 * @param view The WebView container.
+	 * @param webViewActivity The IWebView activity.
+	 */
 	public CustomWebChromeClient(Activity activity, View view, IWebViewActivity webViewActivity) {
 		mMainActivity = activity;
 		mWebViewActivity = webViewActivity;

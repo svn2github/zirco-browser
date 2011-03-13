@@ -15,6 +15,9 @@ import android.webkit.WebView;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebSettings.ZoomDensity;
 
+/**
+ * Extension of WebView.
+ */
 public class CustomWebView extends WebView {
 	
 	/*
@@ -31,6 +34,10 @@ public class CustomWebView extends WebView {
     private int mHeight = 100;
     */    
 
+	/**
+	 * Constructor.
+	 * @param context The current context.
+	 */
 	public CustomWebView(Context context) {
 		super(context);
 		initializeOptions();
@@ -39,6 +46,11 @@ public class CustomWebView extends WebView {
         //mDefaultHeight = mHeight = Math.round(getContext().getResources().getDisplayMetrics().heightPixels);
 	}
 	
+	/**
+	 * Constructor.
+	 * @param context The current context.
+	 * @param attrs The attributes.
+	 */
 	public CustomWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initializeOptions();
@@ -47,6 +59,9 @@ public class CustomWebView extends WebView {
         //mDefaultHeight = mHeight = Math.round(getContext().getResources().getDisplayMetrics().heightPixels);
 	}
 	
+	/**
+	 * Initialize the WebView options to the ones define by user.
+	 */
 	public void initializeOptions() {
 		WebSettings settings = getSettings();
 		

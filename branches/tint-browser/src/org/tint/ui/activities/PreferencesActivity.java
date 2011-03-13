@@ -26,6 +26,9 @@ import android.preference.PreferenceCategory;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.webkit.CookieManager;
 
+/**
+ * The preferences activity.
+ */
 public class PreferencesActivity extends PreferenceActivity {
 	
 	private ProgressDialog mProgressDialog;
@@ -111,6 +114,10 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	/**
+	 * Import the given file to bookmarks and history.
+	 * @param fileName The file to import.
+	 */
 	private void doImportHistoryBookmarks(String fileName) {
 		
 		if (ApplicationUtils.checkCardState(this, true)) {
@@ -124,6 +131,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		
 	}
 	
+	/**
+	 * Ask the user the file to import to bookmarks and history, and launch the import. 
+	 */
 	private void importHistoryBookmarks() {
 		List<String> exportedFiles = IOUtils.getExportedBookmarksFileList();    	
     	
@@ -152,6 +162,9 @@ public class PreferencesActivity extends PreferenceActivity {
     	alert.show();
 	}
 	
+	/**
+	 * Export the bookmarks and history.
+	 */
 	private void doExportHistoryBookmarks() {
 		if (ApplicationUtils.checkCardState(this, true)) {
 			mProgressDialog = ProgressDialog.show(this,
@@ -167,6 +180,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		}
 	}
 	
+	/**
+	 * Ask the user to confirm the export. Launch it if confirmed.
+	 */
 	private void exportHistoryBookmarks() {
 		ApplicationUtils.showYesNoDialog(this,
 				android.R.drawable.ic_dialog_info,
@@ -181,6 +197,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	/**
+	 * Clear the history.
+	 */
 	private void clearHistory() {
 		ApplicationUtils.showYesNoDialog(this,
 				android.R.drawable.ic_dialog_alert,
@@ -195,6 +214,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	/**
+	 * Clear form data.
+	 */
 	private void doClearFormData() {
 		mProgressDialog = ProgressDialog.show(this,
     			this.getResources().getString(R.string.Commons_PleaseWait),
@@ -203,6 +225,9 @@ public class PreferencesActivity extends PreferenceActivity {
     	new FormDataClearer();
 	}
 	
+	/**
+	 * Ask confirmation to clear form data.
+	 */
 	private void clearFormData() {
 		ApplicationUtils.showYesNoDialog(this,
 				android.R.drawable.ic_dialog_alert,
@@ -217,6 +242,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	/**
+	 * Clear the cache.
+	 */
 	private void doClearCache() {
 		mProgressDialog = ProgressDialog.show(this,
     			this.getResources().getString(R.string.Commons_PleaseWait),
@@ -225,6 +253,9 @@ public class PreferencesActivity extends PreferenceActivity {
     	new CacheClearer();
 	}
 	
+	/**
+	 * Ask confirmation to clear cache.
+	 */
 	private void clearCache() {
 		ApplicationUtils.showYesNoDialog(this,
 				android.R.drawable.ic_dialog_alert,
@@ -239,6 +270,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	/**
+	 * Clear the cookies.
+	 */
 	private void doClearCookies() {
 		mProgressDialog = ProgressDialog.show(this,
     			this.getResources().getString(R.string.Commons_PleaseWait),
@@ -247,6 +281,9 @@ public class PreferencesActivity extends PreferenceActivity {
     	new CookiesClearer();
 	}
 	
+	/**
+	 * Ask confirmation to clear cookies.
+	 */
 	private void clearCookies() {
 		ApplicationUtils.showYesNoDialog(this,
 				android.R.drawable.ic_dialog_alert,
@@ -261,8 +298,14 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	/**
+	 * Base class for all clear operations launched as Runnable.
+	 */
 	private abstract class AbstractClearer implements Runnable {
 
+		/**
+		 * Constructor. Launch itself as a Thread.
+		 */
 		public AbstractClearer() {
 			new Thread(this).start();
 		}
@@ -274,6 +317,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		};
 	}
 	
+	/**
+	 * Runnable to clear form data.
+	 */
 	private class FormDataClearer extends AbstractClearer {
 		
 		@Override
@@ -284,6 +330,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		}		
 	}
 	
+	/**
+	 * Runnable to clear cache.
+	 */
 	private class CacheClearer extends AbstractClearer {
 
 		@Override
@@ -294,6 +343,9 @@ public class PreferencesActivity extends PreferenceActivity {
 		}		
 	}
 	
+	/**
+	 * Runnable to clear cookies.
+	 */
 	private class CookiesClearer extends AbstractClearer {
 
 		@Override

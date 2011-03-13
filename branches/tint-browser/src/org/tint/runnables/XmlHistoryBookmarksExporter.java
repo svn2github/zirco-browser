@@ -17,6 +17,9 @@ import android.os.Message;
 import android.provider.Browser;
 import android.util.Log;
 
+/**
+ * Runnable to export history and bookmarks to an XML file.
+ */
 public class XmlHistoryBookmarksExporter implements Runnable {
 	
 	private Context mContext;
@@ -27,6 +30,13 @@ public class XmlHistoryBookmarksExporter implements Runnable {
 	private File mFile;
 	private String mErrorMessage = null;
 	
+	/**
+	 * Constructor.
+	 * @param context The current context.
+	 * @param fileName The output file.
+	 * @param cursor The cursor to history and bookmarks.
+	 * @param progressDialog The progress dialog shown during export.
+	 */
 	public XmlHistoryBookmarksExporter(Context context, String fileName, Cursor cursor, ProgressDialog progressDialog) {
 		mContext = context;
 		mFileName = fileName;

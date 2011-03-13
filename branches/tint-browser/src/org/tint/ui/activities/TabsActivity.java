@@ -33,6 +33,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
+/**
+ * Tabs activity. Tabs (or open browsing windows) are displayed as a gallery.
+ */
 public class TabsActivity extends Activity {
 
 	private static final int ACTIVITY_OPEN_HISTORY_BOOKMARKS = 0;
@@ -164,9 +167,7 @@ public class TabsActivity extends Activity {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub				
-			}
+			public void onNothingSelected(AdapterView<?> arg0) { }
 		});               
         
         mAddTab = (ImageButton) findViewById(R.id.AddTabBtn);
@@ -253,6 +254,10 @@ public class TabsActivity extends Activity {
 		}
 	}	
 	
+	/**
+	 * Close the tabs activity.
+	 * @param index The current tab index.
+	 */
 	private void doFinish(int index) {
 		if (index != -1) {
 			Intent i = new Intent();
@@ -263,15 +268,26 @@ public class TabsActivity extends Activity {
 		overridePendingTransition(R.anim.browser_view_enter, R.anim.tab_view_exit);
 	}
 	
+	/**
+	 * Hide the keyboard, if shown.
+	 */
 	private void hideKeyboard() {
     	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     	imm.hideSoftInputFromWindow(mUrl.getWindowToken(), 0);
 	}
 	
+	/**
+	 * Navigate to the url in the url text view, using the current webview.
+	 */
 	private void navigateToCurrentUrl() {
 		navigateToUrl(mUrl.getText().toString(), false);
 	}
 	
+	/**
+	 * Navigate to the given url.
+	 * @param url The url to navigate to.
+	 * @param newTab If True, a new tab is open for navigation; Otherwise, the currently selected tab is used.
+	 */
 	private void navigateToUrl(String url, boolean newTab) {
 		hideKeyboard();
 		
@@ -284,6 +300,9 @@ public class TabsActivity extends Activity {
 		doFinish(selected);
 	}
 	
+	/**
+	 * Open a new tab, positioning it to the right of the current tab.
+	 */
 	private void addTab() {
 		int newIndex = mTabsGallery.getSelectedItemPosition() + 1;
 		TabsController.getInstance().addTab(newIndex, UrlUtils.URL_ABOUT_BLANK);
@@ -291,6 +310,9 @@ public class TabsActivity extends Activity {
 		refreshTabsGallery(newIndex);
 	}
 	
+	/**
+	 * Close the current tab.
+	 */
 	private void removeTab() {
 		int removedIndex = mTabsGallery.getSelectedItemPosition();
 		TabsController.getInstance().removeTab(removedIndex);
@@ -299,6 +321,10 @@ public class TabsActivity extends Activity {
 		refreshTabsGallery(removedIndex);
 	}
 	
+	/**
+	 * Refresh the tabs screenshots.
+	 * @param indexToShow If > 0, set the current tab to this index.
+	 */
 	private void refreshTabsGallery(int indexToShow) {		
 		mTabsGallery.setAdapter(new WebViewsImageAdapter(this));
 		
@@ -313,6 +339,9 @@ public class TabsActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Open the bookmarks and history activity.
+	 */
 	private void openBookmarks() {
 		Intent i = new Intent(this, BookmarksHistoryActivity.class);
 		startActivityForResult(i, ACTIVITY_OPEN_HISTORY_BOOKMARKS);

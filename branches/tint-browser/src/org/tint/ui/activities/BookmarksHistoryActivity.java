@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.TabHost;
 
+/**
+ * Bookmarks and history activity.
+ */
 public class BookmarksHistoryActivity extends TabActivity {
 	
 	@Override
