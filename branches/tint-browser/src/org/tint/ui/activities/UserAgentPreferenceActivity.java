@@ -6,6 +6,9 @@ import org.tint.utils.Constants;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+/**
+ * Spinner activity allowing to choose an user-agent.
+ */
 public class UserAgentPreferenceActivity extends BaseSpinnerCustomPreferenceActivity {
 
 	@Override

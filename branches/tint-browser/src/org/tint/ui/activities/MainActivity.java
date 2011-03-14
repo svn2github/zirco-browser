@@ -46,6 +46,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        Constants.initializeConstantsFromResources(this);
+        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.main_activity);

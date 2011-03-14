@@ -113,6 +113,15 @@ public class PreferencesActivity extends PreferenceActivity {
 			}			
 		});
 		
+		Preference searchUrlPref = (Preference) findPreference(Constants.PREFERENCES_GENERAL_SEARCH_URL);
+		searchUrlPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				openSearchUrlActivity();
+				return true;
+			}
+		});
+		
 		Preference userAgentPref = (Preference) findPreference(Constants.PREFERENCES_BROWSER_USER_AGENT);
 		userAgentPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
@@ -121,6 +130,14 @@ public class PreferencesActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+	}
+	
+	/**
+	 * Display the search url preference dialog.
+	 */
+	private void openSearchUrlActivity() {
+		Intent i = new Intent(this, SearchUrlPreferenceActivity.class);
+		startActivity(i);
 	}
 	
 	/**

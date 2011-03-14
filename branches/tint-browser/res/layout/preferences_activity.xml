@@ -2,9 +2,17 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+	<PreferenceCategory
+        android:key="GeneralPreferenceCategory"
+        android:title="@string/PreferencesActivity.GeneralSettingsCategoryTitle">
+        <Preference
+			android:title="@string/PreferencesActivity.SearchUrlPreferenceTitle"
+			android:summary="@string/PreferencesActivity.SearchUrlPreferenceSummary"
+			android:key="GeneralSearchUrl" />
+    </PreferenceCategory>
     <PreferenceCategory
         android:key="BrowserPreferenceCategory"
-        android:title="@string/PreferencesActivity.BrowserSettingsCategoryTitle">
+        android:title="@string/PreferencesActivity.BrowserSettingsCategoryTitle">        
         <ListPreference
             android:title="@string/PreferencesActivity.DefaultZoomPreferenceTitle"
             android:summary="@string/PreferencesActivity.DefaultZoomPreferenceSummary"

@@ -19,6 +19,7 @@
         <activity android:name=".ui.activities.PreferencesActivity"></activity>
         <activity android:name=".ui.activities.AboutActivity" android:label="@string/AboutActivity.Title" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".ui.activities.UserAgentPreferenceActivity" android:theme="@android:style/Theme.Dialog" android:label="@string/UserAgentPreferenceActivity.Title"></activity>
+        <activity android:name=".ui.activities.SearchUrlPreferenceActivity" android:theme="@android:style/Theme.Dialog" android:label="@string/SearchUrlPreferenceActivity.Title"></activity>
     </application>
 
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="8" />
@@ -26,6 +27,7 @@
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS"></uses-permission>
 	<uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"></uses-permission>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
 	<supports-screens
 		android:largeScreens="true"
@@ -33,5 +35,4 @@
 		android:smallScreens="true"
 		android:anyDensity="true" />
 
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 

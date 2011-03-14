@@ -48,6 +48,9 @@
     <string name="Commons.JavaScriptPrompt">JavaScript prompt</string>
     <string name="Commons.JavaScriptConfirm">JavaScript confirm</string>
     
+    <string name="Constants.SearchUrlGoogle">http://www.google.com/m?hl=en&amp;gl=us&amp;client=ms-null&amp;source=android-browser-key&amp;q=%s</string>
+    <string name="Constants.SearchUrlWikipedia">http://en.wikipedia.org/w/index.php?search=%s&amp;go=Go</string>
+    
     <string name="BookmarksListActivity.Empty">No bookmarks.</string>
     <string name="BookmarksListActivity.MenuAddBookmark">Add bookmark</string>
     <string name="BookmarksListActivity.ContextMenuOpenInTab">Open in new tab</string>
@@ -78,6 +81,7 @@
     <string name="EditBookmarkActivity.TitleLabel">Title:</string>
     <string name="EditBookmarkActivity.UrlLabel">Url:</string>
     
+    <string name="PreferencesActivity.GeneralSettingsCategoryTitle">General settings</string>
     <string name="PreferencesActivity.BrowserSettingsCategoryTitle">Browser settings</string>
     <string name="PreferencesActivity.HistorySizePreferenceTitle">History size</string>
     <string name="PreferencesActivity.HistorySizePreferenceSummary">History size in days.</string>
@@ -100,6 +104,22 @@
     <string name="PreferencesActivity.PrivacyClearFormDataTitle">Clear form data</string>
     <string name="PreferencesActivity.PrivacyClearCacheTitle">Clear cache</string>
     <string name="PreferencesActivity.PrivacyClearCookiesTitle">Clear cookies</string>
+    
+    <string name="PreferencesActivity.SearchUrlPreferenceTitle">Search url</string>
+    <string name="PreferencesActivity.SearchUrlPreferenceSummary">Define the search url.</string>
+    
+    <string name="SearchUrlPreferenceActivity.Title">Search url</string>
+    <string name="SearchUrlPreferenceActivity.Prompt">Search url</string>
+    
+    <string name="PreferencesActivity.SearchUrlGoogle">Google</string>
+    <string name="PreferencesActivity.SearchUrlWikipedia">Wikipedia</string>
+    <string name="PreferencesActivity.SearchUrlCustom">Custom</string>
+    
+    <string-array name="SearchUrlValues">
+        <item>@string/PreferencesActivity.SearchUrlGoogle</item>
+        <item>@string/PreferencesActivity.SearchUrlWikipedia</item>
+        <item>@string/PreferencesActivity.SearchUrlCustom</item>
+    </string-array>
     
     <string name="UserAgentPreferenceActivity.Title">User agent</string>
     <string name="UserAgentPreferenceActivity.PromptTitle">User agent</string>

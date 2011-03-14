@@ -15,6 +15,9 @@
 
 package org.tint.utils;
 
+import android.content.Context;
+import android.preference.PreferenceManager;
+
 /**
  * Url management utils.
  */
@@ -22,6 +25,7 @@ public class UrlUtils {
 	
 	public static final String URL_ABOUT_BLANK = "about:blank";
 	public static final String URL_ABOUT_START = "about:start";
+	public static final String URL_ACTION_SEARCH = "action:search?q=";
 
 	/**
 	 * Check if a string is an url.
@@ -68,6 +72,17 @@ public class UrlUtils {
 		}
 		
 		return url;
+	}
+	
+	/**
+	 * Get the current search url.
+	 * @param context The current context.
+	 * @param searchTerms The terms to search for.
+	 * @return The search url.
+	 */
+	public static String getSearchUrl(Context context, String searchTerms) {
+		String currentSearchUrl = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREFERENCES_GENERAL_SEARCH_URL, Constants.URL_SEARCH_GOOGLE);
+		return String.format(currentSearchUrl, searchTerms);
 	}
 
 }

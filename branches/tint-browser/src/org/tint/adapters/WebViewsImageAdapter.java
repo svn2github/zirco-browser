@@ -47,8 +47,8 @@ public class WebViewsImageAdapter extends BaseAdapter {
      */
     public WebViewsImageAdapter(Context c) {
         mContext = c;
-        TypedArray a = mContext.obtainStyledAttributes(R.styleable.TestGallery);
-        mGalleryItemBackground = a.getResourceId(R.styleable.TestGallery_android_galleryItemBackground, 0);
+        TypedArray a = mContext.obtainStyledAttributes(R.styleable.GalleryStyle);
+        mGalleryItemBackground = a.getResourceId(R.styleable.GalleryStyle_android_galleryItemBackground, 0);
         a.recycle();
         
         Display display = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();

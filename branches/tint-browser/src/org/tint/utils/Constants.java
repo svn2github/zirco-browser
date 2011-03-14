@@ -1,5 +1,9 @@
 package org.tint.utils;
 
+import org.tint.R;
+
+import android.content.Context;
+
 /**
  * Various constants.
  */
@@ -11,7 +15,7 @@ public class Constants {
 	
 	public static final String EXTRA_ID_BOOKMARK_ID = "EXTRA_ID_BOOKMARK_ID";
 	public static final String EXTRA_ID_BOOKMARK_TITLE = "EXTRA_ID_BOOKMARK_TITLE";
-	public static final String EXTRA_ID_BOOKMARK_URL = "EXTRA_ID_BOOKMARK_URL";
+	public static final String EXTRA_ID_BOOKMARK_URL = "EXTRA_ID_BOOKMARK_URL";		
 	
 	/**
 	 * User agents.
@@ -19,7 +23,15 @@ public class Constants {
 	public static String USER_AGENT_DEFAULT = "";
 	public static String USER_AGENT_DESKTOP = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7";
 	
-	// Preferences
+	/**
+	 * Search urls.
+	 */	
+	public static String URL_SEARCH_GOOGLE = "http://www.google.com/search?ie=UTF-8&sourceid=navclient&gfns=1&q=%s";
+	public static String URL_SEARCH_WIKIPEDIA = "http://en.wikipedia.org/w/index.php?search=%s&go=Go";
+	
+	/**
+	 * Preferences.
+	 */
 	public static final String PREFERENCES_BROWSER_ENABLE_JAVASCRIPT = "BrowserEnableJavascript";
 	public static final String PREFERENCES_BROWSER_ENABLE_IMAGES = "BrowserEnableImages";
 	public static final String PREFERENCES_BROWSER_ENABLE_FORM_DATA = "BrowserEnableFormData";
@@ -29,4 +41,15 @@ public class Constants {
 	public static final String PREFERENCES_BROWSER_ENABLE_PLUGINS_ECLAIR = "BrowserEnablePluginsEclair";
 	public static final String PREFERENCES_BROWSER_ENABLE_PLUGINS = "BrowserEnablePlugins";
 	public static final String PREFERENCES_BROWSER_USER_AGENT = "BrowserUserAgent";
+	public static final String PREFERENCES_GENERAL_SEARCH_URL = "GeneralSearchUrl";
+	
+	/**
+	 * Initialize the search url "constants", which depends on the user local.
+	 * @param context The current context.
+	 */
+	public static void initializeConstantsFromResources(Context context) {
+		URL_SEARCH_GOOGLE = context.getResources().getString(R.string.Constants_SearchUrlGoogle);
+		URL_SEARCH_WIKIPEDIA = context.getResources().getString(R.string.Constants_SearchUrlWikipedia);
+	}
+	
 }

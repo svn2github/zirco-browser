@@ -33,6 +33,8 @@ public class CustomWebView extends WebView {
     private int mWidth = 100;
     private int mHeight = 100;
     */    
+	
+	private Context mContext;
 
 	/**
 	 * Constructor.
@@ -40,6 +42,7 @@ public class CustomWebView extends WebView {
 	 */
 	public CustomWebView(Context context) {
 		super(context);
+		mContext = context;
 		initializeOptions();
 		
 		//mDefaultWidth = mWidth = Math.round(getContext().getResources().getDisplayMetrics().widthPixels);
@@ -53,6 +56,7 @@ public class CustomWebView extends WebView {
 	 */
 	public CustomWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         initializeOptions();
         
         //mDefaultWidth = mWidth = Math.round(getContext().getResources().getDisplayMetrics().widthPixels);
@@ -93,7 +97,11 @@ public class CustomWebView extends WebView {
 
 	@Override
 	public void loadUrl(String url) {
-		url = UrlUtils.checkUrl(url);
+		if (UrlUtils.isUrl(url)) {
+			url = UrlUtils.checkUrl(url);
+		} else {
+			url = UrlUtils.getSearchUrl(mContext, url);
+		}
 		super.loadUrl(url);
 	}
 	
