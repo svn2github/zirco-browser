@@ -18,6 +18,7 @@
         <activity android:name=".ui.activities.EditBookmarkActivity" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".ui.activities.PreferencesActivity"></activity>
         <activity android:name=".ui.activities.AboutActivity" android:label="@string/AboutActivity.Title" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".ui.activities.UserAgentPreferenceActivity" android:theme="@android:style/Theme.Dialog" android:label="@string/UserAgentPreferenceActivity.Title"></activity>
     </application>
 
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="8" />

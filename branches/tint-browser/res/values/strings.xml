@@ -98,6 +98,9 @@
     <string name="PreferencesActivity.PrivacyClearCacheTitle">Clear cache</string>
     <string name="PreferencesActivity.PrivacyClearCookiesTitle">Clear cookies</string>
     
+    <string name="UserAgentPreferenceActivity.Title">User agent</string>
+    <string name="UserAgentPreferenceActivity.PromptTitle">User agent</string>
+    
     <string name="PreferencesActivity.UserAgentPreferenceTitle">User agent</string>
     <string name="PreferencesActivity.UserAgentPreferenceSummary">Define the user agent to use.</string>
     

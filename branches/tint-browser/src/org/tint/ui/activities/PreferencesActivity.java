@@ -112,6 +112,23 @@ public class PreferencesActivity extends PreferenceActivity {
 				return true;
 			}			
 		});
+		
+		Preference userAgentPref = (Preference) findPreference(Constants.PREFERENCES_BROWSER_USER_AGENT);
+		userAgentPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				openUserAgentActivity();
+				return true;
+			}
+		});
+	}
+	
+	/**
+	 * Display the user agent preference dialog.
+	 */
+	private void openUserAgentActivity() {
+		Intent i = new Intent(this, UserAgentPreferenceActivity.class);
+		startActivity(i);
 	}
 	
 	/**
