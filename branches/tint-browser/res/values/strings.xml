@@ -44,6 +44,9 @@
     <string name="Commons.SslIDMismatch">The name of the site does not match the name on the certificate.</string>
     <string name="Commons.SslExpired">This certificate has expired.</string>
     <string name="Commons.SslNotYetValid">This certificate is not valid yet.</string>
+    <string name="Commons.JavaScriptAlert">JavaScript alert</string>
+    <string name="Commons.JavaScriptPrompt">JavaScript prompt</string>
+    <string name="Commons.JavaScriptConfirm">JavaScript confirm</string>
     
     <string name="BookmarksListActivity.Empty">No bookmarks.</string>
     <string name="BookmarksListActivity.MenuAddBookmark">Add bookmark</string>
