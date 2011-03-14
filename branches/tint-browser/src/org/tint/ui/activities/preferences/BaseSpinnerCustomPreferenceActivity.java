@@ -1,4 +1,4 @@
-package org.tint.ui.activities;
+package org.tint.ui.activities.preferences;
 
 import org.tint.R;
 

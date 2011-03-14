@@ -75,7 +75,7 @@ public class CustomWebView extends WebView {
 		settings.setLoadsImagesAutomatically(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_IMAGES, true));
 		settings.setSaveFormData(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_FORM_DATA, true));
 		settings.setSavePassword(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PASSWORDS, true));
-		settings.setDefaultZoom(ZoomDensity.valueOf(prefs.getString(Constants.PREFERENCES_DEFAULT_ZOOM_LEVEL, ZoomDensity.MEDIUM.toString())));
+		settings.setDefaultZoom(ZoomDensity.valueOf(prefs.getString(Constants.PREFERENCES_BROWSER_DEFAULT_ZOOM_LEVEL, ZoomDensity.MEDIUM.toString())));
 		settings.setUserAgentString(prefs.getString(Constants.PREFERENCES_BROWSER_USER_AGENT, Constants.USER_AGENT_DEFAULT));
 		
 		if (Build.VERSION.SDK_INT <= 7) {

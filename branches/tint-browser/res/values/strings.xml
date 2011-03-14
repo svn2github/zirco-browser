@@ -82,6 +82,8 @@
     <string name="EditBookmarkActivity.UrlLabel">Url:</string>
     
     <string name="PreferencesActivity.GeneralSettingsCategoryTitle">General settings</string>
+    <string name="PreferencesActivity.FullScreenPreferenceTitle">Full screen</string>
+    <string name="PreferencesActivity.FullScreenPreferenceSummary">Display browser in full screen mode (need application restart).</string>
     <string name="PreferencesActivity.BrowserSettingsCategoryTitle">Browser settings</string>
     <string name="PreferencesActivity.HistorySizePreferenceTitle">History size</string>
     <string name="PreferencesActivity.HistorySizePreferenceSummary">History size in days.</string>
@@ -181,5 +183,8 @@
     <string name="PreferencesActivity.AboutCategoryTitle">About</string>
     <string name="PreferencesActivity.AboutPreferenceTitle">About</string>
     <string name="PreferencesActivity.AboutPreferenceSummary">Information about this application.</string>
+    
+    <string name="PreferencesActivity.RestartDialogTitle">Restart required</string>
+    <string name="PreferencesActivity.RestartDialogMessage">This change will not take effect until the application restart. Do you want to do it now?</string>
     
 </resources>

@@ -3,6 +3,7 @@ package org.tint.ui.activities;
 import org.tint.R;
 import org.tint.controllers.TabsController;
 import org.tint.ui.IWebViewActivity;
+import org.tint.ui.activities.preferences.PreferencesActivity;
 import org.tint.ui.components.CustomWebView;
 import org.tint.utils.Constants;
 
@@ -10,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.webkit.WebIconDatabase;
 import android.widget.ViewFlipper;
@@ -49,6 +52,10 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         Constants.initializeConstantsFromResources(this);
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREFERENCES_GENERAL_FULL_SCREEN, false)) {
+        	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);        
+        }
         
         setContentView(R.layout.main_activity);
         

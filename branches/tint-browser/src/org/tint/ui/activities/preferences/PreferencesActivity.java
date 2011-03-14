@@ -1,4 +1,4 @@
-package org.tint.ui.activities;
+package org.tint.ui.activities.preferences;
 
 import java.util.List;
 
@@ -7,12 +7,16 @@ import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
 import org.tint.runnables.XmlHistoryBookmarksExporter;
 import org.tint.runnables.XmlHistoryBookmarksImporter;
+import org.tint.ui.activities.AboutActivity;
 import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
 import org.tint.utils.IOUtils;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
@@ -129,6 +133,38 @@ public class PreferencesActivity extends PreferenceActivity {
 				openUserAgentActivity();
 				return true;
 			}
+		});
+		
+		Preference fullScreenPref = (Preference) findPreference(Constants.PREFERENCES_GENERAL_FULL_SCREEN);
+		fullScreenPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				askForRestart();
+				return true;
+			}
+		});
+	}
+	
+	/**
+	 * Ask user to restart the app. Do it if click on "Yes".
+	 */
+	private void askForRestart() {
+		ApplicationUtils.showYesNoDialog(this,
+				android.R.drawable.ic_dialog_alert,
+				R.string.PreferencesActivity_RestartDialogTitle,
+				R.string.PreferencesActivity_RestartDialogMessage,
+				new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				PendingIntent intent = PendingIntent.getActivity(PreferencesActivity.this.getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
+				AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+				mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, intent);
+				System.exit(2);
+			}
+			
 		});
 	}
 	

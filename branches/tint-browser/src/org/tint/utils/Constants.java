@@ -32,16 +32,17 @@ public class Constants {
 	/**
 	 * Preferences.
 	 */
+	public static final String PREFERENCES_GENERAL_FULL_SCREEN = "GeneralFullScreen";
+	public static final String PREFERENCES_GENERAL_SEARCH_URL = "GeneralSearchUrl";
 	public static final String PREFERENCES_BROWSER_ENABLE_JAVASCRIPT = "BrowserEnableJavascript";
 	public static final String PREFERENCES_BROWSER_ENABLE_IMAGES = "BrowserEnableImages";
 	public static final String PREFERENCES_BROWSER_ENABLE_FORM_DATA = "BrowserEnableFormData";
 	public static final String PREFERENCES_BROWSER_ENABLE_PASSWORDS = "BrowserEnablePasswords";
 	public static final String PREFERENCES_BROWSER_ENABLE_COOKIES = "BrowserEnableCookies";
-	public static final String PREFERENCES_DEFAULT_ZOOM_LEVEL = "DefaultZoomLevel";
+	public static final String PREFERENCES_BROWSER_DEFAULT_ZOOM_LEVEL = "BrowserDefaultZoomLevel";
 	public static final String PREFERENCES_BROWSER_ENABLE_PLUGINS_ECLAIR = "BrowserEnablePluginsEclair";
 	public static final String PREFERENCES_BROWSER_ENABLE_PLUGINS = "BrowserEnablePlugins";
-	public static final String PREFERENCES_BROWSER_USER_AGENT = "BrowserUserAgent";
-	public static final String PREFERENCES_GENERAL_SEARCH_URL = "GeneralSearchUrl";
+	public static final String PREFERENCES_BROWSER_USER_AGENT = "BrowserUserAgent";	
 	
 	/**
 	 * Initialize the search url "constants", which depends on the user local.

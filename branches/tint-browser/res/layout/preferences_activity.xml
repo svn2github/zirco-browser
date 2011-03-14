@@ -5,6 +5,11 @@
 	<PreferenceCategory
         android:key="GeneralPreferenceCategory"
         android:title="@string/PreferencesActivity.GeneralSettingsCategoryTitle">
+        <CheckBoxPreference
+			android:title="@string/PreferencesActivity.FullScreenPreferenceTitle"
+			android:defaultValue="false"
+			android:summary="@string/PreferencesActivity.FullScreenPreferenceSummary"
+			android:key="GeneralFullScreen" />
         <Preference
 			android:title="@string/PreferencesActivity.SearchUrlPreferenceTitle"
 			android:summary="@string/PreferencesActivity.SearchUrlPreferenceSummary"
@@ -16,7 +21,7 @@
         <ListPreference
             android:title="@string/PreferencesActivity.DefaultZoomPreferenceTitle"
             android:summary="@string/PreferencesActivity.DefaultZoomPreferenceSummary"
-            android:key="DefaultZoomLevel"
+            android:key="BrowserDefaultZoomLevel"
             android:defaultValue="MEDIUM"
             android:entries="@array/DefaultZoomEntries"
             android:entryValues="@array/DefaultZoomValues" />
