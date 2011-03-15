@@ -15,7 +15,7 @@
 			android:background="@drawable/tb_background_top"
 			android:layout_alignParentTop="true" android:orientation="horizontal">
 			
-		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/UrlText"
+		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/TabsUrlText"
 		          android:hint="Enter URL"		  
 					android:layout_marginTop="5dip"
 					android:layout_marginLeft="2dip"

@@ -2,7 +2,6 @@ package org.tint.ui.activities;
 
 import org.tint.R;
 import org.tint.controllers.TabsController;
-import org.tint.ui.IWebViewActivity;
 import org.tint.ui.activities.preferences.PreferencesActivity;
 import org.tint.ui.components.CustomWebView;
 import org.tint.utils.Constants;
@@ -27,7 +26,7 @@ import android.widget.ViewFlipper;
 /**
  * Main application activity.
  */
-public class MainActivity extends Activity implements OnTouchListener, IWebViewActivity {	
+public class MainActivity extends Activity implements OnTouchListener {	
 
 	public static int ACTIVITY_SHOW_TABS = 0;
 	public static int ACTIVITY_SHOW_BOOKMARKS_HISTORY = 1;
@@ -64,7 +63,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
-        TabsController.getInstance().initialize(this, this, this, mWebViewContainer);
+        TabsController.getInstance().initialize(this, this, mWebViewContainer);
         
         initializeWebIconDatabase();
         
@@ -196,17 +195,34 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	db.open(getDir("icons", 0).getPath());   
     }
 	    
-    @Override
+    /**
+	 * Open a new tab and navigate to the given url.
+	 * @param url The url to navigate to.
+	 * @return The index of the new tab.
+	 */
 	public int addTab(String url) {
 		return addTab(-1, url);
 	}
     
-    @Override
+	/**
+	 * Open a new tab and navigate to the given url, at the specified position.
+	 * @param tabIndex The index to insert the new tab.
+	 * @param url The url to navigate to.
+	 * @return The index of the new tab.
+	 */
 	public int addTab(int tabIndex, String url) {
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
         showTab(mCurrentViewIndex);
         return mCurrentViewIndex;
     }
+	
+	/**
+	 * Get the current tab index.
+	 * @return The current tab index.
+	 */
+	public int getCurrentWebViewIndex() {		
+		return mCurrentViewIndex;
+	}
     
     @Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -270,11 +286,6 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			// Should be better to return true here, but it breaks on Cyanogen 7RC1. Test with next releases.
 			return false;
 		}
-	}
-
-	@Override
-	public int getCurrentWebViewIndex() {		
-		return mCurrentViewIndex;
 	}
 	
 	/*

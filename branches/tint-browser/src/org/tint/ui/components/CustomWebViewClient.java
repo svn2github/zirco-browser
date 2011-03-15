@@ -3,8 +3,11 @@ package org.tint.ui.components;
 import org.tint.R;
 import org.tint.utils.ApplicationUtils;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.http.SslError;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -20,14 +23,19 @@ public class CustomWebViewClient extends WebViewClient {
 	
 	private AutoCompleteTextView mUrl;
 	private ProgressBar mProgressBar;
+	private Drawable mCircularProgress;
 	
 	/**
 	 * Constructor.
+	 * @param activity The current activity.
 	 * @param view The parent view.
 	 */
-	public CustomWebViewClient(View view) {
+	public CustomWebViewClient(Activity activity, View view) {
 		mUrl = (AutoCompleteTextView) view.findViewById(R.id.UrlText);
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
+		
+		mCircularProgress = activity.getResources().getDrawable(R.drawable.spinner);
+		
 		//mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setMax(100);
 	}
@@ -35,6 +43,10 @@ public class CustomWebViewClient extends WebViewClient {
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		mProgressBar.setProgress(100);
+		
+		mUrl.setCompoundDrawables(mUrl.getCompoundDrawables()[0], null, null, null);
+		((AnimationDrawable) mCircularProgress).stop();
+		
 		//mProgressBar.setVisibility(View.GONE);
 		super.onPageFinished(view, url);
 	}
@@ -43,6 +55,10 @@ public class CustomWebViewClient extends WebViewClient {
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
 		mUrl.setText(url);
 		mProgressBar.setProgress(0);
+		
+		mUrl.setCompoundDrawables(mUrl.getCompoundDrawables()[0], null, mCircularProgress, null);
+		((AnimationDrawable) mCircularProgress).start();
+		
 		//mProgressBar.setVisibility(View.VISIBLE);		
 		super.onPageStarted(view, url, favicon);
 	}

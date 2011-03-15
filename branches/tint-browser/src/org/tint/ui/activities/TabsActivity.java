@@ -14,7 +14,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Browser;
@@ -66,7 +65,7 @@ public class TabsActivity extends Activity {
 		
         setContentView(R.layout.tabs_activity);
         
-        mUrl = (AutoCompleteTextView) findViewById(R.id.UrlText);
+        mUrl = (AutoCompleteTextView) findViewById(R.id.TabsUrlText);
         
         mUrl.setOnFocusChangeListener(new OnFocusChangeListener() {
 			
@@ -161,7 +160,7 @@ public class TabsActivity extends Activity {
 					mUrl.setText(null);
 				}
 				
-				mUrl.setCompoundDrawables(getNormalizedFavicon(),
+				mUrl.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(TabsActivity.this, mCurrentWebView.getFavicon()),
 						null,
 						null,
 						null);
@@ -352,19 +351,4 @@ public class TabsActivity extends Activity {
 		Intent i = new Intent(this, BookmarksHistoryActivity.class);
 		startActivityForResult(i, ACTIVITY_OPEN_HISTORY_BOOKMARKS);
 	}
-	
-	/**
-	 * Get a Drawable of the current favicon, with its size normalized relative to current screen density.
-	 * @return The normalized favicon.
-	 */
-	private BitmapDrawable getNormalizedFavicon() {		
-		BitmapDrawable favIcon = new BitmapDrawable(mCurrentWebView.getFavicon());
-		
-		if (mCurrentWebView.getFavicon() != null) {
-			int favIconSize = ApplicationUtils.getFaviconSize(this);
-			favIcon.setBounds(0, 0, favIconSize, favIconSize);
-		}
-		
-		return favIcon;
-	}	
 }

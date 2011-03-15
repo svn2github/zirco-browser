@@ -8,13 +8,12 @@ import java.util.List;
 import org.tint.R;
 import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.model.WebViewContainer;
-import org.tint.ui.IWebViewActivity;
+import org.tint.ui.activities.MainActivity;
 import org.tint.ui.components.CustomWebChromeClient;
 import org.tint.ui.components.CustomWebView;
 import org.tint.ui.components.CustomWebViewClient;
 import org.tint.utils.Constants;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,10 +52,9 @@ public final class TabsController {
 	
 	private List<WebViewContainer> mWebViewList;
 	
-	private Activity mMainActivity;
+	private MainActivity mMainActivity;
 	private ViewFlipper mWebViewsContainer;
 	private OnTouchListener mTouchListener;
-	private IWebViewActivity mWebViewActivity;
 	private LayoutInflater mInflater = null;
 	
 	private Method mWebViewSetEmbeddedTitleBar = null;
@@ -102,14 +100,12 @@ public final class TabsController {
 	 * Initialize the Controller.
 	 * @param activity The main activity.
 	 * @param touchListener The TouchListener to be set on each created WebView.
-	 * @param webViewActivity 
 	 * @param webViewContainer The main ViewFlipper, containing all the WebView.
 	 */
-	public void initialize(Activity activity, OnTouchListener touchListener, IWebViewActivity webViewActivity, ViewFlipper webViewContainer) {
+	public void initialize(MainActivity activity, OnTouchListener touchListener, ViewFlipper webViewContainer) {
 		mMainActivity = activity;		
 		mWebViewsContainer = webViewContainer;
 		mTouchListener = touchListener;
-		mWebViewActivity = webViewActivity;
 		
 		mInflater = (LayoutInflater) mMainActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
@@ -138,6 +134,11 @@ public final class TabsController {
 		}
 	}
 	
+	/**
+	 * Call the WebView method setEmbeddedTitleBar throught reflection.
+	 * @param webView The WebView.
+	 * @param view The method parameter.
+	 */
 	private void callSetEmbeddedTitleBar(WebView webView, View view) {
 		try {
 			
@@ -172,8 +173,8 @@ public final class TabsController {
 		
 		int insertionIndex = addWebViewContainer(position, new WebViewContainer(view, webView));
 		
-		webView.setWebChromeClient(new CustomWebChromeClient(mMainActivity, view, mWebViewActivity));
-        webView.setWebViewClient(new CustomWebViewClient(view));        
+		webView.setWebChromeClient(new CustomWebChromeClient(mMainActivity, view));
+        webView.setWebViewClient(new CustomWebViewClient(mMainActivity, view));        
         webView.setOnTouchListener(mTouchListener);
         
         webView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {

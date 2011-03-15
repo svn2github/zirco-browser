@@ -4,9 +4,9 @@ import org.tint.R;
 import org.tint.controllers.TabsController;
 import org.tint.runnables.FaviconUpdaterRunnable;
 import org.tint.runnables.HistoryUpdaterRunnable;
-import org.tint.ui.IWebViewActivity;
+import org.tint.ui.activities.MainActivity;
+import org.tint.utils.ApplicationUtils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -17,6 +17,7 @@ import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,19 +27,18 @@ import android.widget.TextView;
  */
 public class CustomWebChromeClient extends WebChromeClient {
 	
-	private Activity mMainActivity;
-	private IWebViewActivity mWebViewActivity;
+	private MainActivity mMainActivity;
+	private AutoCompleteTextView mUrlEditText;
 	private ProgressBar mProgressBar;
 	
 	/**
 	 * Constructor.
 	 * @param activity The parent activity.
 	 * @param view The WebView container.
-	 * @param webViewActivity The IWebView activity.
 	 */
-	public CustomWebChromeClient(Activity activity, View view, IWebViewActivity webViewActivity) {
+	public CustomWebChromeClient(MainActivity activity, View view) {
 		mMainActivity = activity;
-		mWebViewActivity = webViewActivity;
+		mUrlEditText = (AutoCompleteTextView) view.findViewById(R.id.UrlText);
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
 	}
 
@@ -53,9 +53,9 @@ public class CustomWebChromeClient extends WebChromeClient {
 		
 		WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
 		
-		int currentWebViewIndex = mWebViewActivity.getCurrentWebViewIndex();
+		int currentWebViewIndex = mMainActivity.getCurrentWebViewIndex();
 		
-		currentWebViewIndex = mWebViewActivity.addTab(currentWebViewIndex + 1, null);
+		currentWebViewIndex = mMainActivity.addTab(currentWebViewIndex + 1, null);
 		
 		transport.setWebView(TabsController.getInstance().getWebViewContainers().get(currentWebViewIndex).getWebView());
 		resultMsg.sendToTarget();
@@ -75,6 +75,11 @@ public class CustomWebChromeClient extends WebChromeClient {
 	public void onReceivedIcon(WebView view, Bitmap icon) {
 		
 		new Thread(new FaviconUpdaterRunnable(mMainActivity, view.getUrl(), view.getOriginalUrl(), icon)).start();
+		
+		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(mMainActivity, view.getFavicon()),
+				null,
+				mUrlEditText.getCompoundDrawables()[2],
+				null);
 		
 		super.onReceivedIcon(view, icon);
 	}
