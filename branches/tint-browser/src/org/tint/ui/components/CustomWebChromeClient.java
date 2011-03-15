@@ -85,8 +85,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 		.setTitle(R.string.Commons_JavaScriptAlert)
 		.setMessage(message)
 		.setPositiveButton(android.R.string.ok,
-				new AlertDialog.OnClickListener()
-		{
+				new AlertDialog.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				result.confirm();
 			}
@@ -104,15 +103,13 @@ public class CustomWebChromeClient extends WebChromeClient {
 		.setTitle(R.string.Commons_JavaScriptConfirm)
 		.setMessage(message)
 		.setPositiveButton(android.R.string.ok, 
-				new DialogInterface.OnClickListener() 
-		{
+				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				result.confirm();
 			}
 		})
 		.setNegativeButton(android.R.string.cancel, 
-				new DialogInterface.OnClickListener() 
-		{
+				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				result.cancel();
 			}

@@ -10,6 +10,7 @@ import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 
 /**
@@ -17,29 +18,32 @@ import android.widget.ProgressBar;
  */
 public class CustomWebViewClient extends WebViewClient {
 	
+	private AutoCompleteTextView mUrl;
 	private ProgressBar mProgressBar;
 	
 	/**
 	 * Constructor.
 	 * @param view The parent view.
 	 */
-	public CustomWebViewClient(View view) {		
+	public CustomWebViewClient(View view) {
+		mUrl = (AutoCompleteTextView) view.findViewById(R.id.UrlText);
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
-		mProgressBar.setVisibility(View.GONE);
+		//mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setMax(100);
 	}
 
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		mProgressBar.setProgress(100);
-		mProgressBar.setVisibility(View.GONE);
+		//mProgressBar.setVisibility(View.GONE);
 		super.onPageFinished(view, url);
 	}
 
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
+		mUrl.setText(url);
 		mProgressBar.setProgress(0);
-		mProgressBar.setVisibility(View.VISIBLE);
+		//mProgressBar.setVisibility(View.VISIBLE);		
 		super.onPageStarted(view, url, favicon);
 	}
 

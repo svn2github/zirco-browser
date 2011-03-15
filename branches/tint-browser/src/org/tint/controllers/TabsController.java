@@ -1,9 +1,12 @@
 package org.tint.controllers;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.tint.R;
+import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.model.WebViewContainer;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.components.CustomWebChromeClient;
@@ -16,19 +19,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.database.Cursor;
 import android.preference.PreferenceManager;
+import android.provider.Browser;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.webkit.WebView.HitTestResult;
+import android.widget.AutoCompleteTextView;
+import android.widget.FilterQueryProvider;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
+import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
 /**
  * Controller managing tabs.
@@ -46,6 +58,8 @@ public final class TabsController {
 	private OnTouchListener mTouchListener;
 	private IWebViewActivity mWebViewActivity;
 	private LayoutInflater mInflater = null;
+	
+	private Method mWebViewSetEmbeddedTitleBar = null;
 	
 	private OnSharedPreferenceChangeListener mPreferenceChangeListener;
 	
@@ -108,6 +122,37 @@ public final class TabsController {
 		};
 		
 		PreferenceManager.getDefaultSharedPreferences(mMainActivity).registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
+		
+		try {
+			
+			mWebViewSetEmbeddedTitleBar = WebView.class.getMethod("setEmbeddedTitleBar", new Class[] { View.class });
+			
+		} catch (SecurityException e) {
+			mWebViewSetEmbeddedTitleBar = null;
+			Log.e("TabsController: Unable to get setEmbeddedTitleBar method: SecurityException.", e.getMessage());
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			mWebViewSetEmbeddedTitleBar = null;
+			Log.e("TabsController: Unable to get setEmbeddedTitleBar method: NoSuchMethodException.", e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private void callSetEmbeddedTitleBar(WebView webView, View view) {
+		try {
+			
+			mWebViewSetEmbeddedTitleBar.invoke(webView, view);
+			
+		} catch (IllegalArgumentException e) {
+			Log.e("TabsController: Unable to call setEmbeddedTitleBar method: IllegalArgumentException.", e.getMessage());
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			Log.e("TabsController: Unable to call setEmbeddedTitleBar method: IllegalAccessException.", e.getMessage());
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			Log.e("TabsController: Unable to call setEmbeddedTitleBar method: InvocationTargetException.", e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -117,9 +162,13 @@ public final class TabsController {
 	 * @return The new tab index.
 	 */
 	public int addTab(int position, String url) {
-		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewsContainer, false);
+		RelativeLayout view = (RelativeLayout) mInflater.inflate(R.layout.webview, mWebViewsContainer, false);		
+		final CustomWebView webView = (CustomWebView) view.findViewById(R.id.webview);
+				
+		View titleBar = mInflater.inflate(R.layout.title_bar, view, false);
+		callSetEmbeddedTitleBar(webView, titleBar);
 		
-		CustomWebView webView = (CustomWebView) view.findViewById(R.id.webview);
+		final AutoCompleteTextView urlView = (AutoCompleteTextView) titleBar.findViewById(R.id.UrlText);
 		
 		int insertionIndex = addWebViewContainer(position, new WebViewContainer(view, webView));
 		
@@ -156,6 +205,57 @@ public final class TabsController {
 				
 					menu.setHeaderTitle(result.getExtra());					
 				}
+			}
+		});
+        
+        urlView.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View arg0, boolean hasFocus) {
+				// Select all when focus gained.
+                if (hasFocus) {
+                	urlView.setSelection(0, urlView.getText().length());
+                }
+			}
+		});
+        
+        urlView.setCompoundDrawablePadding(5);
+        
+        String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
+        int[] to = new int[] {R.id.AutocompleteTitle, R.id.AutocompleteUrl};
+        
+        UrlSuggestionCursorAdapter suggestionAdapter = new UrlSuggestionCursorAdapter(mMainActivity, R.layout.url_autocomplete_line, null, from, to);
+        suggestionAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+			
+			@Override
+			public CharSequence convertToString(Cursor cursor) {
+				String aColumnString = cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
+                return aColumnString;
+			}
+		});
+        
+        suggestionAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+			
+			@Override
+			public Cursor runQuery(CharSequence constraint) {
+				if ((constraint != null) &&
+						(constraint.length() > 0)) {
+					return BookmarksHistoryController.getInstance().getSuggestion(mMainActivity, constraint.toString());
+				}
+				return null;
+			}
+		});
+        
+        urlView.setThreshold(1);
+        urlView.setAdapter(suggestionAdapter);
+        
+        ImageButton goBtn = (ImageButton) titleBar.findViewById(R.id.GoBtn);
+        
+        goBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				webView.loadUrl(urlView.getText().toString());
 			}
 		});
         
