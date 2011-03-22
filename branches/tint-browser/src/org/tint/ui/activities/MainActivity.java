@@ -8,6 +8,7 @@ import org.tint.runnables.HideToolbarsRunnable;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.activities.preferences.PreferencesActivity;
 import org.tint.ui.components.CustomWebView;
+import org.tint.utils.AnimationUtils;
 import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
 
@@ -145,7 +146,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			public void onClick(View v) {
 				// Dummy event to steel it from the WebView, in case of clicking between the buttons.				
 			}
-		});
+		});    	
     	
     	mBottomBar = (LinearLayout) findViewById(R.id.BottomBarLayout);    	
     	mBottomBar.setOnClickListener(new OnClickListener() {			
@@ -335,6 +336,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+		
+		hideKeyboard(false);
+		
 		return mGestureDetector.onTouchEvent(event);
 		/*
 		if (mGestureDetector.onTouchEvent(event)) {
@@ -409,6 +413,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	public int addTab(int tabIndex, String url) {
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
         showTab(mCurrentViewIndex);
+        
         return mCurrentViewIndex;
     }
     
@@ -500,6 +505,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		mCurrentViewIndex = tabIndex;
 		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
 		updateBars();
+		
+		mUrlEditText.clearFocus();
 	}
 	
 	/**
@@ -514,6 +521,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	 * @param url The url.
 	 */
 	private void navigateToUrl(String url) {
+		mUrlEditText.clearFocus();
 		hideKeyboard(true);
 		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
 		webView.loadUrl(url);
@@ -576,6 +584,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     private void setToolbarsVisibility(boolean visible) {
     	    	
     	if (visible) {
+        	
+        	mTopBar.startAnimation(AnimationUtils.getTopBarShowAnimation());
+        	mBottomBar.startAnimation(AnimationUtils.getBottomBarShowAnimation());
     		
     		mTopBar.setVisibility(View.VISIBLE);
     		mBottomBar.setVisibility(View.VISIBLE);
@@ -587,7 +598,10 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		
     		mUrlBarVisible = true;    		    		
     		
-    	} else {  	
+    	} else {        	
+        	
+        	mTopBar.startAnimation(AnimationUtils.getTopBarHideAnimation());
+        	mBottomBar.startAnimation(AnimationUtils.getBottomBarHideAnimation());
     		
     		mTopBar.setVisibility(View.GONE);
     		mBottomBar.setVisibility(View.GONE);
@@ -617,12 +631,19 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
      */
     private void updateBars() {
     	CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+    	
+    	if (webView.isLoading()) {
+    		setToolbarsVisibility(true);
+    	}
+    	
     	mUrlEditText.setText(webView.getUrl());
     	
     	mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
 				null,
 				mUrlEditText.getCompoundDrawables()[2],
 				null);
+    	
+    	mRemoveTabButton.setEnabled(TabsController.getInstance().getWebViewContainers().size() > 1);
     }
 	
     /**
