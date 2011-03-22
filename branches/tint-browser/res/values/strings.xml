@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Commons.ApplicationName">Tint Browser</string>
+    <string name="Commons.ApplicationDescription">Tint is an open-source browser for Android.</string>
+    
+    <string name="AboutActivity.Title">About</string>
+    <string name="AboutActivity.VersionText">Version:</string>
+    <string name="AboutActivity.UrlTextValue">http://TODO/</string>
+    <string name="AboutActivity.LicenseText">License:</string>
+    <string name="AboutActivity.LicenseTextValue">GPL v3</string>
+    
+    <string name="Commons.Ok">Ok</string>
+    <string name="Commons.Cancel">Cancel</string>
+    <string name="Commons.Close">Close</string>
+    <string name="Commons.Yes">Yes</string>
+    <string name="Commons.No">No</string>
+    <string name="Commons.Continue">Continue</string>
+    <string name="Commons.PleaseWait">Please wait</string>
+    <string name="Commons.NoUndoMessage">This operation cannot be undone. Do you wish to proceed?</string>
+    <string name="Commons.ClearHistory">Clear history</string>
+    <string name="Commons.ClearingHistory">Clearing history...</string>
+    <string name="Commons.ClearFormData">Clear form data</string>
+    <string name="Commons.ClearingFormData">Clearing form data...</string>
+    <string name="Commons.ClearCache">Clear cache</string>
+    <string name="Commons.ClearingCache">Clearing cache...</string>
+    <string name="Commons.ClearCookies">Clear cookies</string>
+    <string name="Commons.ClearingCookies">Clearing cookies...</string>
+    <string name="Commons.ExportingHistoryBookmarks">Exporting history and bookmarks...</string>
+    <string name="Commons.ImportingHistoryBookmarks">Importing history and bookmarks...</string>
+    <string name="Commons.ImportHistoryBookmarksSource">Choose the import source</string>
+    <string name="Commons.SDCardErrorTitle">SD Card unavailable</string>
+    <string name="Commons.SDCardErrorNoSDMsg">No SD Card found.</string>
+    <string name="Commons.SDCardErrorSDUnavailable">SD Card is not available.</string>
+    <string name="Commons.OperationCanBeLongMessage">This operation can take some times. Do you wish to proceed?</string>
+    <string name="Commons.HistoryBookmarksExportSDCardConfirmation">Export history and bookmarks</string>
+    <string name="Commons.HistoryBookmarksExportSDCardDoneTitle">Export done</string>
+    <string name="Commons.HistoryBookmarksExportSDCardDoneMessage">Your history and bookmarks have been saved to %s.</string>
+    <string name="Commons.HistoryBookmarksExportSDCardFailedTitle">Export failed</string>
+    <string name="Commons.HistoryBookmarksFailedMessage">Error message: %s.</string>
+    <string name="Commons.HistoryBookmarksImportSDCardFailedTitle">Import failed</string>
+    <string name="Commons.SslWarning">Security warning</string>
+    <string name="Commons.SslWarningsHeader">There are problems with the security certificate for this site.</string>
+    <string name="Commons.SslUntrusted">This certificate is not from a trusted authority.</string>
+    <string name="Commons.SslIDMismatch">The name of the site does not match the name on the certificate.</string>
+    <string name="Commons.SslExpired">This certificate has expired.</string>
+    <string name="Commons.SslNotYetValid">This certificate is not valid yet.</string>
+    <string name="Commons.JavaScriptAlert">JavaScript alert</string>
+    <string name="Commons.JavaScriptPrompt">JavaScript prompt</string>
+    <string name="Commons.JavaScriptConfirm">JavaScript confirm</string>
+    
+    <string name="Constants.SearchUrlGoogle">http://www.google.com/m?hl=en&amp;gl=us&amp;client=ms-null&amp;source=android-browser-key&amp;q=%s</string>
+    <string name="Constants.SearchUrlWikipedia">http://en.wikipedia.org/w/index.php?search=%s&amp;go=Go</string>
+    
+    <string name="BookmarksListActivity.Empty">No bookmarks.</string>
+    <string name="BookmarksListActivity.MenuAddBookmark">Add bookmark</string>
+    <string name="BookmarksListActivity.ContextMenuOpenInTab">Open in new tab</string>
+    <string name="BookmarksListActivity.ContextMenuEdit">Edit bookmark</string>
+    <string name="BookmarksListActivity.ContextMenuDelete">Delete bookmark</string>
+    
+    <string name="HistoryListActivity.Today">Today</string>
+    <string name="HistoryListActivity.Yesterday">Yesterday</string>
+    <string name="HistoryListActivity.LastSevenDays">Last 7 days</string>
+    <string name="HistoryListActivity.LastMonth">Last month</string>
+    <string name="HistoryListActivity.Older">Older</string>
+    <string name="HistoryListActivity.ContextMenuOpenInTab">Open in new tab</string>
+    <string name="HistoryListActivity.ContextMenuDeleteFromHistory">Delete from history</string>
+    
+    <string name="BookmarksHistoryActivity.TabBookmarks">Bookmarks</string>
+    <string name="BookmarksHistoryActivity.TabHistory">History</string>
+    
+    <string name="ContextMenu.Open">Open</string>
+    <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
+    
+    <string name="MainActivity.MenuAddBookmark">Add bookmark</string>
+    <string name="MainActivity.MenuShowBookmarks">Bookmarks</string>
+    <string name="MainActivity.MenuShowTabs">Tabs</string>
+    <string name="MainActivity.MenuShowPreferences">Preferences</string>
+    
+    <string name="EditBookmarkActivity.TitleAdd">Add bookmark</string>
+    <string name="EditBookmarkActivity.TitleEdit">Edit bookmark</string>
+    <string name="EditBookmarkActivity.TitleLabel">Title:</string>
+    <string name="EditBookmarkActivity.UrlLabel">Url:</string>
+    
+    <string name="PreferencesActivity.GeneralSettingsCategoryTitle">General settings</string>
+    <string name="PreferencesActivity.FullScreenPreferenceTitle">Full screen</string>
+    <string name="PreferencesActivity.FullScreenPreferenceSummary">Display browser in full screen mode (need application restart).</string>
+    <string name="PreferencesActivity.BrowserSettingsCategoryTitle">Browser settings</string>
+    <string name="PreferencesActivity.HistorySizePreferenceTitle">History size</string>
+    <string name="PreferencesActivity.HistorySizePreferenceSummary">History size in days.</string>
+    <string name="PreferencesActivity.EnableJavascriptPreferenceTitle">Enable JavaScript</string>
+    <string name="PreferencesActivity.EnableJavascriptPreferenceSummary">Enable or disable JavaScript.</string>
+    <string name="PreferencesActivity.LoadImagesPreferenceTitle">Load images</string>
+    <string name="PreferencesActivity.LoadImagesPreferenceSummary">Enable or disable image loading.</string>
+    
+    <string name="PreferencesActivity.PrivacyPreferenceTitle">Privacy settings</string>
+    <string name="PreferencesActivity.PrivacyPreferenceSummary">Manage privacy settings.</string>
+    
+    <string name="PreferencesActivity.EnableFormDataPreferenceTitle">Save forms data</string>
+    <string name="PreferencesActivity.EnableFormDataPreferenceSummary">Enable or disable form data saving.</string>
+    <string name="PreferencesActivity.EnablePasswordsPreferenceTitle">Save passwords</string>
+    <string name="PreferencesActivity.EnablePasswordsPreferenceSummary">Enable or disable password saving.</string>
+    <string name="PreferencesActivity.EnableCookiesPreferenceTitle">Allow cookies</string>
+    <string name="PreferencesActivity.EnableCookiesPreferenceSummary">Enable or disable cookies.</string>
+    
+    <string name="PreferencesActivity.PrivacyClearHistoryTitle">Clear history</string>
+    <string name="PreferencesActivity.PrivacyClearFormDataTitle">Clear form data</string>
+    <string name="PreferencesActivity.PrivacyClearCacheTitle">Clear cache</string>
+    <string name="PreferencesActivity.PrivacyClearCookiesTitle">Clear cookies</string>
+    
+    <string name="PreferencesActivity.SearchUrlPreferenceTitle">Search url</string>
+    <string name="PreferencesActivity.SearchUrlPreferenceSummary">Define the search url.</string>
+    
+    <string name="SearchUrlPreferenceActivity.Title">Search url</string>
+    <string name="SearchUrlPreferenceActivity.Prompt">Search url</string>
+    
+    <string name="PreferencesActivity.SearchUrlGoogle">Google</string>
+    <string name="PreferencesActivity.SearchUrlWikipedia">Wikipedia</string>
+    <string name="PreferencesActivity.SearchUrlCustom">Custom</string>
+    
+    <string-array name="SearchUrlValues">
+        <item>@string/PreferencesActivity.SearchUrlGoogle</item>
+        <item>@string/PreferencesActivity.SearchUrlWikipedia</item>
+        <item>@string/PreferencesActivity.SearchUrlCustom</item>
+    </string-array>
+    
+    <string name="UserAgentPreferenceActivity.Title">User agent</string>
+    <string name="UserAgentPreferenceActivity.PromptTitle">User agent</string>
+    
+    <string name="PreferencesActivity.UserAgentPreferenceTitle">User agent</string>
+    <string name="PreferencesActivity.UserAgentPreferenceSummary">Define the user agent to use.</string>
+    
+    <string name="PreferencesActivity.UserAgentDefault">Default</string>
+    <string name="PreferencesActivity.UserAgentDesktop">Desktop</string>
+    <string name="PreferencesActivity.UserAgentCustom">Custom</string>
+    
+    <string-array name="UserAgentValues">
+        <item>@string/PreferencesActivity.UserAgentDefault</item>
+        <item>@string/PreferencesActivity.UserAgentDesktop</item>
+        <item>@string/PreferencesActivity.UserAgentCustom</item>
+    </string-array>
+    
+    <string name="PreferencesActivity.DefaultZoomPreferenceTitle">Default zoom level</string>
+    <string name="PreferencesActivity.DefaultZoomPreferenceSummary">Set the default zoom level.</string>
+    
+    <string name="PreferencesActivity.DefaultZoomClose">Close</string>
+    <string name="PreferencesActivity.DefaultZoomMedium">Medium</string>
+    <string name="PreferencesActivity.DefaultZoomFar">Far</string>
+    
+    <string-array name="DefaultZoomEntries">
+        <item>@string/PreferencesActivity.DefaultZoomClose</item>
+        <item>@string/PreferencesActivity.DefaultZoomMedium</item>
+        <item>@string/PreferencesActivity.DefaultZoomFar</item>
+    </string-array>
+    <string-array name="DefaultZoomValues">
+        <item>CLOSE</item>
+        <item>MEDIUM</item>
+        <item>FAR</item>
+    </string-array>
+    
+    <string name="PreferencesActivity.EnablePluginsTitle">Enable plug-ins</string>
+    
+    <string name="PreferencesActivity.PluginsAlwaysOff">Always off</string>
+    <string name="PreferencesActivity.PluginsOnDemand">On demand</string>
+    <string name="PreferencesActivity.PluginsAlwaysOn">Always on</string>
+    
+    <string-array name="PluginsEntries">
+        <item>@string/PreferencesActivity.PluginsAlwaysOff</item>
+        <item>@string/PreferencesActivity.PluginsOnDemand</item>
+        <item>@string/PreferencesActivity.PluginsAlwaysOn</item>
+    </string-array>
+    <string-array name="PluginsValues">
+        <item>OFF</item>
+        <item>ON_DEMAND</item>
+        <item>ON</item>
+    </string-array>
+    
+    <string name="PreferencesActivity.ToolsCategoryTitle">Tools</string>
+    <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceTitle">Export bookmarks and history</string>
+    <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceSummary">Export the bookmarks and history to the SD card.</string>
+    <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceTitle">Import bookmarks and history</string>
+    <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceSummary">Import the bookmarks and history from the SD card.</string>
+    
+    <string name="PreferencesActivity.AboutCategoryTitle">About</string>
+    <string name="PreferencesActivity.AboutPreferenceTitle">About</string>
+    <string name="PreferencesActivity.AboutPreferenceSummary">Information about this application.</string>
+    
+    <string name="PreferencesActivity.RestartDialogTitle">Restart required</string>
+    <string name="PreferencesActivity.RestartDialogMessage">This change will not take effect until the application restart. Do you want to do it now?</string>
+    
+</resources>
