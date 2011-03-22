@@ -102,10 +102,18 @@ public class CustomWebView extends WebView {
 		super.loadUrl(url);
 	}
 	
+	/**
+	 * Check if the WebView is currently loading.
+	 * @return True if the WebView is currently loading. False otherwise.
+	 */
 	public boolean isLoading() {
 		return mIsLoading;
 	}
 	
+	/**
+	 * Set the WebView loading value.
+	 * @param value The new value.
+	 */
 	public void setLoading(boolean value) {
 		mIsLoading = value;
 	}

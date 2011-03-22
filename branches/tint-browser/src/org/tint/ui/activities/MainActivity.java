@@ -8,6 +8,7 @@ import org.tint.runnables.HideToolbarsRunnable;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.activities.preferences.PreferencesActivity;
 import org.tint.ui.components.CustomWebView;
+import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
 
 import android.app.Activity;
@@ -18,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Browser;
@@ -34,6 +36,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebIconDatabase;
+import android.webkit.WebView;
 import android.widget.AutoCompleteTextView;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
@@ -67,7 +70,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	
 	private ProgressBar mProgressBar;
 	
+	private ImageButton mRemoveTabButton;
 	private ImageButton mBookmarksButton;
+	private ImageButton mAddTabButton;
 	
 	private GestureDetector mGestureDetector;
 	private ViewFlipper mWebViewContainer;
@@ -125,6 +130,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         startToolbarsHideRunnable();
     }
     
+    /**
+     * Create the MainActivity UI.
+     */
     private void buildUI() {
     	mGestureDetector = new GestureDetector(this, new GestureListener());
         //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
@@ -225,6 +233,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mProgressBar = (ProgressBar) findViewById(R.id.WebViewProgress);
     	mProgressBar.setMax(100);
     	
+    	mRemoveTabButton = (ImageButton) findViewById(R.id.RemoveTabBtn);
+    	mRemoveTabButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				removeCurrentTab();
+			}
+		});
+    	
     	mBookmarksButton = (ImageButton) findViewById(R.id.BookmarksBtn);
     	mBookmarksButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {            	
@@ -232,6 +248,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
             	startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);
             }          
         });
+    	
+    	mAddTabButton = (ImageButton) findViewById(R.id.NewTabBtn);
+    	mAddTabButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				addTab(mCurrentViewIndex + 1, "about:blank");
+			}
+		});
     }
 
     @Override
@@ -239,7 +263,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	super.onResume();
     	
     	IntentFilter filter = new IntentFilter();
-        filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE );
+        filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         filter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED);
         
         registerReceiver(mDownloadsReceiver, filter);
@@ -394,21 +418,45 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	}
     
     @Override
-    public void onPageStarted(String url) {
-    	mUrlEditText.setText(url);
-    	setToolbarsVisibility(true);
+    public void onPageStarted(WebView webView, String url) {
+    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+    	
+    	if (currentWebView == webView) {
+    		mUrlEditText.setText(url);
+    		setToolbarsVisibility(true);
+    	}
     }
     
     @Override
-    public void onPageFinished() {
-    	if (mUrlBarVisible) {
-			startToolbarsHideRunnable();
-		}
+    public void onPageFinished(WebView webView) {
+    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+    	
+    	if (currentWebView == webView) {
+    		if (mUrlBarVisible) {
+    			startToolbarsHideRunnable();
+    		}
+    	}
     }
     
     @Override
-    public void onPageProgress(int newProgress) {
-    	mProgressBar.setProgress(newProgress);
+    public void onPageProgress(WebView webView, int newProgress) {
+    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+    	
+    	if (currentWebView == webView) {
+    		mProgressBar.setProgress(newProgress);
+    	}
+    }
+    
+    @Override
+    public void onReceivedFavicon(WebView webView, Bitmap favicon) {
+    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+    	
+    	if (currentWebView == webView) {
+    		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, favicon),
+    				null,
+    				mUrlEditText.getCompoundDrawables()[2],
+    				null);
+    	}
     }
     
     @Override
@@ -450,7 +498,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
      */
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
-		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);		
+		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
+		updateBars();
 	}
 	
 	/**
@@ -562,7 +611,34 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			mUrlBarVisible = false;
     	}
     }
+    
+    /**
+     * Update the bars element (url, favivon, button states...) with the current WebView.
+     */
+    private void updateBars() {
+    	CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+    	mUrlEditText.setText(webView.getUrl());
+    	
+    	mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+				null,
+				mUrlEditText.getCompoundDrawables()[2],
+				null);
+    }
 	
+    /**
+     * Remove the current tab.
+     */
+    private void removeCurrentTab() {
+    	TabsController.getInstance().removeTab(mCurrentViewIndex);
+    	
+    	mCurrentViewIndex--;
+    	if (mCurrentViewIndex < 0) {
+    		mCurrentViewIndex = 0;
+    	}
+    	
+    	showTab(mCurrentViewIndex);
+    }
+    
 	/**
 	 * Gesture listener implementation.
 	 */

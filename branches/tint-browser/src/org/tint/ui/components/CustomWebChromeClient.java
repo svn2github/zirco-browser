@@ -40,7 +40,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 
 	@Override
 	public void onProgressChanged(WebView view, int newProgress) {
-		mWebViewActivity.onPageProgress(newProgress);
+		mWebViewActivity.onPageProgress(view, newProgress);
 		super.onProgressChanged(view, newProgress);
 	}
 	
@@ -69,6 +69,8 @@ public class CustomWebChromeClient extends WebChromeClient {
 
 	@Override
 	public void onReceivedIcon(WebView view, Bitmap icon) {
+		
+		mWebViewActivity.onReceivedFavicon(view, icon);
 		
 		new Thread(new FaviconUpdaterRunnable(mMainActivity, view.getUrl(), view.getOriginalUrl(), icon)).start();
 		

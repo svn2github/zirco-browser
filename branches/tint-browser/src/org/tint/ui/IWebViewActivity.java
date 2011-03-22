@@ -1,5 +1,8 @@
 package org.tint.ui;
 
+import android.graphics.Bitmap;
+import android.webkit.WebView;
+
 /**
  * Interface to activities managing WebViews.
  */
@@ -26,10 +29,31 @@ public interface IWebViewActivity {
 	 */
 	int getCurrentWebViewIndex();
 	
-	void onPageStarted(String url);
+	/**
+	 * Notify of a web page load start.
+	 * @param webView The WebView source of the notification.
+	 * @param url The url being loaded.
+	 */
+	void onPageStarted(WebView webView, String url);
 	
-	void onPageFinished();
+	/**
+	 * Notify of a web page load end.
+	 * @param webView The WebView source of the notification.
+	 */
+	void onPageFinished(WebView webView);
 	
-	void onPageProgress(int newProgress);
+	/**
+	 * Notify of a web page load progress.
+	 * @param webView The WebView source of the notification.
+	 * @param newProgress The progress value.
+	 */
+	void onPageProgress(WebView webView, int newProgress);
+	
+	/**
+	 * Notify of a web page receiving its favicon.
+	 * @param webView The WebView source of the notification.
+	 * @param favicon The favicon.
+	 */
+	void onReceivedFavicon(WebView webView, Bitmap favicon);
 
 }

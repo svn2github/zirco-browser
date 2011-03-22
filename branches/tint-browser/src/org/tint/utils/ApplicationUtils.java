@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
@@ -155,6 +157,23 @@ public class ApplicationUtils {
 		}
 		
 		return mFaviconSize;
+	}
+	
+	/**
+	 * Get a Drawable of the current favicon, with its size normalized relative to current screen density.
+	 * @param activity The parent Activity
+	 * @param icon The icon to normalize.
+	 * @return The normalized favicon.
+	 */
+	public static BitmapDrawable getNormalizedFavicon(Activity activity, Bitmap icon) {
+		BitmapDrawable favIcon = new BitmapDrawable(icon);
+		
+		if (favIcon != null) {
+			int favIconSize = getFaviconSize(activity);
+			favIcon.setBounds(0, 0, favIconSize, favIconSize);
+		}
+		
+		return favIcon;
 	}
 
 }

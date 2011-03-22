@@ -20,28 +20,28 @@ public class CustomWebViewClient extends WebViewClient {
 	
 	/**
 	 * Constructor.
-	 * @param view The parent view.
+	 * @param webViewActivity The parent IWebViewActivity.
 	 */
 	public CustomWebViewClient(IWebViewActivity webViewActivity) {
 		mWebViewActivity = webViewActivity;
 	}
 
 	@Override
-	public void onPageFinished(WebView view, String url) {
-		
-		mWebViewActivity.onPageFinished();		
-		((CustomWebView) view).setLoading(false);
-
-		super.onPageFinished(view, url);
-	}
-
-	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
 		
-		mWebViewActivity.onPageStarted(url);		
+		mWebViewActivity.onPageStarted(view, url);		
 		((CustomWebView) view).setLoading(true);
 				
 		super.onPageStarted(view, url, favicon);
+	}
+	
+	@Override
+	public void onPageFinished(WebView view, String url) {
+		
+		mWebViewActivity.onPageFinished(view);		
+		((CustomWebView) view).setLoading(false);
+
+		super.onPageFinished(view, url);
 	}
 
 	@Override
