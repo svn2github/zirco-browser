@@ -31,6 +31,9 @@ public class CustomWebViewClient extends WebViewClient {
 
 	@Override
 	public void onPageFinished(WebView view, String url) {
+		
+		((CustomWebView) view).setLoading(false);
+		
 		mProgressBar.setProgress(100);
 		mProgressBar.setVisibility(View.GONE);
 		super.onPageFinished(view, url);
@@ -38,6 +41,9 @@ public class CustomWebViewClient extends WebViewClient {
 
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
+		
+		((CustomWebView) view).setLoading(true);
+		
 		mProgressBar.setProgress(0);
 		mProgressBar.setVisibility(View.VISIBLE);		
 		super.onPageStarted(view, url, favicon);

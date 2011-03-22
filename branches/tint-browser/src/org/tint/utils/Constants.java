@@ -34,6 +34,9 @@ public class Constants {
 	 */
 	public static final String PREFERENCES_GENERAL_FULL_SCREEN = "GeneralFullScreen";
 	public static final String PREFERENCES_GENERAL_SEARCH_URL = "GeneralSearchUrl";
+	public static final String PREFERENCES_GENERAL_BUBBLE_POSITION = "GeneralBubblePosition";
+	public static final String PREFERENCES_GENERAL_BARS_DURATION = "GeneralBarsDuration";
+	
 	public static final String PREFERENCES_BROWSER_ENABLE_JAVASCRIPT = "BrowserEnableJavascript";
 	public static final String PREFERENCES_BROWSER_ENABLE_IMAGES = "BrowserEnableImages";
 	public static final String PREFERENCES_BROWSER_ENABLE_FORM_DATA = "BrowserEnableFormData";

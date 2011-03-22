@@ -1,17 +1,23 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
+import org.tint.adapters.UrlSuggestionCursorAdapter;
+import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
+import org.tint.runnables.HideToolbarsRunnable;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.activities.preferences.PreferencesActivity;
 import org.tint.ui.components.CustomWebView;
 import org.tint.utils.Constants;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Browser;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -20,9 +26,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebIconDatabase;
+import android.widget.AutoCompleteTextView;
+import android.widget.FilterQueryProvider;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
+import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
 /**
  * Main application activity.
@@ -37,11 +51,25 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private static final int MENU_OPEN_TABS_ACTIVITY = Menu.FIRST + 2;
 	private static final int MENU_OPEN_PREFERENCES_ACTIVITY = Menu.FIRST + 3;
 	
+	private LinearLayout mTopBar;
+	private LinearLayout mBottomBar;
+	
+	private AutoCompleteTextView mUrlEditText;
+	
+	private ImageView mBubbleRightView;
+	private ImageView mBubbleLeftView;
+	
+	private ImageButton mBookmarksButton;
+	
 	private GestureDetector mGestureDetector;
 	private ViewFlipper mWebViewContainer;
 	
 	//private ScaleGestureDetector mScaleGestureDetector;	
 	//private float mScaleFactor = 1.f;
+	
+	private boolean mUrlBarVisible;
+	
+	private HideToolbarsRunnable mHideToolbarsRunnable;
 	
 	private int mCurrentViewIndex = -1;
 	
@@ -59,16 +87,123 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         setContentView(R.layout.main_activity);
         
-        mGestureDetector = new GestureDetector(this, new GestureListener());
-        //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
+        mHideToolbarsRunnable = null;
         
-        mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
+        buildUI();
         
         TabsController.getInstance().initialize(this, this, this, mWebViewContainer);
         
         initializeWebIconDatabase();
         
-        addTab("about:blank");                
+        addTab("about:blank");
+        
+        startToolbarsHideRunnable();
+    }
+    
+    private void buildUI() {
+    	mGestureDetector = new GestureDetector(this, new GestureListener());
+        //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
+        
+        mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
+        
+        mTopBar = (LinearLayout) findViewById(R.id.TopBarLayout);    	
+    	mTopBar.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				// Dummy event to steel it from the WebView, in case of clicking between the buttons.				
+			}
+		});
+    	
+    	mBottomBar = (LinearLayout) findViewById(R.id.BottomBarLayout);    	
+    	mBottomBar.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				// Dummy event to steel it from the WebView, in case of clicking between the buttons.				
+			}
+		});
+    	
+    	mBubbleRightView = (ImageView) findViewById(R.id.BubbleRightView);
+    	mBubbleRightView.setOnClickListener(new View.OnClickListener() {
+    		@Override
+			public void onClick(View v) {
+				setToolbarsVisibility(true);				
+			}
+		});    	
+    	mBubbleRightView.setVisibility(View.GONE);
+    	
+    	mBubbleLeftView = (ImageView) findViewById(R.id.BubbleLeftView);
+    	mBubbleLeftView.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				setToolbarsVisibility(true);
+			}
+		});
+    	mBubbleLeftView.setVisibility(View.GONE);
+    	    	
+    	String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
+        int[] to = new int[] {R.id.AutocompleteTitle, R.id.AutocompleteUrl};
+        
+        UrlSuggestionCursorAdapter suggestionAdapter = new UrlSuggestionCursorAdapter(this, R.layout.url_autocomplete_line, null, from, to);
+        suggestionAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+			
+			@Override
+			public CharSequence convertToString(Cursor cursor) {
+				String aColumnString = cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
+                return aColumnString;
+			}
+		});
+        
+        suggestionAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+			
+			@Override
+			public Cursor runQuery(CharSequence constraint) {
+				if ((constraint != null) &&
+						(constraint.length() > 0)) {
+					return BookmarksHistoryController.getInstance().getSuggestion(MainActivity.this, constraint.toString());
+				}
+				return null;
+			}
+		});
+    	
+    	mUrlEditText = (AutoCompleteTextView) findViewById(R.id.UrlText);
+    	mUrlEditText.setThreshold(1);
+    	mUrlEditText.setAdapter(suggestionAdapter);    	
+    	
+    	mUrlEditText.setOnKeyListener(new View.OnKeyListener() {
+
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+					navigateToUrl();
+					return true;
+				}
+				return false;
+			}
+    		
+    	});
+    	
+    	mUrlEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+    		@Override
+    		public void onFocusChange(View v, boolean hasFocus) {
+    			// Select all when focus gained.
+    			if (hasFocus) {
+    				mUrlEditText.setSelection(0, mUrlEditText.getText().length());
+    			}
+    		}
+    	});
+    	
+    	mUrlEditText.setCompoundDrawablePadding(5);
+    	
+    	mUrlBarVisible = true;
+    	
+    	mBookmarksButton = (ImageButton) findViewById(R.id.BookmarksBtn);
+    	mBookmarksButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {            	
+            	Intent i = new Intent(MainActivity.this, BookmarksHistoryActivity.class);
+            	startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);
+            }          
+        });
     }
 
 	@Override
@@ -105,7 +240,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			return true;
 		case MENU_OPEN_HISTORY_BOOKMARKS:
 			i = new Intent(this, BookmarksHistoryActivity.class);
-			startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);			
+			startActivityForResult(i, ACTIVITY_SHOW_BOOKMARKS_HISTORY);
 			return true;
 		case MENU_OPEN_TABS_ACTIVITY:
 			openTabsActivity();
@@ -251,13 +386,114 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	}
 	
 	/**
+     * Navigate to the url given in the url edit text.
+     */
+    private void navigateToUrl() {
+    	navigateToUrl(mUrlEditText.getText().toString());    	
+    }
+	
+	/**
 	 * Navigate to the given url using the current WebView.
 	 * @param url The url.
 	 */
 	private void navigateToUrl(String url) {
+		hideKeyboard(true);
 		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
 		webView.loadUrl(url);
 	}
+	
+	/**
+     * Hide the keyboard.
+     * @param delayedHideToolbars If True, will start a runnable to delay tool bars hiding. If False, tool bars are hidden immediatly.
+     */
+    private void hideKeyboard(boolean delayedHideToolbars) {
+    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    	imm.hideSoftInputFromWindow(mUrlEditText.getWindowToken(), 0);
+    	
+    	if (mUrlBarVisible) {
+    		if (delayedHideToolbars) {
+    			startToolbarsHideRunnable();
+    		} else {
+    			setToolbarsVisibility(false);
+    		}
+    	}
+    }
+    
+    /**
+	 * Hide the tool bars.
+	 */
+	public void hideToolbars() {
+		if (mUrlBarVisible) {			
+			if (!mUrlEditText.hasFocus()) {
+				
+				if (!TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView().isLoading()) {
+					setToolbarsVisibility(false);
+				}
+			}
+		}
+		mHideToolbarsRunnable = null;
+	}
+	
+	/**
+     * Start a runnable to hide the tool bars after a user-defined delay.
+     */
+    private void startToolbarsHideRunnable() {
+    	    	    	
+    	if (mHideToolbarsRunnable != null) {
+    		mHideToolbarsRunnable.setDisabled();
+    	}
+    	
+    	int delay = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_BARS_DURATION, "3000"));
+    	if (delay <= 0) {
+    		delay = 3000;
+    	}
+    	
+    	mHideToolbarsRunnable = new HideToolbarsRunnable(this, delay);    	
+    	new Thread(mHideToolbarsRunnable).start();
+    }
+	
+	/**
+     * Change the tool bars visibility.
+     * @param visible If True, the tool bars will be shown.
+     */
+    private void setToolbarsVisibility(boolean visible) {
+    	    	
+    	if (visible) {
+    		
+    		mTopBar.setVisibility(View.VISIBLE);
+    		mBottomBar.setVisibility(View.VISIBLE);
+    		
+    		mBubbleRightView.setVisibility(View.GONE);
+    		mBubbleLeftView.setVisibility(View.GONE);
+    		
+    		startToolbarsHideRunnable();
+    		
+    		mUrlBarVisible = true;    		    		
+    		
+    	} else {  	
+    		
+    		mTopBar.setVisibility(View.GONE);
+    		mBottomBar.setVisibility(View.GONE);
+    		
+    		String bubblePosition = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_BUBBLE_POSITION, "right");
+    		
+    		if (bubblePosition.equals("right")) {
+    			mBubbleRightView.setVisibility(View.VISIBLE);
+    			mBubbleLeftView.setVisibility(View.GONE);
+    		} else if (bubblePosition.equals("left")) {
+    			mBubbleRightView.setVisibility(View.GONE);
+    			mBubbleLeftView.setVisibility(View.VISIBLE);
+    		} else if (bubblePosition.equals("both")) {
+    			mBubbleRightView.setVisibility(View.VISIBLE);
+    			mBubbleLeftView.setVisibility(View.VISIBLE);
+    		} else {
+    			mBubbleRightView.setVisibility(View.VISIBLE);
+    			mBubbleLeftView.setVisibility(View.GONE);
+    		}
+			
+			mUrlBarVisible = false;
+    	}
+    }
 	
 	/**
 	 * Gesture listener implementation.
@@ -265,6 +501,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
+			hideKeyboard(false);
 			openTabsActivity();
 			
 			// Should be better to return true here, but it breaks on Cyanogen 7RC1. Test with next releases.

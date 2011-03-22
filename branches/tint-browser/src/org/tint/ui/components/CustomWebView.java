@@ -35,6 +35,8 @@ public class CustomWebView extends WebView {
     */    
 	
 	private Context mContext;
+	
+	private boolean mIsLoading = false;
 
 	/**
 	 * Constructor.
@@ -103,6 +105,14 @@ public class CustomWebView extends WebView {
 			url = UrlUtils.getSearchUrl(mContext, url);
 		}
 		super.loadUrl(url);
+	}
+	
+	public boolean isLoading() {
+		return mIsLoading;
+	}
+	
+	public void setLoading(boolean value) {
+		mIsLoading = value;
 	}
 	
 	/*
