@@ -45,6 +45,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 	@Override
 	public void onProgressChanged(WebView view, int newProgress) {
 		mProgressBar.setProgress(newProgress);
+		mWebViewActivity.onPageProgress(newProgress);
 		super.onProgressChanged(view, newProgress);
 	}
 	

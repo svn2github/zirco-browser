@@ -1,6 +1,7 @@
 package org.tint.ui.components;
 
 import org.tint.R;
+import org.tint.ui.IWebViewActivity;
 import org.tint.utils.ApplicationUtils;
 
 import android.content.DialogInterface;
@@ -17,13 +18,16 @@ import android.widget.ProgressBar;
  */
 public class CustomWebViewClient extends WebViewClient {
 	
+	private IWebViewActivity mWebViewActivity;
 	private ProgressBar mProgressBar;
 	
 	/**
 	 * Constructor.
 	 * @param view The parent view.
 	 */
-	public CustomWebViewClient(View view) {
+	public CustomWebViewClient(IWebViewActivity webViewActivity, View view) {
+		mWebViewActivity = webViewActivity;
+		
 		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
 		mProgressBar.setVisibility(View.GONE);
 		mProgressBar.setMax(100);
@@ -31,6 +35,8 @@ public class CustomWebViewClient extends WebViewClient {
 
 	@Override
 	public void onPageFinished(WebView view, String url) {
+		
+		mWebViewActivity.onPageFinished();
 		
 		((CustomWebView) view).setLoading(false);
 		
@@ -41,6 +47,8 @@ public class CustomWebViewClient extends WebViewClient {
 
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
+		
+		mWebViewActivity.onPageStarted(url);
 		
 		((CustomWebView) view).setLoading(true);
 		

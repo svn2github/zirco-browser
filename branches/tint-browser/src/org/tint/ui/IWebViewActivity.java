@@ -25,5 +25,11 @@ public interface IWebViewActivity {
 	 * @return The current tab index.
 	 */
 	int getCurrentWebViewIndex();
+	
+	void onPageStarted(String url);
+	
+	void onPageFinished();
+	
+	void onPageProgress(int newProgress);
 
 }

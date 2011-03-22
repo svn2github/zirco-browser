@@ -35,6 +35,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ViewFlipper;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
@@ -58,6 +59,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	
 	private ImageView mBubbleRightView;
 	private ImageView mBubbleLeftView;
+	
+	private ProgressBar mProgressBar;
 	
 	private ImageButton mBookmarksButton;
 	
@@ -196,6 +199,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mUrlEditText.setCompoundDrawablePadding(5);
     	
     	mUrlBarVisible = true;
+    	
+    	mProgressBar = (ProgressBar) findViewById(R.id.WebViewProgress);
+    	mProgressBar.setMax(100);
     	
     	mBookmarksButton = (ImageButton) findViewById(R.id.BookmarksBtn);
     	mBookmarksButton.setOnClickListener(new View.OnClickListener() {
@@ -341,6 +347,29 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
         showTab(mCurrentViewIndex);
         return mCurrentViewIndex;
+    }
+    
+    @Override
+	public int getCurrentWebViewIndex() {		
+		return mCurrentViewIndex;
+	}
+    
+    @Override
+    public void onPageStarted(String url) {
+    	mUrlEditText.setText(url);
+    	setToolbarsVisibility(true);
+    }
+    
+    @Override
+    public void onPageFinished() {
+    	if (mUrlBarVisible) {
+			startToolbarsHideRunnable();
+		}
+    }
+    
+    @Override
+    public void onPageProgress(int newProgress) {
+    	mProgressBar.setProgress(newProgress);
     }
     
     @Override
@@ -507,12 +536,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			// Should be better to return true here, but it breaks on Cyanogen 7RC1. Test with next releases.
 			return false;
 		}
-	}
-
-	@Override
-	public int getCurrentWebViewIndex() {		
-		return mCurrentViewIndex;
-	}
+	}	
 	
 	/*
 	private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {

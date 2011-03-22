@@ -123,7 +123,7 @@ public final class TabsController {
 		int insertionIndex = addWebViewContainer(position, new WebViewContainer(view, webView));
 		
 		webView.setWebChromeClient(new CustomWebChromeClient(mMainActivity, view, mWebViewActivity));
-        webView.setWebViewClient(new CustomWebViewClient(view));        
+        webView.setWebViewClient(new CustomWebViewClient(mWebViewActivity, view));        
         webView.setOnTouchListener(mTouchListener);
         
         webView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
