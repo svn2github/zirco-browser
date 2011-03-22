@@ -5,7 +5,6 @@ import org.tint.utils.UrlUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -80,11 +79,7 @@ public class CustomWebView extends WebView {
 		settings.setDefaultZoom(ZoomDensity.valueOf(prefs.getString(Constants.PREFERENCES_BROWSER_DEFAULT_ZOOM_LEVEL, ZoomDensity.MEDIUM.toString())));
 		settings.setUserAgentString(prefs.getString(Constants.PREFERENCES_BROWSER_USER_AGENT, Constants.USER_AGENT_DEFAULT));
 		
-		if (Build.VERSION.SDK_INT <= 7) {
-			settings.setPluginsEnabled(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS_ECLAIR, true));
-		} else {
-			settings.setPluginState(PluginState.valueOf(prefs.getString(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS, PluginState.ON_DEMAND.toString())));
-		}		
+		settings.setPluginState(PluginState.valueOf(prefs.getString(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS, PluginState.ON_DEMAND.toString())));		
 		
 		CookieManager.getInstance().setAcceptCookie(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_COOKIES, true));
 		

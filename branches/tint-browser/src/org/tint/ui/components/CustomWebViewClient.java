@@ -7,11 +7,9 @@ import org.tint.utils.ApplicationUtils;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
-import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 /**
  * Custom WebViewClient implementation.
@@ -19,41 +17,30 @@ import android.widget.ProgressBar;
 public class CustomWebViewClient extends WebViewClient {
 	
 	private IWebViewActivity mWebViewActivity;
-	private ProgressBar mProgressBar;
 	
 	/**
 	 * Constructor.
 	 * @param view The parent view.
 	 */
-	public CustomWebViewClient(IWebViewActivity webViewActivity, View view) {
+	public CustomWebViewClient(IWebViewActivity webViewActivity) {
 		mWebViewActivity = webViewActivity;
-		
-		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
-		mProgressBar.setVisibility(View.GONE);
-		mProgressBar.setMax(100);
 	}
 
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		
-		mWebViewActivity.onPageFinished();
-		
+		mWebViewActivity.onPageFinished();		
 		((CustomWebView) view).setLoading(false);
-		
-		mProgressBar.setProgress(100);
-		mProgressBar.setVisibility(View.GONE);
+
 		super.onPageFinished(view, url);
 	}
 
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
 		
-		mWebViewActivity.onPageStarted(url);
-		
+		mWebViewActivity.onPageStarted(url);		
 		((CustomWebView) view).setLoading(true);
-		
-		mProgressBar.setProgress(0);
-		mProgressBar.setVisibility(View.VISIBLE);		
+				
 		super.onPageStarted(view, url, favicon);
 	}
 

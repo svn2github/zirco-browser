@@ -20,13 +20,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.webkit.CookieManager;
 
@@ -42,16 +40,6 @@ public class PreferencesActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		
 		addPreferencesFromResource(R.layout.preferences_activity);
-		
-		PreferenceCategory browserPreferenceCategory = (PreferenceCategory) findPreference("BrowserPreferenceCategory");
-		Preference enablePluginsEclair = (Preference) findPreference(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS_ECLAIR);
-		Preference enablePlugins = (Preference) findPreference(Constants.PREFERENCES_BROWSER_ENABLE_PLUGINS);
-		
-		if (Build.VERSION.SDK_INT <= 7) {
-			browserPreferenceCategory.removePreference(enablePlugins);
-		} else {
-			browserPreferenceCategory.removePreference(enablePluginsEclair);
-		}
 		
 		Preference aboutPref = (Preference) findPreference("About");
 		aboutPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {

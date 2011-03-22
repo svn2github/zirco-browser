@@ -11,13 +11,17 @@ import org.tint.ui.components.CustomWebView;
 import org.tint.utils.Constants;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Browser;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -36,6 +40,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
@@ -75,6 +80,23 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private HideToolbarsRunnable mHideToolbarsRunnable;
 	
 	private int mCurrentViewIndex = -1;
+	
+	private BroadcastReceiver mDownloadsReceiver = new BroadcastReceiver() {			
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d("OnReceived", intent.getAction());
+			if (intent.getAction().compareTo(DownloadManager.ACTION_DOWNLOAD_COMPLETE) == 0) {
+				Log.d("ACTION_DOWNLOAD_COMPLETE", intent.getAction());
+				long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+				Toast.makeText(context, String.format("Download completed: %s", id), Toast.LENGTH_SHORT).show();
+			} else if (intent.getAction().compareTo(DownloadManager.ACTION_NOTIFICATION_CLICKED) == 0) {
+				Log.d("ACTION_NOTIFICATION_CLICKED", intent.getAction());
+				long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+				Toast.makeText(context, String.format("Notification clicked: %s", id), Toast.LENGTH_SHORT).show();
+			}
+			
+		}
+	};
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -212,6 +234,23 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         });
     }
 
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	
+    	IntentFilter filter = new IntentFilter();
+        filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE );
+        filter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+        
+        registerReceiver(mDownloadsReceiver, filter);
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mDownloadsReceiver);
+    }
+    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {		
 		

@@ -18,7 +18,6 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -28,23 +27,19 @@ public class CustomWebChromeClient extends WebChromeClient {
 	
 	private Activity mMainActivity;
 	private IWebViewActivity mWebViewActivity;
-	private ProgressBar mProgressBar;
 	
 	/**
 	 * Constructor.
 	 * @param activity The parent activity.
-	 * @param view The WebView container.
 	 * @param webViewActivity The IWebView activity.
 	 */
-	public CustomWebChromeClient(Activity activity, View view, IWebViewActivity webViewActivity) {
+	public CustomWebChromeClient(Activity activity, IWebViewActivity webViewActivity) {
 		mMainActivity = activity;
 		mWebViewActivity = webViewActivity;
-		mProgressBar = (ProgressBar) view.findViewById(R.id.WebViewProgress);
 	}
 
 	@Override
 	public void onProgressChanged(WebView view, int newProgress) {
-		mProgressBar.setProgress(newProgress);
 		mWebViewActivity.onPageProgress(newProgress);
 		super.onProgressChanged(view, newProgress);
 	}

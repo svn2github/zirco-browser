@@ -12,10 +12,13 @@ import org.tint.ui.components.CustomWebViewClient;
 import org.tint.utils.Constants;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -25,6 +28,7 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnTouchListener;
+import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebView.HitTestResult;
 import android.widget.RelativeLayout;
@@ -40,6 +44,10 @@ public final class TabsController {
 	public static final int TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB = Menu.FIRST + 11;
 	
 	private List<WebViewContainer> mWebViewList;
+	
+	private List<Long> mDownloadsList;
+	
+	private DownloadManager mDownloadManager;	
 	
 	private Activity mMainActivity;
 	private ViewFlipper mWebViewsContainer;
@@ -72,7 +80,8 @@ public final class TabsController {
 	 * Private Constructor.
 	 */
 	private TabsController() {
-		mWebViewList = new ArrayList<WebViewContainer>();		
+		mWebViewList = new ArrayList<WebViewContainer>();
+		mDownloadsList = new ArrayList<Long>();		
 	}
 	
 	/**
@@ -108,6 +117,8 @@ public final class TabsController {
 		};
 		
 		PreferenceManager.getDefaultSharedPreferences(mMainActivity).registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
+		
+		mDownloadManager = (DownloadManager) mMainActivity.getSystemService(Context.DOWNLOAD_SERVICE);
 	}
 	
 	/**
@@ -122,8 +133,8 @@ public final class TabsController {
 		
 		int insertionIndex = addWebViewContainer(position, new WebViewContainer(view, webView));
 		
-		webView.setWebChromeClient(new CustomWebChromeClient(mMainActivity, view, mWebViewActivity));
-        webView.setWebViewClient(new CustomWebViewClient(mWebViewActivity, view));        
+		webView.setWebChromeClient(new CustomWebChromeClient(mMainActivity, mWebViewActivity));
+        webView.setWebViewClient(new CustomWebViewClient(mWebViewActivity));        
         webView.setOnTouchListener(mTouchListener);
         
         webView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
@@ -158,6 +169,14 @@ public final class TabsController {
 			}
 		});
         
+        webView.setDownloadListener(new DownloadListener() {
+			
+			@Override
+			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {				
+				addDownload(url);
+			}
+		});
+        
         if ((url != null) &&
         		(url.length() > 0)) {
         	webView.loadUrl(url);
@@ -179,6 +198,13 @@ public final class TabsController {
 	public void removeTab(int index) {
 		mWebViewList.remove(index);
 		mWebViewsContainer.removeViewAt(index);
+	}
+	
+	public void addDownload(String url) {
+		Uri uriUrl = Uri.parse(url);
+		Request request = new Request(uriUrl);
+		request.setTitle(url);
+		mDownloadManager.enqueue(request);
 	}
 	
 	/**
