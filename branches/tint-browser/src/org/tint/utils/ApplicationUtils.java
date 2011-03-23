@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -166,11 +167,18 @@ public class ApplicationUtils {
 	 * @return The normalized favicon.
 	 */
 	public static BitmapDrawable getNormalizedFavicon(Activity activity, Bitmap icon) {
-		BitmapDrawable favIcon = new BitmapDrawable(icon);
+		BitmapDrawable favIcon = new BitmapDrawable(activity.getResources(), icon);
 		
 		if (icon != null) {
 			int favIconSize = getFaviconSize(activity);
-			favIcon.setBounds(0, 0, favIconSize, favIconSize);
+			
+			Bitmap bm = Bitmap.createBitmap(favIconSize, favIconSize, Bitmap.Config.ARGB_4444);
+			Canvas canvas = new Canvas(bm);
+			
+			favIcon.setBounds(0, 0, favIconSize, favIconSize);			
+			favIcon.draw(canvas);
+			
+			favIcon = new BitmapDrawable(activity.getResources(), bm);
 		}
 		
 		return favIcon;

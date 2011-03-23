@@ -465,7 +465,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
     	
     	if (currentWebView == webView) {
-    		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, favicon),
+    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, favicon),
     				null,
     				mUrlEditText.getCompoundDrawables()[2],
     				null);
@@ -639,18 +639,23 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	}
     }
     
+    /**
+     * Update the url bar icons (favicon and progress animation).
+     * @param webView The current WebView.
+     */
     private void updateUrlEditIcons(CustomWebView webView) {
-    	if (webView.isLoading()) {
-    		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+    	
+    	if (webView.isLoading()) {    		
+    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
     				null,
-    				mCircularProgress,
-    				null);
+    				mCircularProgress.getCurrent(),
+    				null);    		
     		((AnimationDrawable) mCircularProgress).start();
     	} else {
-    		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
     				null,
     				null,
-    				null);
+    				null);    		
     		((AnimationDrawable) mCircularProgress).stop();
     	}
     }
