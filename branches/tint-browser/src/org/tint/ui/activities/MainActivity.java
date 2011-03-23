@@ -66,12 +66,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private LinearLayout mTopBar;
 	private LinearLayout mBottomBar;
 	
-	private AutoCompleteTextView mUrlEditText;
-	
 	private ImageView mBubbleRightView;
 	private ImageView mBubbleLeftView;
 	
 	private ProgressBar mProgressBar;
+	
+	private ImageButton mHomeButton;
+	private AutoCompleteTextView mUrlEditText;
+	private ImageButton mGoButton;
 	
 	private ImageButton mRemoveTabButton;
 	private ImageButton mBookmarksButton;
@@ -90,6 +92,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private HideToolbarsRunnable mHideToolbarsRunnable;
 	
 	private int mCurrentViewIndex = -1;
+	private CustomWebView mCurrentWebView = null;
 	
 	private BroadcastReceiver mDownloadsReceiver = new BroadcastReceiver() {			
 		@Override
@@ -214,7 +217,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {
-					navigateToUrl();
+					navigateToCurrentUrl();
 					return true;
 				}
 				return false;
@@ -239,6 +242,26 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	
     	mProgressBar = (ProgressBar) findViewById(R.id.WebViewProgress);
     	mProgressBar.setMax(100);
+    	
+    	mHomeButton = (ImageButton) findViewById(R.id.HomeBtn);
+    	mHomeButton.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				navigateToHome();
+			}
+		});
+    	
+    	mGoButton = (ImageButton) findViewById(R.id.GoBtn);
+    	mGoButton.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				if (mCurrentWebView.isLoading()) {
+					mCurrentWebView.stopLoading();
+				} else {
+					navigateToCurrentUrl();
+				}
+			}
+		});
     	
     	mRemoveTabButton = (ImageButton) findViewById(R.id.RemoveTabBtn);
     	mRemoveTabButton.setOnClickListener(new View.OnClickListener() {
@@ -306,12 +329,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		Intent i;
 		switch (item.getItemId()) {
-		case MENU_ADD_BOOKMARK:
-			CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
+		case MENU_ADD_BOOKMARK:			
 			i = new Intent(this, EditBookmarkActivity.class);
 			i.putExtra(Constants.EXTRA_ID_BOOKMARK_ID, (long) -1);
-			i.putExtra(Constants.EXTRA_ID_BOOKMARK_TITLE, currentWebView.getTitle());
-			i.putExtra(Constants.EXTRA_ID_BOOKMARK_URL, currentWebView.getUrl());
+			i.putExtra(Constants.EXTRA_ID_BOOKMARK_TITLE, mCurrentWebView.getTitle());
+			i.putExtra(Constants.EXTRA_ID_BOOKMARK_URL, mCurrentWebView.getUrl());
 			startActivity(i);
 			return true;
 		case MENU_OPEN_HISTORY_BOOKMARKS:
@@ -384,14 +406,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	}
 	
 	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		
-		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-		
+	public boolean onKeyUp(int keyCode, KeyEvent event) {					
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (webView.canGoBack()) {
-				webView.goBack();				
+			if (mCurrentWebView.canGoBack()) {
+				mCurrentWebView.goBack();				
 			} else {
 				this.moveTaskToBack(true);
 			}
@@ -429,42 +448,37 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	}
     
     @Override
-    public void onPageStarted(WebView webView, String url) {
-    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-    	
-    	if (currentWebView == webView) {
+    public void onPageStarted(WebView webView, String url) { 
+    	if (mCurrentWebView == webView) {
     		mUrlEditText.setText(url);
     		setToolbarsVisibility(true);
-    		updateUrlEditIcons(currentWebView);
+    		updateStopGoButton();
+    		updateUrlEditIcons();
     	}
     }
     
     @Override
     public void onPageFinished(WebView webView) {
-    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-    	
-    	if (currentWebView == webView) {
+    	if (mCurrentWebView == webView) {
     		if (mUrlBarVisible) {
     			startToolbarsHideRunnable();    			
     		}
-    		updateUrlEditIcons(currentWebView);
+    		updateUrlEditIcons();
+    		updateStopGoButton();
+    		mProgressBar.setProgress(100);
     	}
     }
     
     @Override
     public void onPageProgress(WebView webView, int newProgress) {
-    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-    	
-    	if (currentWebView == webView) {
+    	if (mCurrentWebView == webView) {
     		mProgressBar.setProgress(newProgress);
     	}
     }
     
     @Override
     public void onReceivedFavicon(WebView webView, Bitmap favicon) {
-    	CustomWebView currentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-    	
-    	if (currentWebView == webView) {
+    	if (mCurrentWebView == webView) {
     		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, favicon),
     				null,
     				mUrlEditText.getCompoundDrawables()[2],
@@ -512,15 +526,24 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private void showTab(int tabIndex) {
 		mCurrentViewIndex = tabIndex;
 		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
+		mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();		
+		
 		updateBars();
 		
 		mUrlEditText.clearFocus();
 	}
 	
 	/**
+	 * Navigate to the user home page.
+	 */
+	private void navigateToHome() {
+		navigateToUrl("about:blank");
+	}
+	
+	/**
      * Navigate to the url given in the url edit text.
      */
-    private void navigateToUrl() {
+    private void navigateToCurrentUrl() {
     	navigateToUrl(mUrlEditText.getText().toString());    	
     }
 	
@@ -531,8 +554,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private void navigateToUrl(String url) {
 		mUrlEditText.clearFocus();
 		hideKeyboard(true);
-		CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-		webView.loadUrl(url);
+		mCurrentWebView.loadUrl(url);
 	}
 	
 	/**
@@ -559,7 +581,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		if (mUrlBarVisible) {			
 			if (!mUrlEditText.hasFocus()) {
 				
-				if (!TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView().isLoading()) {
+				if (!mCurrentWebView.isLoading()) {
 					setToolbarsVisibility(false);
 				}
 			}
@@ -641,18 +663,17 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     
     /**
      * Update the url bar icons (favicon and progress animation).
-     * @param webView The current WebView.
      */
-    private void updateUrlEditIcons(CustomWebView webView) {
+    private void updateUrlEditIcons() {
     	
-    	if (webView.isLoading()) {    		
-    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+    	if (mCurrentWebView.isLoading()) {    		
+    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, mCurrentWebView.getFavicon()),
     				null,
     				mCircularProgress.getCurrent(),
     				null);    		
     		((AnimationDrawable) mCircularProgress).start();
     	} else {
-    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+    		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(ApplicationUtils.getNormalizedFavicon(this, mCurrentWebView.getFavicon()),
     				null,
     				null,
     				null);    		
@@ -661,18 +682,28 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     }
     
     /**
+     * Update the icon of the Stop/Go button.
+     */
+    private void updateStopGoButton() {
+    	if (mCurrentWebView.isLoading()) {
+    		mGoButton.setImageResource(R.drawable.ic_btn_stop);
+    	} else {
+    		mGoButton.setImageResource(R.drawable.ic_btn_go);
+    	}
+    }
+    
+    /**
      * Update the bars element (url, favivon, button states...) with the current WebView.
      */
     private void updateBars() {
-    	CustomWebView webView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();
-    	
-    	if (webView.isLoading()) {
+    	if (mCurrentWebView.isLoading()) {
     		setToolbarsVisibility(true);
     	}
     	
-    	mUrlEditText.setText(webView.getUrl());
+    	mUrlEditText.setText(mCurrentWebView.getUrl());
     	
-    	updateUrlEditIcons(webView);
+    	updateUrlEditIcons();
+    	updateStopGoButton();
     	
     	mRemoveTabButton.setEnabled(TabsController.getInstance().getWebViewContainers().size() > 1);
     }
