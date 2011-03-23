@@ -168,7 +168,7 @@ public class ApplicationUtils {
 	public static BitmapDrawable getNormalizedFavicon(Activity activity, Bitmap icon) {
 		BitmapDrawable favIcon = new BitmapDrawable(icon);
 		
-		if (favIcon != null) {
+		if (icon != null) {
 			int favIconSize = getFaviconSize(activity);
 			favIcon.setBounds(0, 0, favIconSize, favIconSize);
 		}

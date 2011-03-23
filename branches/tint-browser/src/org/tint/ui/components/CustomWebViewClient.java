@@ -29,8 +29,8 @@ public class CustomWebViewClient extends WebViewClient {
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
 		
-		mWebViewActivity.onPageStarted(view, url);		
-		((CustomWebView) view).setLoading(true);
+		((CustomWebView) view).setLoading(true);		
+		mWebViewActivity.onPageStarted(view, url);				
 				
 		super.onPageStarted(view, url, favicon);
 	}
@@ -38,8 +38,8 @@ public class CustomWebViewClient extends WebViewClient {
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		
-		mWebViewActivity.onPageFinished(view);		
 		((CustomWebView) view).setLoading(false);
+		mWebViewActivity.onPageFinished(view);				
 
 		super.onPageFinished(view, url);
 	}

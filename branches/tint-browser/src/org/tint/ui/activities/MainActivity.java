@@ -21,6 +21,8 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Browser;
@@ -78,6 +80,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private GestureDetector mGestureDetector;
 	private ViewFlipper mWebViewContainer;
 	
+	private Drawable mCircularProgress;
+	
 	//private ScaleGestureDetector mScaleGestureDetector;	
 	//private float mScaleFactor = 1.f;
 	
@@ -117,6 +121,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         }
         
         setContentView(R.layout.main_activity);
+        
+        mCircularProgress = getResources().getDrawable(R.drawable.spinner);
         
         mHideToolbarsRunnable = null;
         
@@ -429,6 +435,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	if (currentWebView == webView) {
     		mUrlEditText.setText(url);
     		setToolbarsVisibility(true);
+    		updateUrlEditIcons(currentWebView);
     	}
     }
     
@@ -438,8 +445,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	
     	if (currentWebView == webView) {
     		if (mUrlBarVisible) {
-    			startToolbarsHideRunnable();
+    			startToolbarsHideRunnable();    			
     		}
+    		updateUrlEditIcons(currentWebView);
     	}
     }
     
@@ -585,14 +593,17 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	    	
     	if (visible) {
         	
-        	mTopBar.startAnimation(AnimationUtils.getTopBarShowAnimation());
-        	mBottomBar.startAnimation(AnimationUtils.getBottomBarShowAnimation());
-    		
-    		mTopBar.setVisibility(View.VISIBLE);
-    		mBottomBar.setVisibility(View.VISIBLE);
-    		
-    		mBubbleRightView.setVisibility(View.GONE);
-    		mBubbleLeftView.setVisibility(View.GONE);
+    		// No need to perform this if already shown, may cause flickering (due to animations) in case of wab page redirections.
+    		if (!mUrlBarVisible) {
+    			mTopBar.startAnimation(AnimationUtils.getTopBarShowAnimation());
+    			mBottomBar.startAnimation(AnimationUtils.getBottomBarShowAnimation());
+
+    			mTopBar.setVisibility(View.VISIBLE);
+    			mBottomBar.setVisibility(View.VISIBLE);
+
+    			mBubbleRightView.setVisibility(View.GONE);
+    			mBubbleLeftView.setVisibility(View.GONE);
+    		}
     		
     		startToolbarsHideRunnable();
     		
@@ -600,29 +611,47 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		
     	} else {        	
         	
-        	mTopBar.startAnimation(AnimationUtils.getTopBarHideAnimation());
-        	mBottomBar.startAnimation(AnimationUtils.getBottomBarHideAnimation());
-    		
-    		mTopBar.setVisibility(View.GONE);
-    		mBottomBar.setVisibility(View.GONE);
-    		
-    		String bubblePosition = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_BUBBLE_POSITION, "right");
-    		
-    		if (bubblePosition.equals("right")) {
-    			mBubbleRightView.setVisibility(View.VISIBLE);
-    			mBubbleLeftView.setVisibility(View.GONE);
-    		} else if (bubblePosition.equals("left")) {
-    			mBubbleRightView.setVisibility(View.GONE);
-    			mBubbleLeftView.setVisibility(View.VISIBLE);
-    		} else if (bubblePosition.equals("both")) {
-    			mBubbleRightView.setVisibility(View.VISIBLE);
-    			mBubbleLeftView.setVisibility(View.VISIBLE);
-    		} else {
-    			mBubbleRightView.setVisibility(View.VISIBLE);
-    			mBubbleLeftView.setVisibility(View.GONE);
+    		if (mUrlBarVisible) {
+    			mTopBar.startAnimation(AnimationUtils.getTopBarHideAnimation());
+    			mBottomBar.startAnimation(AnimationUtils.getBottomBarHideAnimation());
+
+    			mTopBar.setVisibility(View.GONE);
+    			mBottomBar.setVisibility(View.GONE);
+
+    			String bubblePosition = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_BUBBLE_POSITION, "right");
+
+    			if (bubblePosition.equals("right")) {
+    				mBubbleRightView.setVisibility(View.VISIBLE);
+    				mBubbleLeftView.setVisibility(View.GONE);
+    			} else if (bubblePosition.equals("left")) {
+    				mBubbleRightView.setVisibility(View.GONE);
+    				mBubbleLeftView.setVisibility(View.VISIBLE);
+    			} else if (bubblePosition.equals("both")) {
+    				mBubbleRightView.setVisibility(View.VISIBLE);
+    				mBubbleLeftView.setVisibility(View.VISIBLE);
+    			} else {
+    				mBubbleRightView.setVisibility(View.VISIBLE);
+    				mBubbleLeftView.setVisibility(View.GONE);
+    			}
     		}
 			
 			mUrlBarVisible = false;
+    	}
+    }
+    
+    private void updateUrlEditIcons(CustomWebView webView) {
+    	if (webView.isLoading()) {
+    		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+    				null,
+    				mCircularProgress,
+    				null);
+    		((AnimationDrawable) mCircularProgress).start();
+    	} else {
+    		mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
+    				null,
+    				null,
+    				null);
+    		((AnimationDrawable) mCircularProgress).stop();
     	}
     }
     
@@ -638,10 +667,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	
     	mUrlEditText.setText(webView.getUrl());
     	
-    	mUrlEditText.setCompoundDrawables(ApplicationUtils.getNormalizedFavicon(this, webView.getFavicon()),
-				null,
-				mUrlEditText.getCompoundDrawables()[2],
-				null);
+    	updateUrlEditIcons(webView);
     	
     	mRemoveTabButton.setEnabled(TabsController.getInstance().getWebViewContainers().size() > 1);
     }
