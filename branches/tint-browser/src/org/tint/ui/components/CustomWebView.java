@@ -90,6 +90,10 @@ public class CustomWebView extends WebView {
     	setScrollbarFadingEnabled(true);
     	setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
     	setDrawingCacheEnabled(true);
+    	
+    	settings.setAppCacheEnabled(true);
+    	settings.setDatabaseEnabled(true);
+    	settings.setDomStorageEnabled(true);
 	}
 
 	@Override

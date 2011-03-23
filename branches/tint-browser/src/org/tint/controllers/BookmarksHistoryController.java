@@ -4,11 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import org.tint.model.BookmarkItem;
+import org.tint.utils.ApplicationUtils;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.provider.Browser;
 
 /**
@@ -151,8 +153,10 @@ public final class BookmarksHistoryController {
 	public void updateFavicon(Activity currentActivity, String url, String originalUrl, Bitmap favicon) {
 		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
 		
+		BitmapDrawable icon = ApplicationUtils.getNormalizedFavicon(currentActivity, favicon);		
+		
 		ByteArrayOutputStream os = new ByteArrayOutputStream();    	
-		favicon.compress(Bitmap.CompressFormat.PNG, 100, os);
+		icon.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, os);
 		
 		ContentValues values = new ContentValues();
 		values.put(Browser.BookmarkColumns.FAVICON, os.toByteArray());
