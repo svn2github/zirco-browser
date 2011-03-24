@@ -103,25 +103,7 @@ public class PreferencesActivity extends PreferenceActivity {
 				importHistoryBookmarks();
 				return true;
 			}			
-		});
-		
-		Preference searchUrlPref = (Preference) findPreference(Constants.PREFERENCES_GENERAL_SEARCH_URL);
-		searchUrlPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				openSearchUrlActivity();
-				return true;
-			}
-		});
-		
-		Preference userAgentPref = (Preference) findPreference(Constants.PREFERENCES_BROWSER_USER_AGENT);
-		userAgentPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				openUserAgentActivity();
-				return true;
-			}
-		});
+		});		
 		
 		Preference fullScreenPref = (Preference) findPreference(Constants.PREFERENCES_GENERAL_FULL_SCREEN);
 		fullScreenPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -154,23 +136,7 @@ public class PreferencesActivity extends PreferenceActivity {
 			}
 			
 		});
-	}
-	
-	/**
-	 * Display the search url preference dialog.
-	 */
-	private void openSearchUrlActivity() {
-		Intent i = new Intent(this, SearchUrlPreferenceActivity.class);
-		startActivity(i);
-	}
-	
-	/**
-	 * Display the user agent preference dialog.
-	 */
-	private void openUserAgentActivity() {
-		Intent i = new Intent(this, UserAgentPreferenceActivity.class);
-		startActivity(i);
-	}
+	}	
 	
 	/**
 	 * Import the given file to bookmarks and history.

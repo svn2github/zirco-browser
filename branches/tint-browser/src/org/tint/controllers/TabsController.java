@@ -124,6 +124,11 @@ public final class TabsController {
 		mDownloadManager = (DownloadManager) mMainActivity.getSystemService(Context.DOWNLOAD_SERVICE);
 	}
 	
+	/**
+	 * Retrieve a DownloadItem by its id.
+	 * @param id The DownloadItem id.
+	 * @return The DownloadItem, or null if not found.
+	 */
 	public DownloadItem getDownloadItemById(long id) {
 		for (DownloadItem item : mDownloadsList) {
 			if (item.getId() == id) {
@@ -134,6 +139,10 @@ public final class TabsController {
 		return null;
 	}
 	
+	/**
+	 * Remove a DownloadItem from the download list.
+	 * @param item The DownloadItem to remove.
+	 */
 	public void removeDownloadItem(DownloadItem item) {
 		mDownloadsList.remove(item);
 	}
@@ -190,7 +199,7 @@ public final class TabsController {
 			
 			@Override
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {				
-				addDownload(url);
+				doDownload(url);
 			}
 		});
         
@@ -217,7 +226,11 @@ public final class TabsController {
 		mWebViewsContainer.removeViewAt(index);
 	}
 	
-	public void addDownload(String url) {						
+	/**
+	 * Launch a download through the DownloadManager.
+	 * @param url The url of the file to download.
+	 */
+	public void doDownload(String url) {
 		DownloadItem item = new DownloadItem(url, url.substring(url.lastIndexOf("/") + 1));
 		
 		IOUtils.createDownloadFolderIfRequired();

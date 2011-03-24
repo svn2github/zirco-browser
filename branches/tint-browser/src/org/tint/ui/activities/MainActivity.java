@@ -524,6 +524,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		}		
 	}
 	
+    /**
+     * Process a download notification.
+     * @param context The notification context.
+     * @param intent The notification intent.
+     */
     private void onReceivedDownloadNotification(Context context, Intent intent) {
 
 		if (intent.getAction().compareTo(DownloadManager.ACTION_DOWNLOAD_COMPLETE) == 0) {
@@ -534,7 +539,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			
 			if (item != null) {
 				// This is one of our downloads.
-				final DownloadManager downloadManager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
+				final DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 				Query query = new Query();
 				query.setFilterById(id);
 				Cursor cursor = downloadManager.query(query);
@@ -782,6 +787,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	}
     }
     
+    /**
+     * Update the Back/Forward buttons enabled state.
+     */
     private void updateBackForwardButtons() {
     	mBackButton.setEnabled(mCurrentWebView.canGoBack());
     	mForwardButton.setEnabled(mCurrentWebView.canGoForward());

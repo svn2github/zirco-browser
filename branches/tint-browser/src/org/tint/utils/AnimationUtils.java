@@ -92,6 +92,10 @@ public class AnimationUtils {
 		return mBottomBarHideAnimation;
 	}
 	
+	/**
+	 * Get the "in" animation from right for the ViewFlipper.
+	 * @return The animation.
+	 */
 	public static Animation getInFromRightAnimation() {
 		if (mInFromRightAnimation == null) {
 			mInFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +1.0f,
@@ -106,6 +110,10 @@ public class AnimationUtils {
 		return mInFromRightAnimation;
 	}
 	
+	/**
+	 * Get the "out" animation to left for the ViewFlipper.
+	 * @return The animation.
+	 */
 	public static Animation getOutToLeftAnimation() {
 		if (mOutToLeftAnimation == null) {
 			mOutToLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -120,6 +128,10 @@ public class AnimationUtils {
 		return mOutToLeftAnimation;
 	}
 	
+	/**
+	 * Get the "in" animation from left for the ViewFlipper.
+	 * @return The animation.
+	 */
 	public static Animation getInFromLeftAnimation() {
 		if (mInFromLeftAnimation == null) {
 			mInFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -134,6 +146,10 @@ public class AnimationUtils {
 		return mInFromLeftAnimation;
 	}
 	
+	/**
+	 * Get the "out" animation to right for the ViewFlipper.
+	 * @return The animation.
+	 */
 	public static Animation getOutToRightAnimation() {
 		if (mOutToRightAnimation == null) {
 			mOutToRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,

@@ -19,6 +19,9 @@ public class IOUtils {
 	private static final String APPLICATION_FOLDER = "tint-browser";
 	private static final String BOOKMARKS_EXPORT_FOLDER = "bookmarks-exports";
 	
+	/**
+	 * Create the download folder if it does not exists.
+	 */
 	public static void createDownloadFolderIfRequired() {
 		File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 		if (!root.exists()) {
@@ -26,6 +29,10 @@ public class IOUtils {
 		}
 	}
 	
+	/**
+	 * Delete the file with the given filename from the download folder if it exists.
+	 * @param fileName The filename.
+	 */
 	public static void deleteFileInDownloadFolderIfPresent(String fileName) {
 		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
 		if (file.exists()) {
