@@ -220,11 +220,12 @@ public final class TabsController {
 	public void addDownload(String url) {						
 		DownloadItem item = new DownloadItem(url, url.substring(url.lastIndexOf("/") + 1));
 		
-		IOUtils.getDownloadFolder();
+		IOUtils.createDownloadFolderIfRequired();
+		IOUtils.deleteFileInDownloadFolderIfPresent(item.getDestinationFileName());
 		
 		Uri uriUrl = Uri.parse(url);
 		Request request = new Request(uriUrl);
-		request.setTitle(item.getDestinationFileName());
+		request.setTitle(String.format(mMainActivity.getString(R.string.Commons_Downloading), item.getDestinationFileName()));
 		request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, item.getDestinationFileName());
 		long id = mDownloadManager.enqueue(request);
 		

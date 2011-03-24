@@ -47,6 +47,13 @@
     <string name="Commons.JavaScriptAlert">JavaScript alert</string>
     <string name="Commons.JavaScriptPrompt">JavaScript prompt</string>
     <string name="Commons.JavaScriptConfirm">JavaScript confirm</string>
+    <string name="Commons.Downloading">Downloading %s</string>
+    <string name="Commons.SuccessfullDownload">File successfully downloaded to %s.</string>
+    <string name="Commons.FailedDownload">Download failed: %s.</string>
+    <string name="Commons.DownloadErrorDisk">Disk error, check if you have a storage media, and if it has enought space left</string>
+    <string name="Commons.DownloadErrorHttp">HTTP error</string>
+    <string name="Commons.DownloadErrorRedirection">Too many redirections</string>
+    <string name="Commons.DownloadErrorUnknown">Unknown error</string>
     
     <string name="Constants.SearchUrlGoogle">http://www.google.com/m?hl=en&amp;gl=us&amp;client=ms-null&amp;source=android-browser-key&amp;q=%s</string>
     <string name="Constants.SearchUrlWikipedia">http://en.wikipedia.org/w/index.php?search=%s&amp;go=Go</string>

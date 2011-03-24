@@ -510,34 +510,58 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			
 			if (item != null) {
 				// This is one of our downloads.
-				Toast.makeText(context, String.format("Download completed: %s", item.getDestinationFileName()), Toast.LENGTH_SHORT).show();
-				TabsController.getInstance().removeDownloadItem(item);
+				final DownloadManager downloadManager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
+				Query query = new Query();
+				query.setFilterById(id);
+				Cursor cursor = downloadManager.query(query);
+				
+				if (cursor.moveToFirst()) {
+					int localUriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
+					int reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
+					int statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+					
+					int status = cursor.getInt(statusIndex);
+					
+					if (status == DownloadManager.STATUS_SUCCESSFUL) {
+						
+						String localUri = cursor.getString(localUriIndex);
+						Toast.makeText(context, String.format(getString(R.string.Commons_SuccessfullDownload), localUri), Toast.LENGTH_SHORT).show();
+						TabsController.getInstance().removeDownloadItem(item);
+						
+					} else if (status == DownloadManager.STATUS_FAILED) {
+						
+						int reason = cursor.getInt(reasonIndex);
+						
+						String message;
+						switch (reason) {
+						case DownloadManager.ERROR_FILE_ERROR:
+						case DownloadManager.ERROR_DEVICE_NOT_FOUND:					
+						case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+							message = getString(R.string.Commons_DownloadErrorDisk);
+							break;
+						case DownloadManager.ERROR_HTTP_DATA_ERROR:
+						case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
+							message = getString(R.string.Commons_DownloadErrorHttp);
+							break;
+						case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
+							message = getString(R.string.Commons_DownloadErrorRedirection);
+							break;
+						default:
+							message = getString(R.string.Commons_DownloadErrorUnknown);
+							break;
+						}
+						
+						Toast.makeText(context, String.format(getString(R.string.Commons_FailedDownload), message), Toast.LENGTH_SHORT).show();
+						TabsController.getInstance().removeDownloadItem(item);
+						
+					}
+				}												
 			}
-			
-			final DownloadManager downloadManager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
-			Query query = new Query();
-			query.setFilterById(id);
-			Cursor cursor = downloadManager.query(query);
-			
-			if(cursor.moveToFirst()){
-				int localUriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
-				int reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
-				int statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-				int totalSizeIndex = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
-
-				String localUri = cursor.getString(localUriIndex);
-				int reason = cursor.getInt(reasonIndex);
-				int status = cursor.getInt(statusIndex);
-				int totalSize = cursor.getInt(totalSizeIndex);
-
-				Log.d("TEST", "DownloadManager = " + reason + ", " + status + ", " + totalSize + ", " + localUri);
-			}
-			
-			Toast.makeText(context, String.format("Download completed: %s", id), Toast.LENGTH_SHORT).show();
 			
 		} else if (intent.getAction().compareTo(DownloadManager.ACTION_NOTIFICATION_CLICKED) == 0) {
 			Log.d("ACTION_NOTIFICATION_CLICKED", intent.getAction());
 			long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+			
 			Toast.makeText(context, String.format("Notification clicked: %s", id), Toast.LENGTH_SHORT).show();
 		}
     }

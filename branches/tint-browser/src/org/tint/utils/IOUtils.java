@@ -17,21 +17,21 @@ import android.os.Environment;
 public class IOUtils {
 	
 	private static final String APPLICATION_FOLDER = "tint-browser";
-	/*
-	private static final String APPLICATION_FOLDER_1 = "Android";
-	private static final String APPLICATION_FOLDER_2 = "data";
-	private static final String APPLICATION_FOLDER_3 = "org.tint";
-	*/
 	private static final String BOOKMARKS_EXPORT_FOLDER = "bookmarks-exports";
 	
-	public static File getDownloadFolder() {
+	public static void createDownloadFolderIfRequired() {
 		File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 		if (!root.exists()) {
 			root.mkdirs();
 		}
-		
-		return root;
-	}	
+	}
+	
+	public static void deleteFileInDownloadFolderIfPresent(String fileName) {
+		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+		if (file.exists()) {
+			file.delete();
+		}
+	}
 	
 	/**
 	 * Get the application folder on the SD Card. Create it if not present.
@@ -40,25 +40,6 @@ public class IOUtils {
 	public static File getApplicationFolder() {
 		File root = Environment.getExternalStorageDirectory();
 		if (root.canWrite()) {
-			
-			/*
-			File folder1 = new File(root, APPLICATION_FOLDER_1);			
-			if (!folder1.exists()) {
-				folder1.mkdir();
-			}
-			
-			File folder2 = new File(folder1, APPLICATION_FOLDER_2);
-			if (!folder2.exists()) {
-				folder2.mkdir();
-			}
-			
-			File folder3 = new File(folder2, APPLICATION_FOLDER_3);
-			if (!folder3.exists()) {
-				folder3.mkdir();
-			}
-			
-			return folder3;
-			*/
 			
 			File folder = new File(root, APPLICATION_FOLDER);			
 			if (!folder.exists()) {
