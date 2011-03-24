@@ -21,7 +21,9 @@ public class BookmarksHistoryActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREFERENCES_GENERAL_HIDE_TITLE_BARS, true)) {
+			requestWindowFeature(Window.FEATURE_NO_TITLE);
+		}
 		
 		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREFERENCES_GENERAL_FULL_SCREEN, false)) {
         	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);        

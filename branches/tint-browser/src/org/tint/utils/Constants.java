@@ -33,6 +33,7 @@ public class Constants {
 	 * Preferences.
 	 */
 	public static final String PREFERENCES_GENERAL_FULL_SCREEN = "GeneralFullScreen";
+	public static final String PREFERENCES_GENERAL_HIDE_TITLE_BARS = "GeneralHideTitleBars";
 	public static final String PREFERENCES_GENERAL_SEARCH_URL = "GeneralSearchUrl";
 	public static final String PREFERENCES_GENERAL_BUBBLE_POSITION = "GeneralBubblePosition";
 	public static final String PREFERENCES_GENERAL_BARS_DURATION = "GeneralBarsDuration";

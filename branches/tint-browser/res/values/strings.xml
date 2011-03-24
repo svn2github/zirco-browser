@@ -90,7 +90,9 @@
     
     <string name="PreferencesActivity.GeneralSettingsCategoryTitle">General settings</string>
     <string name="PreferencesActivity.FullScreenPreferenceTitle">Full screen</string>
-    <string name="PreferencesActivity.FullScreenPreferenceSummary">Display browser in full screen mode (need application restart).</string>
+    <string name="PreferencesActivity.FullScreenPreferenceSummary">If checked, the browser will be displayed in full screen (need application restart).</string>
+    <string name="PreferencesActivity.HideTitleBarPreferenceTitle">Hide title bars</string>
+    <string name="PreferencesActivity.HideTitleBarPreferenceSummary">If checked, windows title bars will not be displayed (need application restart).</string>
     <string name="PreferencesActivity.BrowserSettingsCategoryTitle">Browser settings</string>
     <string name="PreferencesActivity.HistorySizePreferenceTitle">History size</string>
     <string name="PreferencesActivity.HistorySizePreferenceSummary">History size in days.</string>

@@ -114,6 +114,16 @@ public class PreferencesActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+		
+		Preference titleBarsPref = (Preference) findPreference(Constants.PREFERENCES_GENERAL_HIDE_TITLE_BARS);
+		titleBarsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				askForRestart();
+				return true;
+			}
+		});
 	}
 	
 	/**
