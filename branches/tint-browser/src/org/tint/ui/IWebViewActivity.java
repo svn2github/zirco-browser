@@ -11,17 +11,19 @@ public interface IWebViewActivity {
 	/**
 	 * Open a new tab and navigate to the given url.
 	 * @param url The url to navigate to.
+	 * @param useAnimation if true, the switch between tabs will be made using animations.
 	 * @return The index of the new tab.
 	 */
-	int addTab(String url);
+	int addTab(String url, boolean useAnimation);
 	
 	/**
 	 * Open a new tab and navigate to the given url, at the specified position.
 	 * @param tabIndex The index to insert the new tab.
 	 * @param url The url to navigate to.
+	 * @param useAnimation if true, the switch between tabs will be made using animations.
 	 * @return The index of the new tab.
 	 */
-	int addTab(int tabIndex, String url);
+	int addTab(int tabIndex, String url, boolean useAnimation);
 	
 	/**
 	 * Get the current tab index.

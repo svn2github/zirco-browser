@@ -51,7 +51,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 		
 		int currentWebViewIndex = mWebViewActivity.getCurrentWebViewIndex();
 		
-		currentWebViewIndex = mWebViewActivity.addTab(currentWebViewIndex + 1, null);
+		currentWebViewIndex = mWebViewActivity.addTab(currentWebViewIndex + 1, null, true);
 		
 		transport.setWebView(TabsController.getInstance().getWebViewContainers().get(currentWebViewIndex).getWebView());
 		resultMsg.sendToTarget();

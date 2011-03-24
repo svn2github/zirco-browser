@@ -129,7 +129,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         initializeWebIconDatabase();
         
-        addTab("about:blank");
+        addTab("about:blank", false);
         
         startToolbarsHideRunnable();
     }
@@ -277,7 +277,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mAddTabButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addTab(mCurrentViewIndex + 1, "about:blank");
+				addTab(mCurrentViewIndex + 1, "about:blank", true);
 			}
 		});
     	
@@ -401,7 +401,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         		Bundle b = data.getExtras();
         		if (b != null) {
         			int position = b.getInt(Constants.EXTRA_CURRENT_VIEW_INDEX);
-        			showTab(position);        			
+        			showTab(position, false);        			
         		}
 			}
 		} else if ((requestCode == ACTIVITY_SHOW_BOOKMARKS_HISTORY) &&
@@ -410,7 +410,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 				Bundle b = data.getExtras();
 				if (b != null) {
 					if (b.getBoolean(Constants.EXTRA_ID_NEW_TAB)) {
-						addTab(b.getString(Constants.EXTRA_ID_URL));
+						addTab(b.getString(Constants.EXTRA_ID_URL), false);
 					} else {
 						navigateToUrl(b.getString(Constants.EXTRA_ID_URL));
 					}					
@@ -444,14 +444,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     }
 	    
     @Override
-	public int addTab(String url) {
-		return addTab(-1, url);
+	public int addTab(String url, boolean useAnimation) {
+		return addTab(-1, url, useAnimation);
 	}
     
     @Override
-	public int addTab(int tabIndex, String url) {
+	public int addTab(int tabIndex, String url, boolean useAnimation) {
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
-        showTab(mCurrentViewIndex);
+        showTab(mCurrentViewIndex, useAnimation);
         
         return mCurrentViewIndex;
     }
@@ -516,7 +516,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			
 		case TabsController.TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB:
 			if (b != null) {
-				addTab(mCurrentViewIndex + 1, b.getString(Constants.EXTRA_ID_URL));
+				addTab(mCurrentViewIndex + 1, b.getString(Constants.EXTRA_ID_URL), true);
 			}			
 			return true;
 				
@@ -609,14 +609,20 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     /**
      * Show a tab given its index.
      * @param tabIndex The tab's index to show.
+     * @param useAnimation If true, the switch will use animations.
      */
-	private void showTab(int tabIndex) {
-		if (tabIndex <= mCurrentViewIndex) {
-			mWebViewFlipper.setInAnimation(AnimationUtils.getInFromLeftAnimation());
-			mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToRightAnimation());
+	private void showTab(int tabIndex, boolean useAnimation) {
+		if (useAnimation) {
+			if (tabIndex <= mCurrentViewIndex) {
+				mWebViewFlipper.setInAnimation(AnimationUtils.getInFromRightAnimation());
+				mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToLeftAnimation());				
+			} else {
+				mWebViewFlipper.setInAnimation(AnimationUtils.getInFromLeftAnimation());
+				mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToRightAnimation());
+			}
 		} else {
-			mWebViewFlipper.setInAnimation(AnimationUtils.getInFromRightAnimation());
-			mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToLeftAnimation());
+			mWebViewFlipper.setInAnimation(null);
+			mWebViewFlipper.setOutAnimation(null);
 		}
 		
 		mCurrentViewIndex = tabIndex;
@@ -823,7 +829,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		mCurrentViewIndex = 0;
     	}
     	
-    	showTab(mCurrentViewIndex);
+    	showTab(mCurrentViewIndex, true);
     }
     
 	/**
