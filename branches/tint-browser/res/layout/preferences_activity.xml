@@ -13,7 +13,7 @@
         <Preference
 			android:title="@string/PreferencesActivity.SearchUrlPreferenceTitle"
 			android:summary="@string/PreferencesActivity.SearchUrlPreferenceSummary"
-			android:key="GeneralSearchUrl" />
+			android:key="GeneralSearchUrl" />		
     </PreferenceCategory>
     <PreferenceCategory
         android:key="BrowserPreferenceCategory"
@@ -25,8 +25,14 @@
             android:defaultValue="MEDIUM"
             android:entries="@array/DefaultZoomEntries"
             android:entryValues="@array/DefaultZoomValues" />
+        <!--  
         <Preference
             android:title="@string/PreferencesActivity.UserAgentPreferenceTitle"
+            android:summary="@string/PreferencesActivity.UserAgentPreferenceSummary"
+            android:key="BrowserUserAgent" />
+        -->
+        <org.tint.ui.activities.preferences.TestDialogPreference 
+        	android:title="@string/PreferencesActivity.UserAgentPreferenceTitle"
             android:summary="@string/PreferencesActivity.UserAgentPreferenceSummary"
             android:key="BrowserUserAgent" />   
         <CheckBoxPreference
