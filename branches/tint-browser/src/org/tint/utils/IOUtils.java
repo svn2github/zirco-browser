@@ -24,6 +24,15 @@ public class IOUtils {
 	*/
 	private static final String BOOKMARKS_EXPORT_FOLDER = "bookmarks-exports";
 	
+	public static File getDownloadFolder() {
+		File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		if (!root.exists()) {
+			root.mkdirs();
+		}
+		
+		return root;
+	}	
+	
 	/**
 	 * Get the application folder on the SD Card. Create it if not present.
 	 * @return The application folder.

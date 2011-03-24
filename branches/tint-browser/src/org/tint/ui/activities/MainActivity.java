@@ -4,6 +4,7 @@ import org.tint.R;
 import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
+import org.tint.model.DownloadItem;
 import org.tint.runnables.HideToolbarsRunnable;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.activities.preferences.PreferencesActivity;
@@ -14,6 +15,7 @@ import org.tint.utils.Constants;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.DownloadManager.Query;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -97,17 +99,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private BroadcastReceiver mDownloadsReceiver = new BroadcastReceiver() {			
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d("OnReceived", intent.getAction());
-			if (intent.getAction().compareTo(DownloadManager.ACTION_DOWNLOAD_COMPLETE) == 0) {
-				Log.d("ACTION_DOWNLOAD_COMPLETE", intent.getAction());
-				long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-				Toast.makeText(context, String.format("Download completed: %s", id), Toast.LENGTH_SHORT).show();
-			} else if (intent.getAction().compareTo(DownloadManager.ACTION_NOTIFICATION_CLICKED) == 0) {
-				Log.d("ACTION_NOTIFICATION_CLICKED", intent.getAction());
-				long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-				Toast.makeText(context, String.format("Notification clicked: %s", id), Toast.LENGTH_SHORT).show();
-			}
-			
+			onReceivedDownloadNotification(context, intent);
 		}
 	};
 	
@@ -508,6 +500,48 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		}		
 	}
 	
+    private void onReceivedDownloadNotification(Context context, Intent intent) {
+
+		if (intent.getAction().compareTo(DownloadManager.ACTION_DOWNLOAD_COMPLETE) == 0) {
+			
+			long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+			
+			DownloadItem item = TabsController.getInstance().getDownloadItemById(id);
+			
+			if (item != null) {
+				// This is one of our downloads.
+				Toast.makeText(context, String.format("Download completed: %s", item.getDestinationFileName()), Toast.LENGTH_SHORT).show();
+				TabsController.getInstance().removeDownloadItem(item);
+			}
+			
+			final DownloadManager downloadManager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
+			Query query = new Query();
+			query.setFilterById(id);
+			Cursor cursor = downloadManager.query(query);
+			
+			if(cursor.moveToFirst()){
+				int localUriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
+				int reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
+				int statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+				int totalSizeIndex = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
+
+				String localUri = cursor.getString(localUriIndex);
+				int reason = cursor.getInt(reasonIndex);
+				int status = cursor.getInt(statusIndex);
+				int totalSize = cursor.getInt(totalSizeIndex);
+
+				Log.d("TEST", "DownloadManager = " + reason + ", " + status + ", " + totalSize + ", " + localUri);
+			}
+			
+			Toast.makeText(context, String.format("Download completed: %s", id), Toast.LENGTH_SHORT).show();
+			
+		} else if (intent.getAction().compareTo(DownloadManager.ACTION_NOTIFICATION_CLICKED) == 0) {
+			Log.d("ACTION_NOTIFICATION_CLICKED", intent.getAction());
+			long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+			Toast.makeText(context, String.format("Notification clicked: %s", id), Toast.LENGTH_SHORT).show();
+		}
+    }
+    
     /**
      * Open the TabsActivity activity.
      */

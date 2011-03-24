@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tint.R;
+import org.tint.model.DownloadItem;
 import org.tint.model.WebViewContainer;
 import org.tint.ui.IWebViewActivity;
 import org.tint.ui.components.CustomWebChromeClient;
 import org.tint.ui.components.CustomWebView;
 import org.tint.ui.components.CustomWebViewClient;
 import org.tint.utils.Constants;
+import org.tint.utils.IOUtils;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -19,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -45,7 +48,7 @@ public final class TabsController {
 	
 	private List<WebViewContainer> mWebViewList;
 	
-	private List<Long> mDownloadsList;
+	private List<DownloadItem> mDownloadsList;
 	
 	private DownloadManager mDownloadManager;	
 	
@@ -81,7 +84,7 @@ public final class TabsController {
 	 */
 	private TabsController() {
 		mWebViewList = new ArrayList<WebViewContainer>();
-		mDownloadsList = new ArrayList<Long>();		
+		mDownloadsList = new ArrayList<DownloadItem>();		
 	}
 	
 	/**
@@ -119,6 +122,20 @@ public final class TabsController {
 		PreferenceManager.getDefaultSharedPreferences(mMainActivity).registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
 		
 		mDownloadManager = (DownloadManager) mMainActivity.getSystemService(Context.DOWNLOAD_SERVICE);
+	}
+	
+	public DownloadItem getDownloadItemById(long id) {
+		for (DownloadItem item : mDownloadsList) {
+			if (item.getId() == id) {
+				return item;
+			}
+		}
+		
+		return null;
+	}
+	
+	public void removeDownloadItem(DownloadItem item) {
+		mDownloadsList.remove(item);
 	}
 	
 	/**
@@ -200,11 +217,20 @@ public final class TabsController {
 		mWebViewsContainer.removeViewAt(index);
 	}
 	
-	public void addDownload(String url) {
+	public void addDownload(String url) {						
+		DownloadItem item = new DownloadItem(url, url.substring(url.lastIndexOf("/") + 1));
+		
+		IOUtils.getDownloadFolder();
+		
 		Uri uriUrl = Uri.parse(url);
 		Request request = new Request(uriUrl);
-		request.setTitle(url);
-		mDownloadManager.enqueue(request);
+		request.setTitle(item.getDestinationFileName());
+		request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, item.getDestinationFileName());
+		long id = mDownloadManager.enqueue(request);
+		
+		item.setId(id);
+		
+		mDownloadsList.add(item);
 	}
 	
 	/**
