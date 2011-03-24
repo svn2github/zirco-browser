@@ -77,12 +77,14 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private AutoCompleteTextView mUrlEditText;
 	private ImageButton mGoButton;
 	
+	private ImageButton mBackButton;	
 	private ImageButton mRemoveTabButton;
 	private ImageButton mBookmarksButton;
 	private ImageButton mAddTabButton;
+	private ImageButton mForwardButton;
 	
 	private GestureDetector mGestureDetector;
-	private ViewFlipper mWebViewContainer;
+	private ViewFlipper mWebViewFlipper;
 	
 	private Drawable mCircularProgress;
 	
@@ -123,7 +125,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         buildUI();
         
-        TabsController.getInstance().initialize(this, this, this, mWebViewContainer);
+        TabsController.getInstance().initialize(this, this, this, mWebViewFlipper);
         
         initializeWebIconDatabase();
         
@@ -139,7 +141,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mGestureDetector = new GestureDetector(this, new GestureListener());
         //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
         
-        mWebViewContainer = (ViewFlipper) findViewById(R.id.WebWiewContainer);
+        mWebViewFlipper = (ViewFlipper) findViewById(R.id.WebWiewContainer);
         
         mTopBar = (LinearLayout) findViewById(R.id.TopBarLayout);    	
     	mTopBar.setOnClickListener(new OnClickListener() {			
@@ -276,6 +278,26 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			@Override
 			public void onClick(View v) {
 				addTab(mCurrentViewIndex + 1, "about:blank");
+			}
+		});
+    	
+    	mBackButton = (ImageButton) findViewById(R.id.BackBtn);
+    	mBackButton.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				if (mCurrentWebView.canGoBack()) {
+					mCurrentWebView.goBack();
+				}
+			}
+		});
+    	
+    	mForwardButton = (ImageButton) findViewById(R.id.ForwardBtn);
+    	mForwardButton.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				if (mCurrentWebView.canGoForward()) {
+					mCurrentWebView.goForward();
+				}
 			}
 		});
     }
@@ -446,6 +468,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		setToolbarsVisibility(true);
     		updateStopGoButton();
     		updateUrlEditIcons();
+    		updateBackForwardButtons();
     	}
     }
     
@@ -457,6 +480,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		}
     		updateUrlEditIcons();
     		updateStopGoButton();
+    		updateBackForwardButtons();
     		mProgressBar.setProgress(100);
     	}
     }
@@ -582,8 +606,16 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
      * @param tabIndex The tab's index to show.
      */
 	private void showTab(int tabIndex) {
+		if (tabIndex <= mCurrentViewIndex) {
+			mWebViewFlipper.setInAnimation(AnimationUtils.getInFromLeftAnimation());
+			mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToRightAnimation());
+		} else {
+			mWebViewFlipper.setInAnimation(AnimationUtils.getInFromRightAnimation());
+			mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToLeftAnimation());
+		}
+		
 		mCurrentViewIndex = tabIndex;
-		mWebViewContainer.setDisplayedChild(mCurrentViewIndex);
+		mWebViewFlipper.setDisplayedChild(mCurrentViewIndex);
 		mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();		
 		
 		updateBars();
@@ -750,6 +782,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	}
     }
     
+    private void updateBackForwardButtons() {
+    	mBackButton.setEnabled(mCurrentWebView.canGoBack());
+    	mForwardButton.setEnabled(mCurrentWebView.canGoForward());
+    }
+    
     /**
      * Update the bars element (url, favivon, button states...) with the current WebView.
      */
@@ -762,8 +799,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	
     	updateUrlEditIcons();
     	updateStopGoButton();
+    	updateBackForwardButtons();
     	
-    	mRemoveTabButton.setEnabled(TabsController.getInstance().getWebViewContainers().size() > 1);
+    	mRemoveTabButton.setEnabled(TabsController.getInstance().getWebViewContainers().size() > 1);    	    	
     }
 	
     /**

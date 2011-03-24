@@ -68,11 +68,11 @@
 			android:layout_alignParentBottom="true" android:weightSum="5">
 			
 			<ImageButton android:layout_height="wrap_content"
-				android:id="@+id/PreviousBtn" android:layout_width="wrap_content"
+				android:id="@+id/BackBtn" android:layout_width="wrap_content"
 				android:background="@drawable/buttons_bottom"
 				android:layout_marginTop="7dip"
 				android:layout_marginLeft="3dip" 
-				android:src="@drawable/ic_btn_next" android:layout_weight="1"></ImageButton>						
+				android:src="@drawable/ic_btn_back" android:layout_weight="1"></ImageButton>						
 			<ImageButton android:layout_height="wrap_content"
 				android:id="@+id/RemoveTabBtn" android:layout_width="wrap_content"
 				android:background="@drawable/buttons_bottom"
@@ -92,7 +92,7 @@
 				android:layout_marginLeft="3dip"
 				android:src="@drawable/ic_btn_open_tab" android:layout_weight="1"></ImageButton>
 			<ImageButton android:layout_height="wrap_content"
-				android:id="@+id/NextBtn" android:layout_width="wrap_content"
+				android:id="@+id/ForwardBtn" android:layout_width="wrap_content"
 				android:background="@drawable/buttons_bottom"
 				android:layout_marginTop="7dip"
 				android:layout_marginLeft="3dip"

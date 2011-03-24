@@ -1,5 +1,6 @@
 package org.tint.utils;
 
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
@@ -8,13 +9,20 @@ import android.view.animation.TranslateAnimation;
  */
 public class AnimationUtils {
 
-	private static final int ANIMATION_DURATION = 150;
+	private static final int BARS_ANIMATION_DURATION = 150;
+	private static final int FLIPPER_ANIMATION_DURATION = 350;
 	
 	private static Animation mTopBarShowAnimation = null;
 	private static Animation mTopBarHideAnimation = null;
 	
 	private static Animation mBottomBarShowAnimation = null;
-	private static Animation mBottomBarHideAnimation = null;		
+	private static Animation mBottomBarHideAnimation = null;	
+	
+	private static Animation mInFromRightAnimation = null;
+	private static Animation mOutToLeftAnimation = null;
+	
+	private static Animation mInFromLeftAnimation = null;
+	private static Animation mOutToRightAnimation = null;
 	
 	/**
 	 * Get the show animation of the top bar.
@@ -27,7 +35,7 @@ public class AnimationUtils {
         			Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
         	);
 			
-			mTopBarShowAnimation.setDuration(ANIMATION_DURATION);
+			mTopBarShowAnimation.setDuration(BARS_ANIMATION_DURATION);
 		}
 		
 		return mTopBarShowAnimation;
@@ -44,7 +52,7 @@ public class AnimationUtils {
         			Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -1.0f
         	);
 			
-			mTopBarHideAnimation.setDuration(ANIMATION_DURATION);
+			mTopBarHideAnimation.setDuration(BARS_ANIMATION_DURATION);
 		}
 		
 		return mTopBarHideAnimation;
@@ -61,7 +69,7 @@ public class AnimationUtils {
         			Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
         	);
 			
-			mBottomBarShowAnimation.setDuration(ANIMATION_DURATION);
+			mBottomBarShowAnimation.setDuration(BARS_ANIMATION_DURATION);
 		}
 		
 		return mBottomBarShowAnimation;
@@ -78,9 +86,65 @@ public class AnimationUtils {
         			Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
         	);
 			
-			mBottomBarHideAnimation.setDuration(ANIMATION_DURATION);
+			mBottomBarHideAnimation.setDuration(BARS_ANIMATION_DURATION);
 		}
 		
 		return mBottomBarHideAnimation;
+	}
+	
+	public static Animation getInFromRightAnimation() {
+		if (mInFromRightAnimation == null) {
+			mInFromRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +1.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT,
+					0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
+
+			mInFromRightAnimation.setDuration(FLIPPER_ANIMATION_DURATION);
+			mInFromRightAnimation.setInterpolator(new AccelerateInterpolator());
+		}
+		
+		return mInFromRightAnimation;
+	}
+	
+	public static Animation getOutToLeftAnimation() {
+		if (mOutToLeftAnimation == null) {
+			mOutToLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT, -1.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f);
+
+			mOutToLeftAnimation.setDuration(FLIPPER_ANIMATION_DURATION);
+			mOutToLeftAnimation.setInterpolator(new AccelerateInterpolator());
+		}
+		
+		return mOutToLeftAnimation;
+	}
+	
+	public static Animation getInFromLeftAnimation() {
+		if (mInFromLeftAnimation == null) {
+			mInFromLeftAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -1.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f);
+
+			mInFromLeftAnimation.setDuration(FLIPPER_ANIMATION_DURATION);
+			mInFromLeftAnimation.setInterpolator(new AccelerateInterpolator());
+		}
+		
+		return mInFromLeftAnimation;
+	}
+	
+	public static Animation getOutToRightAnimation() {
+		if (mOutToRightAnimation == null) {
+			mOutToRightAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT, +1.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f,
+					Animation.RELATIVE_TO_PARENT, 0.0f);
+
+			mOutToRightAnimation.setDuration(FLIPPER_ANIMATION_DURATION);
+			mOutToRightAnimation.setInterpolator(new AccelerateInterpolator());
+		}
+		
+		return mOutToRightAnimation;
 	}
 }

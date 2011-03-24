@@ -1,39 +1,26 @@
 package org.tint.ui.activities;
 
 import org.tint.R;
-import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.adapters.WebViewsImageAdapter;
-import org.tint.controllers.BookmarksHistoryController;
 import org.tint.controllers.TabsController;
 import org.tint.ui.components.CustomWebView;
-import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
 import org.tint.utils.UrlUtils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Browser;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
-import android.widget.FilterQueryProvider;
 import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 
 /**
  * Tabs activity. Tabs (or open browsing windows) are displayed as a gallery.
@@ -43,8 +30,6 @@ public class TabsActivity extends Activity {
 	private static final int ACTIVITY_OPEN_HISTORY_BOOKMARKS = 0;
 	
 	private Gallery mTabsGallery;
-	private AutoCompleteTextView mUrl;
-	private ImageButton mGo;
 	private ImageButton mAddTab;
 	private ImageButton mCloseTab;
 	private TextView mTabTitle;
@@ -65,72 +50,7 @@ public class TabsActivity extends Activity {
         }
 		
         setContentView(R.layout.tabs_activity);
-        
-        mUrl = (AutoCompleteTextView) findViewById(R.id.UrlText);
-        
-        mUrl.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View arg0, boolean hasFocus) {
-				// Select all when focus gained.
-                if (hasFocus) {
-                	mUrl.setSelection(0, mUrl.getText().length());
-                }
-			}
-		});
-        
-        mUrl.setOnKeyListener(new View.OnKeyListener() {
-
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {
-					navigateToCurrentUrl();
-					return true;
-				}
-				return false;
-			}			
-    	});
-        
-        mUrl.setCompoundDrawablePadding(5);
-        
-        String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
-        int[] to = new int[] {R.id.AutocompleteTitle, R.id.AutocompleteUrl};
-        
-        UrlSuggestionCursorAdapter suggestionAdapter = new UrlSuggestionCursorAdapter(this, R.layout.url_autocomplete_line, null, from, to);
-        suggestionAdapter.setCursorToStringConverter(new CursorToStringConverter() {
-			
-			@Override
-			public CharSequence convertToString(Cursor cursor) {
-				String aColumnString = cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL));
-                return aColumnString;
-			}
-		});
-        
-        suggestionAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-			
-			@Override
-			public Cursor runQuery(CharSequence constraint) {
-				if ((constraint != null) &&
-						(constraint.length() > 0)) {
-					return BookmarksHistoryController.getInstance().getSuggestion(TabsActivity.this, constraint.toString());
-				}
-				return null;
-			}
-		});
-        
-        mUrl.setThreshold(1);
-        mUrl.setAdapter(suggestionAdapter);
-        
-        mGo = (ImageButton) findViewById(R.id.GoBtn);
-        
-        mGo.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				navigateToCurrentUrl();
-			}
-		});
-        
+                
         mTabsGallery = (Gallery) findViewById(R.id.TabsGallery);        
 
         mTabsGallery.setSpacing(5);
@@ -150,21 +70,6 @@ public class TabsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				
 				mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(position).getWebView();
-				
-				String currentUrl = mCurrentWebView.getUrl();
-				
-				
-				if ((currentUrl != null) &&
-					(!currentUrl.equals(UrlUtils.URL_ABOUT_BLANK))) {
-					mUrl.setText(currentUrl);
-				} else {
-					mUrl.setText(null);
-				}
-				
-				mUrl.setCompoundDrawables(getNormalizedFavicon(),
-						null,
-						null,
-						null);
 				
 				mTabTitle.setText(mCurrentWebView.getTitle());
 				
@@ -275,28 +180,11 @@ public class TabsActivity extends Activity {
 	}
 	
 	/**
-	 * Hide the keyboard, if shown.
-	 */
-	private void hideKeyboard() {
-    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-    	imm.hideSoftInputFromWindow(mUrl.getWindowToken(), 0);
-	}
-	
-	/**
-	 * Navigate to the url in the url text view, using the current webview.
-	 */
-	private void navigateToCurrentUrl() {
-		navigateToUrl(mUrl.getText().toString(), false);
-	}
-	
-	/**
 	 * Navigate to the given url.
 	 * @param url The url to navigate to.
 	 * @param newTab If True, a new tab is open for navigation; Otherwise, the currently selected tab is used.
 	 */
 	private void navigateToUrl(String url, boolean newTab) {
-		hideKeyboard();
-		
 		if (newTab) {
 			addTab();
 		}
@@ -352,19 +240,4 @@ public class TabsActivity extends Activity {
 		Intent i = new Intent(this, BookmarksHistoryActivity.class);
 		startActivityForResult(i, ACTIVITY_OPEN_HISTORY_BOOKMARKS);
 	}
-	
-	/**
-	 * Get a Drawable of the current favicon, with its size normalized relative to current screen density.
-	 * @return The normalized favicon.
-	 */
-	private BitmapDrawable getNormalizedFavicon() {		
-		BitmapDrawable favIcon = new BitmapDrawable(mCurrentWebView.getFavicon());
-		
-		if (mCurrentWebView.getFavicon() != null) {
-			int favIconSize = ApplicationUtils.getFaviconSize(this);
-			favIcon.setBounds(0, 0, favIconSize, favIconSize);
-		}
-		
-		return favIcon;
-	}	
 }
