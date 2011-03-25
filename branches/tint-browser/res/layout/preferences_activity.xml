@@ -99,6 +99,10 @@
             android:title="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceTitle"
             android:summary="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceSummary"
             android:key="ImportHistoryBookmarks" />
+        <PreferenceScreen
+            android:title="Test"
+            android:summary="Test"
+            android:key="Test" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferencesActivity.AboutCategoryTitle">

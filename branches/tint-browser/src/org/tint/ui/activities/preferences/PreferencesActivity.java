@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.webkit.CookieManager;
 
@@ -124,6 +125,10 @@ public class PreferencesActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+		
+		PreferenceScreen test = (PreferenceScreen) findPreference("Test");
+		Intent testIntent = new Intent(this, WebSettingsActivity.class);
+		test.setIntent(testIntent);
 	}
 	
 	/**
