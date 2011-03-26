@@ -17,8 +17,8 @@
     <string name="Commons.Continue">Continue</string>
     <string name="Commons.PleaseWait">Please wait</string>
     <string name="Commons.NoUndoMessage">This operation cannot be undone. Do you wish to proceed?</string>
-    <string name="Commons.ClearHistory">Clear history</string>
-    <string name="Commons.ClearingHistory">Clearing history...</string>
+    <string name="Commons.ClearHistoryBookmarks">Clear history and/or bookmarks</string>
+    <string name="Commons.ClearingHistoryBookmarks">Clearing history and/or bookmarks...</string>
     <string name="Commons.ClearFormData">Clear form data</string>
     <string name="Commons.ClearingFormData">Clearing form data...</string>
     <string name="Commons.ClearCache">Clear cache</string>
@@ -54,6 +54,9 @@
     <string name="Commons.DownloadErrorHttp">HTTP error</string>
     <string name="Commons.DownloadErrorRedirection">Too many redirections</string>
     <string name="Commons.DownloadErrorUnknown">Unknown error</string>
+    <string name="Commons.Bookmarks">Bookmarks</string>
+    <string name="Commons.History">History</string>
+    <string name="Commons.All">All</string>
     
     <string name="Constants.SearchUrlGoogle">http://www.google.com/m?hl=en&amp;gl=us&amp;client=ms-null&amp;source=android-browser-key&amp;q=%s</string>
     <string name="Constants.SearchUrlWikipedia">http://en.wikipedia.org/w/index.php?search=%s&amp;go=Go</string>
@@ -88,6 +91,7 @@
     <string name="EditBookmarkActivity.TitleLabel">Title:</string>
     <string name="EditBookmarkActivity.UrlLabel">Url:</string>
     
+    <string name="PreferencesActivity.SummaryCannotBeUndone">Use with caution, this operation cannot be undone.</string>
     <string name="PreferencesActivity.GeneralSettingsCategoryTitle">General settings</string>
     <string name="PreferencesActivity.FullScreenPreferenceTitle">Full screen</string>
     <string name="PreferencesActivity.FullScreenPreferenceSummary">If checked, the browser will be displayed in full screen (need application restart).</string>
@@ -111,7 +115,7 @@
     <string name="PreferencesActivity.EnableCookiesPreferenceTitle">Allow cookies</string>
     <string name="PreferencesActivity.EnableCookiesPreferenceSummary">Enable or disable cookies.</string>
     
-    <string name="PreferencesActivity.PrivacyClearHistoryTitle">Clear history</string>
+    <string name="PreferencesActivity.PrivacyClearHistoryBookmarksTitle">Clear history and/or bookmarks</string>
     <string name="PreferencesActivity.PrivacyClearFormDataTitle">Clear form data</string>
     <string name="PreferencesActivity.PrivacyClearCacheTitle">Clear cache</string>
     <string name="PreferencesActivity.PrivacyClearCookiesTitle">Clear cookies</string>
@@ -184,10 +188,12 @@
     </string-array>
     
     <string name="PreferencesActivity.ToolsCategoryTitle">Tools</string>
+    <string name="PreferencesActivity.ToolsHistoryBookmarksPreferenceTitle">Manage bookmarks and history</string>
+    <string name="PreferencesActivity.ToolsHistoryBookmarksPreferenceSummary">Import, export, clear history and bookmarks.</string>
     <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceTitle">Export bookmarks and history</string>
-    <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceSummary">Export the bookmarks and history to the SD card.</string>
+    <string name="PreferencesActivity.ExportHistoryBookmarksPreferenceSummary">Export bookmarks and history to the SD card.</string>
     <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceTitle">Import bookmarks and history</string>
-    <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceSummary">Import the bookmarks and history from the SD card.</string>
+    <string name="PreferencesActivity.ImportHistoryBookmarksPreferenceSummary">Import bookmarks and history from the SD card.</string>
     
     <string name="PreferencesActivity.AboutCategoryTitle">About</string>
     <string name="PreferencesActivity.AboutPreferenceTitle">About</string>

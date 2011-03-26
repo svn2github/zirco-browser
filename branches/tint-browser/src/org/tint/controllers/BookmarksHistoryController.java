@@ -1,16 +1,19 @@
 package org.tint.controllers;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.tint.model.BookmarkItem;
 import org.tint.utils.ApplicationUtils;
+import org.tint.utils.Constants;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.preference.PreferenceManager;
 import android.provider.Browser;
 
 /**
@@ -118,7 +121,7 @@ public final class BookmarksHistoryController {
 		String[] colums = new String[] { Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS };
 		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
 		
-		Cursor cursor = currentActivity.managedQuery(android.provider.Browser.BOOKMARKS_URI, colums, whereClause, null, null);
+		Cursor cursor = currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, whereClause, null, null);
 		
 		if (cursor.moveToFirst()) {
 			
@@ -126,7 +129,7 @@ public final class BookmarksHistoryController {
 			int visits = cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.VISITS)) + 1;
 			
 			ContentValues values = new ContentValues();
-			//values.put(Browser.BookmarkColumns.TITLE, title);
+			values.put(Browser.BookmarkColumns.TITLE, title);
 			values.put(Browser.BookmarkColumns.DATE, new Date().getTime());
 			values.put(Browser.BookmarkColumns.VISITS, visits);
 			
@@ -141,6 +144,33 @@ public final class BookmarksHistoryController {
 			
 			currentActivity.getContentResolver().insert(android.provider.Browser.BOOKMARKS_URI, values);
 		}		
+		
+		cursor.close();
+	}
+	
+	/**
+	 * Remove from history values prior to now minus the number of days defined in preferences.
+	 * Only delete history items, not bookmarks.
+	 * @param currentActivity The parent activity.
+	 */
+	public void truncateHistory(Activity currentActivity) {
+		int historySize;
+		try {
+			historySize = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(currentActivity).getString(Constants.PREFERENCES_BROWSER_HISTORY_SIZE, "90"));
+		} catch (NumberFormatException e) {
+			historySize = 90;
+		}
+		
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());		
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.add(Calendar.DAY_OF_YEAR, - historySize);
+
+		String whereClause = Browser.BookmarkColumns.BOOKMARK + " = 0 AND " + Browser.BookmarkColumns.DATE + " < " + c.getTimeInMillis();
+		currentActivity.getContentResolver().delete(Browser.BOOKMARKS_URI, whereClause, null);
 	}
 	
 	/**
@@ -323,6 +353,30 @@ public final class BookmarksHistoryController {
 		}
 		
 		currentActivity.getContentResolver().insert(Browser.BOOKMARKS_URI, values);
+	}
+	
+	/**
+	 * Clear the history/bookmarks table.
+	 * @param currentActivity The parent activity.
+	 * @param clearHistory If true, history items will be cleared.
+	 * @param clearBookmarks If true, bookmarked items will be cleared.
+	 */
+	public void clearHistoryAndOrBookmarks(Activity currentActivity, boolean clearHistory, boolean clearBookmarks) {
+		
+		if (!clearHistory && !clearBookmarks) {
+			return;
+		}
+		
+		String whereClause = null;
+		if (clearHistory && clearBookmarks) {
+			whereClause = null;
+		} else if (clearHistory) {
+			whereClause = Browser.BookmarkColumns.BOOKMARK + " = 0";
+		} else if (clearBookmarks) {
+			whereClause = Browser.BookmarkColumns.BOOKMARK + " = 1";
+		}
+		
+		currentActivity.getContentResolver().delete(Browser.BOOKMARKS_URI, whereClause, null);		
 	}
 	
 }

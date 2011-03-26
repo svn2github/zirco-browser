@@ -43,6 +43,7 @@ public class Constants {
 	public static final String PREFERENCES_BROWSER_ENABLE_FORM_DATA = "BrowserEnableFormData";
 	public static final String PREFERENCES_BROWSER_ENABLE_PASSWORDS = "BrowserEnablePasswords";
 	public static final String PREFERENCES_BROWSER_ENABLE_COOKIES = "BrowserEnableCookies";
+	public static final String PREFERENCES_BROWSER_HISTORY_SIZE = "BrowserHistorySize";
 	public static final String PREFERENCES_BROWSER_DEFAULT_ZOOM_LEVEL = "BrowserDefaultZoomLevel";
 	public static final String PREFERENCES_BROWSER_ENABLE_PLUGINS = "BrowserEnablePlugins";
 	public static final String PREFERENCES_BROWSER_USER_AGENT = "BrowserUserAgent";	

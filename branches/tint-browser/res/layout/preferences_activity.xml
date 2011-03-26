@@ -57,7 +57,8 @@
             <EditTextPreference
                 android:name="@string/PreferencesActivity.HistorySizePreferenceTitle"
                 android:summary="@string/PreferencesActivity.HistorySizePreferenceSummary"
-                android:defaultValue="5"
+                android:numeric="integer"
+                android:defaultValue="90"
                 android:title="@string/PreferencesActivity.HistorySizePreferenceTitle"
                 android:key="BrowserHistorySize" />
             <CheckBoxPreference
@@ -74,10 +75,7 @@
                 android:title="@string/PreferencesActivity.EnableCookiesPreferenceTitle"
                 android:defaultValue="true"
                 android:summary="@string/PreferencesActivity.EnableCookiesPreferenceSummary"
-                android:key="BrowserEnableCookies" />
-            <Preference
-                android:title="@string/PreferencesActivity.PrivacyClearHistoryTitle"
-                android:key="PrivacyClearHistory" />
+                android:key="BrowserEnableCookies" />            
             <Preference
                 android:title="@string/PreferencesActivity.PrivacyClearFormDataTitle"
                 android:key="PrivacyClearFormData" />
@@ -91,18 +89,23 @@
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/PreferencesActivity.ToolsCategoryTitle">
-    	<Preference
-            android:title="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceTitle"
-            android:summary="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceSummary"
-            android:key="ExportHistoryBookmarks" />
-        <Preference
-            android:title="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceTitle"
-            android:summary="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceSummary"
-            android:key="ImportHistoryBookmarks" />
-        <PreferenceScreen
-            android:title="Test"
-            android:summary="Test"
-            android:key="Test" />
+    	<PreferenceScreen
+            android:key="ToolsHistoryBookmarksPreferencesScreen"
+            android:title="@string/PreferencesActivity.ToolsHistoryBookmarksPreferenceTitle"
+            android:summary="@string/PreferencesActivity.ToolsHistoryBookmarksPreferenceSummary">        
+    		<Preference
+				android:title="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceTitle"
+				android:summary="@string/PreferencesActivity.ExportHistoryBookmarksPreferenceSummary"
+				android:key="ExportHistoryBookmarks" />
+			<Preference
+				android:title="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceTitle"
+				android:summary="@string/PreferencesActivity.ImportHistoryBookmarksPreferenceSummary"
+				android:key="ImportHistoryBookmarks" />
+			<Preference
+                android:title="@string/PreferencesActivity.PrivacyClearHistoryBookmarksTitle"
+                android:summary="@string/PreferencesActivity.SummaryCannotBeUndone"
+                android:key="PrivacyClearHistory" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/PreferencesActivity.AboutCategoryTitle">

@@ -25,7 +25,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.webkit.CookieManager;
 
@@ -124,11 +123,7 @@ public class PreferencesActivity extends PreferenceActivity {
 				askForRestart();
 				return true;
 			}
-		});
-		
-		PreferenceScreen test = (PreferenceScreen) findPreference("Test");
-		Intent testIntent = new Intent(this, WebSettingsActivity.class);
-		test.setIntent(testIntent);
+		});				
 	}
 	
 	/**
@@ -236,21 +231,38 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 	
+	private void doClearHistoryBookmarks(int choice) {
+		mProgressDialog = ProgressDialog.show(this,
+    			this.getResources().getString(R.string.Commons_PleaseWait),
+    			this.getResources().getString(R.string.Commons_ClearingHistoryBookmarks));
+		
+		new HistoryBookmarksClearer(choice);
+	}
+	
 	/**
 	 * Clear the history.
 	 */
 	private void clearHistory() {
-		ApplicationUtils.showYesNoDialog(this,
-				android.R.drawable.ic_dialog_alert,
-				R.string.Commons_ClearHistory,
-				R.string.Commons_NoUndoMessage,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						//doClearHistory();
-					}			
-		});
+		
+		final String[] choices = new String[] { getString(R.string.Commons_History), getString(R.string.Commons_Bookmarks), getString(R.string.Commons_All) };
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setInverseBackgroundForced(true);
+    	builder.setIcon(android.R.drawable.ic_dialog_info);
+    	builder.setTitle(R.string.Commons_ClearHistoryBookmarks);
+    	builder.setSingleChoiceItems(choices, 0, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {												
+				doClearHistoryBookmarks(which);
+				dialog.dismiss();				
+			}    		
+    	});
+    	
+    	builder.setCancelable(true);
+    	builder.setNegativeButton(R.string.Commons_Cancel, null);
+    	
+    	AlertDialog alert = builder.create();
+    	alert.show();
 	}
 	
 	/**
@@ -354,6 +366,40 @@ public class PreferencesActivity extends PreferenceActivity {
 				mProgressDialog.dismiss();
 			}
 		};
+	}
+	
+	private class HistoryBookmarksClearer extends AbstractClearer {
+
+		private int mChoice;
+		
+		public HistoryBookmarksClearer(int choice) {
+			mChoice = choice;
+		}
+		
+		@Override
+		public void run() {
+			
+			switch (mChoice) {
+			case 0:
+				BookmarksHistoryController.getInstance().clearHistoryAndOrBookmarks(PreferencesActivity.this, true, false);
+				break;
+			case 1:
+				BookmarksHistoryController.getInstance().clearHistoryAndOrBookmarks(PreferencesActivity.this, false, true);
+				break;
+			case 2:
+				BookmarksHistoryController.getInstance().clearHistoryAndOrBookmarks(PreferencesActivity.this, true, true);
+				break;
+			default: break;
+			}
+			
+			try {
+				Thread.sleep(2500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mHandler.sendEmptyMessage(0);
+		}		
 	}
 	
 	/**

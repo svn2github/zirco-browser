@@ -30,7 +30,8 @@ public class HistoryUpdaterRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		BookmarksHistoryController.getInstance().updateHistory(mActivity, mTitle, mUrl, mOriginalUrl);		
+		BookmarksHistoryController.getInstance().updateHistory(mActivity, mTitle, mUrl, mOriginalUrl);
+		BookmarksHistoryController.getInstance().truncateHistory(mActivity);
 	}
 
 }

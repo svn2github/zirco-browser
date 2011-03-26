@@ -20,7 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
  */
 public class SearchUrlPreference extends DialogPreference {
 	
-private Context mContext;
+	private Context mContext;
 	
 	private Spinner mSpinner;
 	private EditText mCustomEditText;
