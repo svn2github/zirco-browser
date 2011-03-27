@@ -491,6 +491,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		if (mUrlBarVisible) {
     			startToolbarsHideRunnable();    			
     		}
+    		mUrlEditText.setText(webView.getUrl());
     		updateUrlEditIcons();
     		updateStopGoButton();
     		updateBackForwardButtons();
