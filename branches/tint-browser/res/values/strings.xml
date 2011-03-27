@@ -93,6 +93,8 @@
     
     <string name="PreferencesActivity.SummaryCannotBeUndone">Use with caution, this operation cannot be undone.</string>
     <string name="PreferencesActivity.GeneralSettingsCategoryTitle">General settings</string>
+    <string name="PreferencesActivity.HomePagePreferenceTitle">Home page</string>
+    <string name="PreferencesActivity.HomePagePreferenceSummary">Define your default home page.</string>
     <string name="PreferencesActivity.FullScreenPreferenceTitle">Full screen</string>
     <string name="PreferencesActivity.FullScreenPreferenceSummary">If checked, the browser will be displayed in full screen (need application restart).</string>
     <string name="PreferencesActivity.HideTitleBarPreferenceTitle">Hide title bars</string>
@@ -207,5 +209,18 @@
 	<string name="StartPage.History">Recent history</string>
 	<string name="StartPage.Search">Search</string>
     <string name="StartPage.SearchButton">Go</string>
+    
+    <string name="HomepagePreference.Title">Home page</string>
+    <string name="HomepagePreference.Prompt">Home page</string>
+    
+    <string name="PreferencesActivity.HomepageStart">Start page</string>
+    <string name="PreferencesActivity.HomepageBlank">Blank page</string>
+    <string name="PreferencesActivity.HomepageCustom">Custom page</string>
+    
+    <string-array name="HomepageValues">
+        <item>@string/PreferencesActivity.HomepageStart</item>
+        <item>@string/PreferencesActivity.HomepageBlank</item>
+        <item>@string/PreferencesActivity.HomepageCustom</item>
+    </string-array>
     
 </resources>

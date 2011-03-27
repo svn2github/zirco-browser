@@ -12,6 +12,7 @@ import org.tint.ui.components.CustomWebView;
 import org.tint.utils.AnimationUtils;
 import org.tint.utils.ApplicationUtils;
 import org.tint.utils.Constants;
+import org.tint.utils.UrlUtils;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -131,7 +132,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         initializeWebIconDatabase();
         
-        addTab("about:blank", false);
+        addTab(null, false);
         
         startToolbarsHideRunnable();
     }
@@ -279,7 +280,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mAddTabButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addTab(mCurrentViewIndex + 1, "about:blank", true);
+				addTab(mCurrentViewIndex + 1, null, true);
 			}
 		});
     	
@@ -457,6 +458,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     
     @Override
 	public int addTab(int tabIndex, String url, boolean useAnimation) {
+    	
+    	if (url == null) {
+    		url = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_HOME_PAGE, UrlUtils.URL_ABOUT_START);
+    	}
+    	
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
         showTab(mCurrentViewIndex, useAnimation);
         
@@ -645,7 +651,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	 * Navigate to the user home page.
 	 */
 	private void navigateToHome() {
-		navigateToUrl("about:blank");
+		String homePageUrl = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_HOME_PAGE, UrlUtils.URL_ABOUT_START);
+		navigateToUrl(homePageUrl);
 	}
 	
 	/**

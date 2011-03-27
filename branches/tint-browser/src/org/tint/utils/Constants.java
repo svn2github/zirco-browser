@@ -32,6 +32,7 @@ public class Constants {
 	/**
 	 * Preferences.
 	 */
+	public static final String PREFERENCES_GENERAL_HOME_PAGE = "GeneralHomePage";
 	public static final String PREFERENCES_GENERAL_FULL_SCREEN = "GeneralFullScreen";
 	public static final String PREFERENCES_GENERAL_HIDE_TITLE_BARS = "GeneralHideTitleBars";
 	public static final String PREFERENCES_GENERAL_SEARCH_URL = "GeneralSearchUrl";

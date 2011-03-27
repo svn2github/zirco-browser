@@ -3,8 +3,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory
-        android:key="GeneralPreferenceCategory"
+        android:key="GeneralPreferenceCategory"        
         android:title="@string/PreferencesActivity.GeneralSettingsCategoryTitle">
+        <org.tint.ui.activities.preferences.StartPagePreference
+			android:title="@string/PreferencesActivity.HomePagePreferenceTitle"
+			android:summary="@string/PreferencesActivity.HomePagePreferenceSummary"
+			android:key="GeneralHomePage" />
         <CheckBoxPreference
 			android:title="@string/PreferencesActivity.FullScreenPreferenceTitle"
 			android:defaultValue="false"

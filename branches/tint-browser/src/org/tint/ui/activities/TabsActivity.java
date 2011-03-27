@@ -201,7 +201,10 @@ public class TabsActivity extends Activity {
 	 */
 	private void addTab() {
 		int newIndex = mTabsGallery.getSelectedItemPosition() + 1;
-		TabsController.getInstance().addTab(newIndex, UrlUtils.URL_ABOUT_BLANK);
+		
+		String homePageUrl = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_HOME_PAGE, UrlUtils.URL_ABOUT_START);
+		
+		TabsController.getInstance().addTab(newIndex, homePageUrl);
 		
 		refreshTabsGallery(newIndex);
 	}
