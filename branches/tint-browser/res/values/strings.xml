@@ -57,6 +57,7 @@
     <string name="Commons.Bookmarks">Bookmarks</string>
     <string name="Commons.History">History</string>
     <string name="Commons.All">All</string>
+    <string name="Commons.UrlCopyToastMessage">Url copied to clipboard.</string>
     
     <string name="Constants.SearchUrlGoogle">http://www.google.com/m?hl=en&amp;gl=us&amp;client=ms-null&amp;source=android-browser-key&amp;q=%s</string>
     <string name="Constants.SearchUrlWikipedia">http://en.wikipedia.org/w/index.php?search=%s&amp;go=Go</string>
@@ -80,6 +81,14 @@
     
     <string name="ContextMenu.Open">Open</string>
     <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
+    <string name="ContextMenu.CopyLinkUrl">Copy link url</string>
+    <string name="ContextMenu.Download">Download</string>
+    <string name="ContextMenu.ViewImage">View image</string>
+    <string name="ContextMenu.ViewImageInNewTab">View image in new tab</string>
+    <string name="ContextMenu.CopyImageUrl">"Copy image url</string>
+    <string name="ContextMenu.DownloadImage">Download image</string>
+    <string name="ContextMenu.SendEmail">Send email</string>
+    <string name="ContextMenu.CopyEmailUrl">Copy email url</string>
     
     <string name="MainActivity.MenuAddBookmark">Add bookmark</string>
     <string name="MainActivity.MenuShowBookmarks">Bookmarks</string>

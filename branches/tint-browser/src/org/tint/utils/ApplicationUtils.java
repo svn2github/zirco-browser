@@ -10,7 +10,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
+import android.text.ClipboardManager;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 /**
  * Application-level helpers.
@@ -183,5 +185,21 @@ public class ApplicationUtils {
 		
 		return favIcon;
 	}
+	
+	/**
+     * Copy a text to the clipboard.
+     * @param context The current context.
+     * @param text The text to copy.
+     * @param toastMessage The message to show in a Toast notification. If empty or null, does not display notification.
+     */
+    public static void copyTextToClipboard(Context context, String text, String toastMessage) {
+    	ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE); 
+    	clipboard.setText(text);
+    	
+    	if ((toastMessage != null) &&
+    			(toastMessage.length() > 0)) {
+    		Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+    	}
+    }
 
 }

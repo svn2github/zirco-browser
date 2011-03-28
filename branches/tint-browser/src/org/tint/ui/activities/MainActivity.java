@@ -132,7 +132,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         initializeWebIconDatabase();
         
-        addTab(null, false);
+        addTab(getHomeUrl(), false);
         
         startToolbarsHideRunnable();
     }
@@ -280,7 +280,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mAddTabButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addTab(mCurrentViewIndex + 1, null, true);
+				addTab(mCurrentViewIndex + 1, getHomeUrl(), true);
 			}
 		});
     	
@@ -457,12 +457,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	}
     
     @Override
-	public int addTab(int tabIndex, String url, boolean useAnimation) {
-    	
-    	if (url == null) {
-    		url = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_HOME_PAGE, UrlUtils.URL_ABOUT_START);
-    	}
-    	
+	public int addTab(int tabIndex, String url, boolean useAnimation) {   	
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
         showTab(mCurrentViewIndex, useAnimation);
         
@@ -522,18 +517,30 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		Bundle b = item.getIntent().getExtras();
 		
 		switch(item.getItemId()) {
-		case TabsController.TAB_CONTEXT_MENU_OPEN:
+		case TabsController.CONTEXT_MENU_OPEN:
 			if (b != null) {
 				navigateToUrl(b.getString(Constants.EXTRA_ID_URL));
 			}			
 			return true;
 			
-		case TabsController.TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB:
+		case TabsController.CONTEXT_MENU_OPEN_IN_NEW_TAB:
 			if (b != null) {
 				addTab(mCurrentViewIndex + 1, b.getString(Constants.EXTRA_ID_URL), true);
 			}			
 			return true;
 				
+		case TabsController.CONTEXT_MENU_COPY:
+			if (b != null) {
+				ApplicationUtils.copyTextToClipboard(this, b.getString(Constants.EXTRA_ID_URL), getString(R.string.Commons_UrlCopyToastMessage));
+			}
+			return true;
+		
+		case TabsController.CONTEXT_MENU_DOWNLOAD:
+			if (b != null) {
+				TabsController.getInstance().doDownload(b.getString(Constants.EXTRA_ID_URL));
+			}
+			return true;
+			
 		default: return super.onContextItemSelected(item);
 		}		
 	}
@@ -648,12 +655,15 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		mUrlEditText.clearFocus();
 	}
 	
+	private String getHomeUrl() {
+		return PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_HOME_PAGE, UrlUtils.URL_ABOUT_START);
+	}
+	
 	/**
 	 * Navigate to the user home page.
 	 */
 	private void navigateToHome() {
-		String homePageUrl = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_HOME_PAGE, UrlUtils.URL_ABOUT_START);
-		navigateToUrl(homePageUrl);
+		navigateToUrl(getHomeUrl());
 	}
 	
 	/**

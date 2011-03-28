@@ -43,8 +43,11 @@ import android.widget.ViewFlipper;
  */
 public final class TabsController {
 	
-	public static final int TAB_CONTEXT_MENU_OPEN = Menu.FIRST + 10;
-	public static final int TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB = Menu.FIRST + 11;
+	public static final int CONTEXT_MENU_OPEN = Menu.FIRST + 10;
+	public static final int CONTEXT_MENU_OPEN_IN_NEW_TAB = Menu.FIRST + 11;
+	public static final int CONTEXT_MENU_DOWNLOAD = Menu.FIRST + 12;
+	public static final int CONTEXT_MENU_COPY = Menu.FIRST + 13;
+	public static final int CONTEXT_MENU_SEND_MAIL = Menu.FIRST + 14;
 	
 	private List<WebViewContainer> mWebViewList;
 	
@@ -170,27 +173,58 @@ public final class TabsController {
 				HitTestResult result = ((WebView) v).getHitTestResult();
 				
 				int resultType = result.getType();
-				if ((resultType == HitTestResult.ANCHOR_TYPE) ||
-						(resultType == HitTestResult.IMAGE_ANCHOR_TYPE) ||
-						(resultType == HitTestResult.SRC_ANCHOR_TYPE) ||
+				if ((resultType == HitTestResult.ANCHOR_TYPE) ||						
+						(resultType == HitTestResult.SRC_ANCHOR_TYPE)) {
+					
+					Intent i = new Intent();
+					i.putExtra(Constants.EXTRA_ID_URL, result.getExtra());
+					
+					MenuItem item = menu.add(0, CONTEXT_MENU_OPEN, 0, R.string.ContextMenu_Open);
+					item.setIntent(i);
+	
+					item = menu.add(0, CONTEXT_MENU_OPEN_IN_NEW_TAB, 0, R.string.ContextMenu_OpenInNewTab);					
+					item.setIntent(i);
+					
+					item = menu.add(0, CONTEXT_MENU_COPY, 0, R.string.ContextMenu_CopyLinkUrl);					
+					item.setIntent(i);
+				
+					menu.setHeaderTitle(result.getExtra());		
+					
+				} else if ((resultType == HitTestResult.IMAGE_TYPE) ||
+						(resultType == HitTestResult.IMAGE_ANCHOR_TYPE) || 
 						(resultType == HitTestResult.SRC_IMAGE_ANCHOR_TYPE)) {
 					
 					Intent i = new Intent();
 					i.putExtra(Constants.EXTRA_ID_URL, result.getExtra());
 					
-					MenuItem item = menu.add(0, TAB_CONTEXT_MENU_OPEN, 0, R.string.ContextMenu_Open);
-					item.setIntent(i);
-	
-					item = menu.add(0, TAB_CONTEXT_MENU_OPEN_IN_NEW_TAB, 0, R.string.ContextMenu_OpenInNewTab);					
+					MenuItem item = menu.add(0, CONTEXT_MENU_OPEN, 0, R.string.ContextMenu_ViewImage);
 					item.setIntent(i);
 					
-//					item = menu.add(0, CONTEXT_MENU_COPY, 0, R.string.Main_MenuCopyLinkUrl);					
-//					item.setIntent(i);
-//					
-//					item = menu.add(0, CONTEXT_MENU_DOWNLOAD, 0, R.string.Main_MenuDownload);					
-//					item.setIntent(i);										
-				
-					menu.setHeaderTitle(result.getExtra());					
+					item = menu.add(0, CONTEXT_MENU_OPEN_IN_NEW_TAB, 0, R.string.ContextMenu_ViewImageInNewTab);					
+					item.setIntent(i);
+					
+					item = menu.add(0, CONTEXT_MENU_COPY, 0, R.string.ContextMenu_CopyImageUrl);					
+					item.setIntent(i);
+					
+					item = menu.add(0, CONTEXT_MENU_DOWNLOAD, 0, R.string.ContextMenu_DownloadImage);					
+					item.setIntent(i);
+					
+					menu.setHeaderTitle(result.getExtra());
+					
+				}  else if (resultType == HitTestResult.EMAIL_TYPE) {
+					
+					Intent sendMail = new Intent(Intent.ACTION_VIEW, Uri.parse(WebView.SCHEME_MAILTO + result.getExtra()));
+					
+					MenuItem item = menu.add(0, CONTEXT_MENU_SEND_MAIL, 0, R.string.ContextMenu_SendEmail);					
+					item.setIntent(sendMail);
+					
+					Intent i = new Intent();
+					i.putExtra(Constants.EXTRA_ID_URL, result.getExtra());
+					
+					item = menu.add(0, CONTEXT_MENU_COPY, 0, R.string.ContextMenu_CopyEmailUrl);					
+					item.setIntent(i);
+					
+					menu.setHeaderTitle(result.getExtra());
 				}
 			}
 		});
@@ -235,7 +269,7 @@ public final class TabsController {
 		
 		IOUtils.createDownloadFolderIfRequired();
 		IOUtils.deleteFileInDownloadFolderIfPresent(item.getDestinationFileName());
-		
+
 		Uri uriUrl = Uri.parse(url);
 		Request request = new Request(uriUrl);
 		request.setTitle(String.format(mMainActivity.getString(R.string.Commons_Downloading), item.getDestinationFileName()));

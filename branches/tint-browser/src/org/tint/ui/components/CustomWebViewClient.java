@@ -3,14 +3,19 @@ package org.tint.ui.components;
 import org.tint.R;
 import org.tint.ui.IWebViewActivity;
 import org.tint.utils.ApplicationUtils;
+import org.tint.utils.Constants;
 import org.tint.utils.UrlUtils;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
+import android.preference.PreferenceManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebView.HitTestResult;
 
 /**
  * Custom WebViewClient implementation.
@@ -51,6 +56,28 @@ public class CustomWebViewClient extends WebViewClient {
 		mWebViewActivity.onPageFinished(view);				
 
 		super.onPageFinished(view, url);
+	}		
+
+	@Override
+	public boolean shouldOverrideUrlLoading(WebView view, String url) {
+		if (url.startsWith(UrlUtils.URL_ACTION_SEARCH)) {
+			String searchTerm = url.replace(UrlUtils.URL_ACTION_SEARCH, "");
+			
+			String searchUrl = PreferenceManager.getDefaultSharedPreferences(view.getContext()).getString(Constants.PREFERENCES_GENERAL_SEARCH_URL, Constants.URL_SEARCH_GOOGLE);
+			String newUrl = String.format(searchUrl, searchTerm);
+			
+			view.loadUrl(newUrl);
+			return true;
+			
+		} else if (view.getHitTestResult().getType() == HitTestResult.EMAIL_TYPE) {
+			
+			Intent sendMail = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			view.getContext().startActivity(sendMail);
+			
+			return true;
+		}
+		
+		return super.shouldOverrideUrlLoading(view, url);
 	}
 
 	@Override
