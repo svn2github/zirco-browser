@@ -207,7 +207,7 @@ public final class BookmarksHistoryController {
 	 * @param originalUrl The original url 
 	 */
 	public void updateHistory(Activity currentActivity, String title, String url, String originalUrl) {
-		String[] colums = new String[] { Browser.BookmarkColumns.URL, Browser.BookmarkColumns.VISITS };
+		String[] colums = new String[] { Browser.BookmarkColumns.URL, Browser.BookmarkColumns.BOOKMARK, Browser.BookmarkColumns.VISITS };
 		String whereClause = Browser.BookmarkColumns.URL + " = \"" + url + "\" OR " + Browser.BookmarkColumns.URL + " = \"" + originalUrl + "\"";
 		
 		Cursor cursor = currentActivity.managedQuery(Browser.BOOKMARKS_URI, colums, whereClause, null, null);
@@ -218,7 +218,12 @@ public final class BookmarksHistoryController {
 			int visits = cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.VISITS)) + 1;
 			
 			ContentValues values = new ContentValues();
-			values.put(Browser.BookmarkColumns.TITLE, title);
+			
+			// If its not a bookmark, we can update the title. If we were doing it on bookmarks, we would override the title choosen by the user.
+			if (cursor.getInt(cursor.getColumnIndex(Browser.BookmarkColumns.BOOKMARK)) != 1) {
+				values.put(Browser.BookmarkColumns.TITLE, title);
+			}
+
 			values.put(Browser.BookmarkColumns.DATE, new Date().getTime());
 			values.put(Browser.BookmarkColumns.VISITS, visits);
 			

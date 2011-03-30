@@ -132,7 +132,15 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         
         initializeWebIconDatabase();
         
-        addTab(getHomeUrl(), false);
+        String startUrl;
+        Intent i = getIntent();
+        if (i.getData() != null) {
+        	startUrl = i.getDataString();
+        } else {
+        	startUrl = getHomeUrl();
+        }
+        
+        addTab(startUrl, false);
         
         startToolbarsHideRunnable();
     }
