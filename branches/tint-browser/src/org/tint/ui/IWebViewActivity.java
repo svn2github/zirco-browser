@@ -60,5 +60,7 @@ public interface IWebViewActivity {
 	 * @param favicon The favicon.
 	 */
 	void onReceivedFavicon(WebView webView, Bitmap favicon);
+	
+	void onReceivedTitle(WebView webView, String title);
 
 }

@@ -482,6 +482,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	if (mCurrentWebView == webView) {
     		mUrlEditText.setText(url);
     		setToolbarsVisibility(true);
+    		
+    		setTitle(R.string.Commons_ApplicationName);    		
     		updateStopGoButton();
     		updateUrlEditIcons();
     		updateBackForwardButtons();
@@ -495,6 +497,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     			startToolbarsHideRunnable();    			
     		}
     		mUrlEditText.setText(webView.getUrl());
+    		
+    		updateTitle(mCurrentWebView.getTitle());
     		updateUrlEditIcons();
     		updateStopGoButton();
     		updateBackForwardButtons();
@@ -518,6 +522,13 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     				null);
     	}
     }
+    
+    @Override
+    public void onReceivedTitle(WebView webView, String title) {
+    	if (mCurrentWebView == webView) {
+    		updateTitle(title);
+    	}
+    }        
     
     @Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -834,6 +845,15 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mForwardButton.setEnabled(mCurrentWebView.canGoForward());
     }
     
+    private void updateTitle(String title) {
+    	if ((title != null) &&
+				(title.length() > 0)) {
+			setTitle(title);
+		} else {
+			setTitle(R.string.Commons_ApplicationName);
+		}
+    }
+    
     /**
      * Update the bars element (url, favivon, button states...) with the current WebView.
      */
@@ -843,6 +863,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	}
     	
     	mUrlEditText.setText(mCurrentWebView.getUrl());
+    	
+    	updateTitle(mCurrentWebView.getTitle());
     	
     	updateUrlEditIcons();
     	updateStopGoButton();
