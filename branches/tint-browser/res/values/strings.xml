@@ -47,9 +47,10 @@
     <string name="Commons.JavaScriptAlert">JavaScript alert</string>
     <string name="Commons.JavaScriptPrompt">JavaScript prompt</string>
     <string name="Commons.JavaScriptConfirm">JavaScript confirm</string>
-    <string name="Commons.Downloading">Downloading %s</string>
-    <string name="Commons.SuccessfullDownload">File successfully downloaded to %s.</string>
-    <string name="Commons.FailedDownload">Download failed: %s.</string>
+    <string name="Commons.Downloading">Downloading %s...</string>
+    <string name="Commons.DownloadComplete">Download complete.</string>
+    <string name="Commons.DownloadFailed">Download failed.</string>
+    <string name="Commons.DownloadFailedWithErrorMessage">Download failed: %s.</string>
     <string name="Commons.DownloadErrorDisk">Disk error, check if you have a storage media, and if it has enought space left</string>
     <string name="Commons.DownloadErrorHttp">HTTP error</string>
     <string name="Commons.DownloadErrorRedirection">Too many redirections</string>

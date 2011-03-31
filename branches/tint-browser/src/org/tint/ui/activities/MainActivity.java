@@ -1,5 +1,7 @@
 package org.tint.ui.activities;
 
+import java.util.Random;
+
 import org.tint.R;
 import org.tint.adapters.UrlSuggestionCursorAdapter;
 import org.tint.controllers.BookmarksHistoryController;
@@ -16,6 +18,9 @@ import org.tint.utils.UrlUtils;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.DownloadManager.Query;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +34,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Browser;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -563,6 +567,16 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		default: return super.onContextItemSelected(item);
 		}		
 	}
+    
+    private void showNotification(String notificationTitle, String title, String message) {
+    	Notification notification =  new Notification(android.R.drawable.stat_sys_download_done, notificationTitle, System.currentTimeMillis());
+    	Intent notificationIntent = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
+    	PendingIntent contentIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, notificationIntent, 0);
+    	
+    	notification.setLatestEventInfo(this, title, message, contentIntent);
+    	
+    	((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(new Random().nextInt(), notification);
+    }
 	
     /**
      * Process a download notification.
@@ -594,8 +608,10 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 					if (status == DownloadManager.STATUS_SUCCESSFUL) {
 						
 						String localUri = cursor.getString(localUriIndex);
-						Toast.makeText(context, String.format(getString(R.string.Commons_SuccessfullDownload), localUri), Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, String.format(getString(R.string.Commons_DownloadComplete), localUri), Toast.LENGTH_SHORT).show();
 						TabsController.getInstance().removeDownloadItem(item);
+						
+						showNotification(getString(R.string.Commons_DownloadComplete), item.getDestinationFileName(), getString(R.string.Commons_DownloadComplete));
 						
 					} else if (status == DownloadManager.STATUS_FAILED) {
 						
@@ -620,18 +636,17 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 							break;
 						}
 						
-						Toast.makeText(context, String.format(getString(R.string.Commons_FailedDownload), message), Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, String.format(getString(R.string.Commons_DownloadFailedWithErrorMessage), message), Toast.LENGTH_SHORT).show();
 						TabsController.getInstance().removeDownloadItem(item);
 						
+						showNotification(getString(R.string.Commons_DownloadFailed), item.getDestinationFileName(), String.format(getString(R.string.Commons_DownloadFailedWithErrorMessage), message));
 					}
 				}												
 			}
 			
-		} else if (intent.getAction().compareTo(DownloadManager.ACTION_NOTIFICATION_CLICKED) == 0) {
-			Log.d("ACTION_NOTIFICATION_CLICKED", intent.getAction());
-			long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-			
-			Toast.makeText(context, String.format("Notification clicked: %s", id), Toast.LENGTH_SHORT).show();
+		} else if (intent.getAction().compareTo(DownloadManager.ACTION_NOTIFICATION_CLICKED) == 0) {			
+			Intent i = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
+			startActivity(i);						
 		}
     }
     

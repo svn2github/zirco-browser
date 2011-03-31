@@ -35,6 +35,7 @@ import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebView.HitTestResult;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 /**
@@ -264,7 +265,7 @@ public final class TabsController {
 	 * Launch a download through the DownloadManager.
 	 * @param url The url of the file to download.
 	 */
-	public void doDownload(String url) {
+	public void doDownload(String url) {			
 		DownloadItem item = new DownloadItem(url, url.substring(url.lastIndexOf("/") + 1));
 		
 		IOUtils.createDownloadFolderIfRequired();
@@ -272,13 +273,16 @@ public final class TabsController {
 
 		Uri uriUrl = Uri.parse(url);
 		Request request = new Request(uriUrl);
-		request.setTitle(String.format(mMainActivity.getString(R.string.Commons_Downloading), item.getDestinationFileName()));
+		request.setTitle(String.format(item.getDestinationFileName()));
+		request.setDescription(url);
 		request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, item.getDestinationFileName());
 		long id = mDownloadManager.enqueue(request);
 		
 		item.setId(id);
 		
 		mDownloadsList.add(item);
+		
+		Toast.makeText(mMainActivity, String.format(mMainActivity.getString(R.string.Commons_Downloading), item.getDestinationFileName()), Toast.LENGTH_SHORT).show();
 	}
 	
 	/**
