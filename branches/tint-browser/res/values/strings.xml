@@ -83,18 +83,23 @@
     <string name="ContextMenu.Open">Open</string>
     <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
     <string name="ContextMenu.CopyLinkUrl">Copy link url</string>
+    <string name="ContextMenu.ShareLinkUrl">Share link url</string>
     <string name="ContextMenu.Download">Download</string>
     <string name="ContextMenu.ViewImage">View image</string>
     <string name="ContextMenu.ViewImageInNewTab">View image in new tab</string>
     <string name="ContextMenu.CopyImageUrl">"Copy image url</string>
+    <string name="ContextMenu.ShareImageUrl">Share image url</string>
     <string name="ContextMenu.DownloadImage">Download image</string>
     <string name="ContextMenu.SendEmail">Send email</string>
     <string name="ContextMenu.CopyEmailUrl">Copy email url</string>
+    <string name="ContextMenu.ShareEmailUrl">Share email url</string>
     
     <string name="MainActivity.MenuAddBookmark">Add bookmark</string>
     <string name="MainActivity.MenuShowBookmarks">Bookmarks</string>
     <string name="MainActivity.MenuShowTabs">Tabs</string>
+    <string name="MainActivity.MenuSharePage">Share page</string>
     <string name="MainActivity.MenuShowPreferences">Preferences</string>
+    <string name="MainActivity.ShareChooserTitle">Share via</string>
     
     <string name="EditBookmarkActivity.TitleAdd">Add bookmark</string>
     <string name="EditBookmarkActivity.TitleEdit">Edit bookmark</string>

@@ -49,6 +49,7 @@ public final class TabsController {
 	public static final int CONTEXT_MENU_DOWNLOAD = Menu.FIRST + 12;
 	public static final int CONTEXT_MENU_COPY = Menu.FIRST + 13;
 	public static final int CONTEXT_MENU_SEND_MAIL = Menu.FIRST + 14;
+	public static final int CONTEXT_MENU_SHARE = Menu.FIRST + 15;
 	
 	private List<WebViewContainer> mWebViewList;
 	
@@ -188,6 +189,9 @@ public final class TabsController {
 					
 					item = menu.add(0, CONTEXT_MENU_COPY, 0, R.string.ContextMenu_CopyLinkUrl);					
 					item.setIntent(i);
+					
+					item = menu.add(0, CONTEXT_MENU_SHARE, 0, R.string.ContextMenu_ShareLinkUrl);					
+					item.setIntent(i);
 				
 					menu.setHeaderTitle(result.getExtra());		
 					
@@ -210,6 +214,9 @@ public final class TabsController {
 					item = menu.add(0, CONTEXT_MENU_DOWNLOAD, 0, R.string.ContextMenu_DownloadImage);					
 					item.setIntent(i);
 					
+					item = menu.add(0, CONTEXT_MENU_SHARE, 0, R.string.ContextMenu_ShareImageUrl);					
+					item.setIntent(i);
+					
 					menu.setHeaderTitle(result.getExtra());
 					
 				}  else if (resultType == HitTestResult.EMAIL_TYPE) {
@@ -223,6 +230,9 @@ public final class TabsController {
 					i.putExtra(Constants.EXTRA_ID_URL, result.getExtra());
 					
 					item = menu.add(0, CONTEXT_MENU_COPY, 0, R.string.ContextMenu_CopyEmailUrl);					
+					item.setIntent(i);
+					
+					item = menu.add(0, CONTEXT_MENU_SHARE, 0, R.string.ContextMenu_ShareEmailUrl);					
 					item.setIntent(i);
 					
 					menu.setHeaderTitle(result.getExtra());

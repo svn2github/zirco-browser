@@ -68,7 +68,8 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private static final int MENU_ADD_BOOKMARK = Menu.FIRST;
 	private static final int MENU_OPEN_HISTORY_BOOKMARKS = Menu.FIRST + 1;
 	private static final int MENU_OPEN_TABS_ACTIVITY = Menu.FIRST + 2;
-	private static final int MENU_OPEN_PREFERENCES_ACTIVITY = Menu.FIRST + 3;
+	private static final int MENU_SHARE_PAGE = Menu.FIRST + 3;
+	private static final int MENU_OPEN_PREFERENCES_ACTIVITY = Menu.FIRST + 4;
 	
 	private LinearLayout mTopBar;
 	private LinearLayout mBottomBar;
@@ -348,8 +349,11 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		item = menu.add(0, MENU_OPEN_TABS_ACTIVITY, 0, R.string.MainActivity_MenuShowTabs);
 		item.setIcon(R.drawable.ic_menu_tabs);
 		
+		item = menu.add(0, MENU_SHARE_PAGE, 0, R.string.MainActivity_MenuSharePage);
+		item.setIcon(android.R.drawable.ic_menu_share);
+		
 		item = menu.add(0, MENU_OPEN_PREFERENCES_ACTIVITY, 0, R.string.MainActivity_MenuShowPreferences);
-		item.setIcon(R.drawable.ic_menu_preferences);
+		item.setIcon(android.R.drawable.ic_menu_preferences);
 		
 		return true;
 	}
@@ -371,6 +375,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			return true;
 		case MENU_OPEN_TABS_ACTIVITY:
 			openTabsActivity();
+			return true;
+		case MENU_SHARE_PAGE:
+			sharePage(mCurrentWebView.getTitle(), mCurrentWebView.getUrl());
 			return true;
 		case MENU_OPEN_PREFERENCES_ACTIVITY:
 			i = new Intent(this, PreferencesActivity.class);
@@ -563,10 +570,28 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 				TabsController.getInstance().doDownload(b.getString(Constants.EXTRA_ID_URL));
 			}
 			return true;
+		
+		case TabsController.CONTEXT_MENU_SHARE:
+			if (b != null) {
+				sharePage("", b.getString(Constants.EXTRA_ID_URL));
+			}
+			return true;
 			
 		default: return super.onContextItemSelected(item);
 		}		
 	}
+    
+    private void sharePage(String title, String url) {
+    	Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    	shareIntent.setType("text/plain");
+    	shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+    	shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+    	try {
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.MainActivity_ShareChooserTitle)));
+        } catch(android.content.ActivityNotFoundException ex) {
+            // if no app handles it, do nothing
+        }
+    }
     
     private void showNotification(String notificationTitle, String title, String message) {
     	Notification notification =  new Notification(android.R.drawable.stat_sys_download_done, notificationTitle, System.currentTimeMillis());
