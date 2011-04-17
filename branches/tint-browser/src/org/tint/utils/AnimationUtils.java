@@ -16,7 +16,13 @@ public class AnimationUtils {
 	private static Animation mTopBarHideAnimation = null;
 	
 	private static Animation mBottomBarShowAnimation = null;
-	private static Animation mBottomBarHideAnimation = null;	
+	private static Animation mBottomBarHideAnimation = null;
+	
+	private static Animation mPreviousTabViewShowAnimation = null;
+	private static Animation mPreviousTabViewHideAnimation = null;
+	
+	private static Animation mNextTabViewShowAnimation = null;
+	private static Animation mNextTabViewHideAnimation = null;
 	
 	private static Animation mInFromRightAnimation = null;
 	private static Animation mOutToLeftAnimation = null;
@@ -90,6 +96,58 @@ public class AnimationUtils {
 		}
 		
 		return mBottomBarHideAnimation;
+	}
+	
+	public static Animation getPreviousTabViewShowAnimation() {
+		if (mPreviousTabViewShowAnimation == null) {
+			mPreviousTabViewShowAnimation = new TranslateAnimation(
+					Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+        			Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        	);
+			
+			mPreviousTabViewShowAnimation.setDuration(BARS_ANIMATION_DURATION);
+		}
+		
+		return mPreviousTabViewShowAnimation;
+	}
+	
+	public static Animation getPreviousTabViewHideAnimation() {
+		if (mPreviousTabViewHideAnimation == null) {
+			mPreviousTabViewHideAnimation = new TranslateAnimation(
+					Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -1.0f,
+        			Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        	);
+			
+			mPreviousTabViewHideAnimation.setDuration(BARS_ANIMATION_DURATION);
+		}
+		
+		return mPreviousTabViewHideAnimation;
+	}
+	
+	public static Animation getNextTabViewShowAnimation() {
+		if (mNextTabViewShowAnimation == null) {
+			mNextTabViewShowAnimation = new TranslateAnimation(
+					Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+        			Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        	);
+			
+			mNextTabViewShowAnimation.setDuration(BARS_ANIMATION_DURATION);
+		}
+		
+		return mNextTabViewShowAnimation;
+	}
+	
+	public static Animation getNextTabViewHideAnimation() {
+		if (mNextTabViewHideAnimation == null) {
+			mNextTabViewHideAnimation = new TranslateAnimation(
+					Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f,
+        			Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        	);
+			
+			mNextTabViewHideAnimation.setDuration(BARS_ANIMATION_DURATION);
+		}
+		
+		return mNextTabViewHideAnimation;
 	}
 	
 	/**

@@ -74,6 +74,9 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 	private LinearLayout mTopBar;
 	private LinearLayout mBottomBar;
 	
+	private ImageView mPreviousTabView;
+	private ImageView mNextTabView;
+	
 	private ImageView mBubbleRightView;
 	private ImageView mBubbleLeftView;
 	
@@ -192,6 +195,24 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 			}
 		});
     	mBubbleLeftView.setVisibility(View.GONE);
+    	
+    	mPreviousTabView = (ImageView) findViewById(R.id.PreviousTabView);
+    	mPreviousTabView.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				showTab(mCurrentViewIndex - 1, true);
+			}
+		});
+    	mPreviousTabView.setVisibility(View.GONE);
+    	
+    	mNextTabView = (ImageView) findViewById(R.id.NextTabView);
+    	mNextTabView.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				showTab(mCurrentViewIndex + 1, true);
+			}
+		});
+    	mNextTabView.setVisibility(View.GONE);
     	    	
     	String[] from = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
         int[] to = new int[] {R.id.AutocompleteTitle, R.id.AutocompleteUrl};
@@ -710,6 +731,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();		
 		
 		updateBars();
+		updatePreviousNextTabViewsVisibility();
 		
 		mUrlEditText.clearFocus();
 	}
@@ -802,12 +824,31 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         	
     		// No need to perform this if already shown, may cause flickering (due to animations) in case of web page redirections.
     		if (!mUrlBarVisible) {
+    			boolean showPreviousTabView = mCurrentViewIndex > 0;
+    			boolean showNextTabView = mCurrentViewIndex < TabsController.getInstance().getWebViewContainers().size() - 1;
+    			
     			mTopBar.startAnimation(AnimationUtils.getTopBarShowAnimation());
     			mBottomBar.startAnimation(AnimationUtils.getBottomBarShowAnimation());
-
+    			
+    			if (showPreviousTabView) {
+    				mPreviousTabView.startAnimation(AnimationUtils.getPreviousTabViewShowAnimation());
+    			}
+    			
+    			if (showNextTabView) {
+    				mNextTabView.startAnimation(AnimationUtils.getNextTabViewShowAnimation());
+    			}
+    			
     			mTopBar.setVisibility(View.VISIBLE);
     			mBottomBar.setVisibility(View.VISIBLE);
 
+    			if (showPreviousTabView) {
+    				mPreviousTabView.setVisibility(View.VISIBLE);
+    			}
+    			
+    			if (showNextTabView) {
+    				mNextTabView.setVisibility(View.VISIBLE);
+    			}
+    			
     			mBubbleRightView.setVisibility(View.GONE);
     			mBubbleLeftView.setVisibility(View.GONE);
     		}
@@ -819,11 +860,30 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	} else {        	
         	
     		if (mUrlBarVisible) {
+    			boolean showPreviousTabView = mCurrentViewIndex > 0;
+    			boolean showNextTabView = mCurrentViewIndex < TabsController.getInstance().getWebViewContainers().size() - 1;
+    			
     			mTopBar.startAnimation(AnimationUtils.getTopBarHideAnimation());
     			mBottomBar.startAnimation(AnimationUtils.getBottomBarHideAnimation());
 
+    			if (showPreviousTabView) {
+    				mPreviousTabView.startAnimation(AnimationUtils.getPreviousTabViewHideAnimation());
+    			}
+    			
+    			if (showNextTabView) {
+    				mNextTabView.startAnimation(AnimationUtils.getNextTabViewHideAnimation());
+    			}
+    			
     			mTopBar.setVisibility(View.GONE);
     			mBottomBar.setVisibility(View.GONE);
+    			
+    			if (showPreviousTabView) {
+    				mPreviousTabView.setVisibility(View.GONE);
+    			}
+    			
+    			if (showNextTabView) {
+    				mNextTabView.setVisibility(View.GONE);
+    			}
 
     			String bubblePosition = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREFERENCES_GENERAL_BUBBLE_POSITION, "right");
 
@@ -892,6 +952,20 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		} else {
 			setTitle(R.string.Commons_ApplicationName);
 		}
+    }
+    
+    private void updatePreviousNextTabViewsVisibility() {
+    	if (mCurrentViewIndex > 0) {
+    		mPreviousTabView.setVisibility(View.VISIBLE);
+    	} else {
+    		mPreviousTabView.setVisibility(View.GONE);
+    	}
+    	
+    	if (mCurrentViewIndex < TabsController.getInstance().getWebViewContainers().size() - 1) {
+    		mNextTabView.setVisibility(View.VISIBLE);
+    	} else {
+    		mNextTabView.setVisibility(View.GONE);
+    	}
     }
     
     /**
