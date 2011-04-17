@@ -714,12 +714,15 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
      */
 	private void showTab(int tabIndex, boolean useAnimation) {
 		if (useAnimation) {
-			if (tabIndex <= mCurrentViewIndex) {
-				mWebViewFlipper.setInAnimation(AnimationUtils.getInFromRightAnimation());
-				mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToLeftAnimation());				
-			} else {
+			if (tabIndex < mCurrentViewIndex) {
 				mWebViewFlipper.setInAnimation(AnimationUtils.getInFromLeftAnimation());
 				mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToRightAnimation());
+			} else if (tabIndex > mCurrentViewIndex) {				
+				mWebViewFlipper.setInAnimation(AnimationUtils.getInFromRightAnimation());
+				mWebViewFlipper.setOutAnimation(AnimationUtils.getOutToLeftAnimation());
+			} else {
+				mWebViewFlipper.setInAnimation(null);
+				mWebViewFlipper.setOutAnimation(null);
 			}
 		} else {
 			mWebViewFlipper.setInAnimation(null);
@@ -955,15 +958,20 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     }
     
     private void updatePreviousNextTabViewsVisibility() {
-    	if (mCurrentViewIndex > 0) {
-    		mPreviousTabView.setVisibility(View.VISIBLE);
+    	if (mUrlBarVisible) {
+    		if (mCurrentViewIndex > 0) {
+    			mPreviousTabView.setVisibility(View.VISIBLE);
+    		} else {
+    			mPreviousTabView.setVisibility(View.GONE);
+    		}
+
+    		if (mCurrentViewIndex < TabsController.getInstance().getWebViewContainers().size() - 1) {
+    			mNextTabView.setVisibility(View.VISIBLE);
+    		} else {
+    			mNextTabView.setVisibility(View.GONE);
+    		}
     	} else {
     		mPreviousTabView.setVisibility(View.GONE);
-    	}
-    	
-    	if (mCurrentViewIndex < TabsController.getInstance().getWebViewContainers().size() - 1) {
-    		mNextTabView.setVisibility(View.VISIBLE);
-    	} else {
     		mNextTabView.setVisibility(View.GONE);
     	}
     }
