@@ -800,7 +800,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	    	
     	if (visible) {
         	
-    		// No need to perform this if already shown, may cause flickering (due to animations) in case of wab page redirections.
+    		// No need to perform this if already shown, may cause flickering (due to animations) in case of web page redirections.
     		if (!mUrlBarVisible) {
     			mTopBar.startAnimation(AnimationUtils.getTopBarShowAnimation());
     			mBottomBar.startAnimation(AnimationUtils.getBottomBarShowAnimation());

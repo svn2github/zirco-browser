@@ -92,7 +92,7 @@
     <string name="ContextMenu.DownloadImage">Download image</string>
     <string name="ContextMenu.SendEmail">Send email</string>
     <string name="ContextMenu.CopyEmailUrl">Copy email url</string>
-    <string name="ContextMenu.ShareEmailUrl">Share email url</string>
+    <string name="ContextMenu.ShareEmailUrl">Share email address</string>
     
     <string name="MainActivity.MenuAddBookmark">Add bookmark</string>
     <string name="MainActivity.MenuShowBookmarks">Bookmarks</string>
