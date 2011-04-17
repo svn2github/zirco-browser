@@ -200,7 +200,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mPreviousTabView.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				showTab(mCurrentViewIndex - 1, true);
+				showTab(mCurrentViewIndex - 1, true, true);
 			}
 		});
     	mPreviousTabView.setVisibility(View.GONE);
@@ -209,7 +209,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     	mNextTabView.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				showTab(mCurrentViewIndex + 1, true);
+				showTab(mCurrentViewIndex + 1, true, true);
 			}
 		});
     	mNextTabView.setVisibility(View.GONE);
@@ -444,7 +444,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
         		Bundle b = data.getExtras();
         		if (b != null) {
         			int position = b.getInt(Constants.EXTRA_CURRENT_VIEW_INDEX);
-        			showTab(position, false);        			
+        			showTab(position, false, false);        			
         		}
 			}
 		} else if ((requestCode == ACTIVITY_SHOW_BOOKMARKS_HISTORY) &&
@@ -499,7 +499,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     @Override
 	public int addTab(int tabIndex, String url, boolean useAnimation) {   	
     	mCurrentViewIndex = TabsController.getInstance().addTab(tabIndex, url);        
-        showTab(mCurrentViewIndex, useAnimation);
+        showTab(mCurrentViewIndex, useAnimation, false);
         
         return mCurrentViewIndex;
     }
@@ -712,7 +712,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
      * @param tabIndex The tab's index to show.
      * @param useAnimation If true, the switch will use animations.
      */
-	private void showTab(int tabIndex, boolean useAnimation) {
+	private void showTab(int tabIndex, boolean useAnimation, boolean resetToolbarsRunnable) {
 		if (useAnimation) {
 			if (tabIndex < mCurrentViewIndex) {
 				mWebViewFlipper.setInAnimation(AnimationUtils.getInFromLeftAnimation());
@@ -732,6 +732,10 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
 		mCurrentViewIndex = tabIndex;
 		mWebViewFlipper.setDisplayedChild(mCurrentViewIndex);
 		mCurrentWebView = TabsController.getInstance().getWebViewContainers().get(mCurrentViewIndex).getWebView();		
+		
+		if (resetToolbarsRunnable) {
+			startToolbarsHideRunnable();
+		}
 		
 		updateBars();
 		updatePreviousNextTabViewsVisibility();
@@ -1006,7 +1010,7 @@ public class MainActivity extends Activity implements OnTouchListener, IWebViewA
     		mCurrentViewIndex = 0;
     	}
     	
-    	showTab(mCurrentViewIndex, true);
+    	showTab(mCurrentViewIndex, true, false);
     }
     
 	/**
