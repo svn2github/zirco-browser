@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
@@ -19,20 +20,6 @@ import android.webkit.WebSettings.ZoomDensity;
  * Extension of WebView.
  */
 public class CustomWebView extends WebView {
-	
-	/*
-	private static final DrawFilter sZoomFilter = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG | Paint.SUBPIXEL_TEXT_FLAG, Paint.LINEAR_TEXT_FLAG);
-	
-	private boolean mUpdateZoomOnNextDraw = false;
-	private float mNextZoomFactor;
-	private float mNextX;
-	private float mNextY;
-	
-	private int mDefaultWidth = 0;
-	private int mDefaultHeight = 0;
-    private int mWidth = 100;
-    private int mHeight = 100;
-    */    
 	
 	private Context mContext;
 	
@@ -46,9 +33,6 @@ public class CustomWebView extends WebView {
 		super(context);
 		mContext = context;
 		initializeOptions();
-		
-		//mDefaultWidth = mWidth = Math.round(getContext().getResources().getDisplayMetrics().widthPixels);
-        //mDefaultHeight = mHeight = Math.round(getContext().getResources().getDisplayMetrics().heightPixels);
 	}
 	
 	/**
@@ -60,9 +44,6 @@ public class CustomWebView extends WebView {
         super(context, attrs);
         mContext = context;
         initializeOptions();
-        
-        //mDefaultWidth = mWidth = Math.round(getContext().getResources().getDisplayMetrics().widthPixels);
-        //mDefaultHeight = mHeight = Math.round(getContext().getResources().getDisplayMetrics().heightPixels);
 	}
 	
 	/**
@@ -85,7 +66,7 @@ public class CustomWebView extends WebView {
 		CookieManager.getInstance().setAcceptCookie(prefs.getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_COOKIES, true));
 		
 		// Technical settings
-		settings.setSupportZoom(true);
+		//settings.setUseWideViewPort(true);
 		settings.setSupportMultipleWindows(true);						
     	setLongClickable(true);
     	setScrollbarFadingEnabled(true);
@@ -128,82 +109,36 @@ public class CustomWebView extends WebView {
 	public void setLoading(boolean value) {
 		mIsLoading = value;
 	}
-	
-	/*
-	@Override
-	protected void onDraw(Canvas canvas) {
-		if (mUpdateZoomOnNextDraw) {
-			Log.d("CustomWebView", "onDraw: " + mNextZoomFactor);
-			
-			canvas.setDrawFilter(sZoomFilter);
-			canvas.scale(mNextZoomFactor, mNextZoomFactor);
-			canvas.translate(mNextX, mNextY);
-
-			mWidth = Math.round(mDefaultWidth * mNextZoomFactor);
-            mHeight = Math.round(mDefaultHeight * mNextZoomFactor);
-
-			int newWidth = (int) (this.getWidth() * mNextZoomFactor);
-			int newHeight = (int) (this.getHeight() * mNextZoomFactor);
-			
-			canvas.setViewport(mWidth, mHeight);
-
-			mUpdateZoomOnNextDraw = false;
-		}
-		super.onDraw(canvas);
-	}
 
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-	}
-
-	public void setNextDrawZoomFactor(float scaleFactor, float nextX, float nextY) {
-		mUpdateZoomOnNextDraw = true;
-		mNextZoomFactor = scaleFactor;
-		mNextX = nextX;
-		mNextY = nextY;
-	}
+	public boolean onTouchEvent(MotionEvent ev) {
 		
-    private int measureWidth(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            // We were told how big to be
-            result = mWidth;
-        } else {
-            // Measure the text
-            result = (int) (mWidth) + getPaddingLeft()
-                    + getPaddingRight();
-            if (specMode == MeasureSpec.AT_MOST) {
-                // Respect AT_MOST value if that was what is called for by measureSpec
-                result = Math.min(result, specSize);
-            }
-        }
-
-        return result;
-    }
-
-    private int measureHeight(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            // We were told how big to be
-            result = mHeight;
-        } else {
-            // Measure the text (beware: ascent is a negative number)
-            result = (int) (mHeight) + getPaddingTop()
-                    + getPaddingBottom();
-            if (specMode == MeasureSpec.AT_MOST) {
-                // Respect AT_MOST value if that was what is called for by measureSpec
-                result = Math.min(result, specSize);
-            }
-        }
-        return result;
-    }
-	*/
+		final int action = ev.getAction();
+		
+		// Enable / disable zoom support in case of multiple pointer, e.g. enable zoom when we have two down pointers, disable with one pointer or when pointer up.
+		// We do this to prevent the display of zoom controls, which are not useful and override over the right bubble.
+		if ((action == MotionEvent.ACTION_DOWN) ||
+				(action == MotionEvent.ACTION_POINTER_DOWN) ||
+				(action == MotionEvent.ACTION_POINTER_1_DOWN) ||
+				(action == MotionEvent.ACTION_POINTER_2_DOWN) ||
+				(action == MotionEvent.ACTION_POINTER_3_DOWN)) {
+			if (ev.getPointerCount() > 1) {
+				this.getSettings().setBuiltInZoomControls(true);
+				this.getSettings().setSupportZoom(true);				
+			} else {
+				this.getSettings().setBuiltInZoomControls(false);
+				this.getSettings().setSupportZoom(false);
+			}
+		} else if ((action == MotionEvent.ACTION_UP) ||
+				(action == MotionEvent.ACTION_POINTER_UP) ||
+				(action == MotionEvent.ACTION_POINTER_1_UP) ||
+				(action == MotionEvent.ACTION_POINTER_2_UP) ||
+				(action == MotionEvent.ACTION_POINTER_3_UP)) {
+			this.getSettings().setBuiltInZoomControls(false);
+			this.getSettings().setSupportZoom(false);			
+		}
+		
+		return super.onTouchEvent(ev);
+	}
 	
 }
