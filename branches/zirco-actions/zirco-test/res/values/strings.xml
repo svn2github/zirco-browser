@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zirco2</string>
+    
+    <string name="BookmarksListActivity.Empty">No bookmarks</string>
+    
+    <string name="HistoryListActivity.Today">Today</string>
+    <string name="HistoryListActivity.Yesterday">Yesterday</string>
+    <string name="HistoryListActivity.DaysAgo">%1$s days ago</string>
+    <string name="HistoryListActivity.Older">Older</string>
+    
+    <string name="BookmarksHistoryActivity.TabBookmarks">Bookmarks</string>
+    <string name="BookmarksHistoryActivity.TabHistory">History</string>
+    
+    <string name="ContextMenu.Open">Open</string>
+    <string name="ContextMenu.OpenInNewTab">Open in new tab</string>
+</resources>

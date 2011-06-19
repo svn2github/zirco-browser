@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:orientation="vertical"
+	android:background="@color/dialog_title_background"
+	android:paddingTop="10dip"
+	android:paddingLeft="10dip"
+	android:paddingRight="10dip">
+	
+	<Spinner android:id="@+id/BaseSpinnerCustomPreferenceSpinner"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"></Spinner>
+	
+	<EditText android:id="@+id/BaseSpinnerCustomPreferenceEditText"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"></EditText>
+
+</LinearLayout>

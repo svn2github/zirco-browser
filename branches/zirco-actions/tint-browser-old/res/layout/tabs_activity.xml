@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/MainLayout" android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	
+	<RelativeLayout android:id="@+id/MainContainer"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		
+	<LinearLayout android:id="@+id/BarLayout"
+	   android:focusable="true"
+          android:focusableInTouchMode="true"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:scaleType="fitXY"
+			android:weightSum="0.75"
+			android:background="@drawable/tb_background_top"
+			android:layout_alignParentTop="true" android:orientation="horizontal">
+			
+		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/TabsUrlText"
+		          android:hint="Enter URL"		  
+					android:layout_marginTop="5dip"
+					android:layout_marginLeft="2dip"
+					android:layout_marginRight="2dip"
+					android:layout_width="fill_parent"
+					android:layout_weight="0.75"
+					android:dropDownHeight="wrap_content"
+					android:dropDownWidth="fill_parent"
+					android:inputType="textUri"  ></AutoCompleteTextView>
+		
+		<ImageButton android:layout_height="wrap_content"
+					android:id="@+id/GoBtn" android:layout_width="wrap_content"
+					android:background="@drawable/buttons"
+					android:layout_marginTop="5dip"
+					android:layout_marginBottom="3dip"
+					android:layout_marginRight="3dip"
+					android:src="@drawable/ic_btn_go"></ImageButton>		
+			
+	</LinearLayout>
+	
+	<Gallery android:id="@+id/TabsGallery"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" android:layout_below="@+id/BarLayout"/>
+	    
+	    <!-- android:background="@drawable/buttons_on_dark" -->
+	<ImageButton android:id="@+id/AddTabBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"                    
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/ic_btn_open_tab"
+                    android:layout_alignLeft="@+id/TabsGallery"
+                    android:layout_alignTop="@+id/TabsGallery"></ImageButton>   
+
+    <ImageButton android:id="@+id/BookmarksBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"                   
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_btn_bookmarks"
+                    android:layout_toLeftOf="@+id/ForwardBtn"
+                    android:layout_toRightOf="@+id/BackBtn"
+                    android:layout_alignTop="@+id/AddTabBtn"></ImageButton>
+
+    <ImageButton android:layout_height="wrap_content"
+                    android:id="@+id/CloseTabBtn" android:layout_width="wrap_content"                    
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_btn_close_tab"
+                    android:layout_alignRight="@+id/TabsGallery"
+                    android:layout_alignTop="@+id/TabsGallery"></ImageButton>
+                    
+	<ImageButton android:id="@+id/BackBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"                    
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/ic_btn_back"
+                    android:layout_alignLeft="@+id/TabsGallery"
+                    android:layout_alignBottom="@+id/TabsGallery"></ImageButton>
+                    
+    <TextView android:id="@+id/TabTitle"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center"              
+        android:layout_alignTop="@+id/BackBtn"
+        android:layout_alignBottom="@+id/BackBtn"
+        android:layout_toLeftOf="@+id/CloseTabBtn"
+        android:layout_toRightOf="@+id/AddTabBtn"></TextView>
+    
+    <ImageButton android:id="@+id/ForwardBtn"
+	   android:layout_height="wrap_content"
+       android:layout_width="wrap_content"                    
+                    android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_btn_forward"
+                    android:layout_alignRight="@+id/TabsGallery"
+                    android:layout_alignBottom="@+id/TabsGallery"></ImageButton>
+
+</RelativeLayout>
+    
+ </LinearLayout>
