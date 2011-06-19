@@ -65,6 +65,14 @@
 					android:layout_marginTop="2dip"
 					android:layout_marginBottom="3dip"
 					android:layout_marginRight="3dip"
+					android:src="@drawable/ic_btn_go"></ImageButton>
+				
+				<ImageButton android:layout_height="wrap_content"
+					android:id="@+id/ToolsBtn" android:layout_width="wrap_content"
+					android:background="@drawable/buttons"
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="3dip"
+					android:layout_marginRight="3dip"
 					android:src="@drawable/ic_btn_go"></ImageButton>							
 				
 			</LinearLayout>											

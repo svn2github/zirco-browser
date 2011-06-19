@@ -41,6 +41,8 @@ import org.zirco.utils.UrlUtils;
 
 import external.greendroid.QuickAction;
 import external.greendroid.QuickActionGrid;
+import external.greendroid.QuickActionWidget;
+import external.greendroid.QuickActionWidget.OnQuickActionClickListener;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -88,6 +90,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -135,6 +138,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private ImageButton mHomeButton;
 	private AutoCompleteTextView mUrlEditText;
 	private ImageButton mGoButton;
+	private ImageButton mToolsButton;
 	private ProgressBar mProgressBar;	
 	
 	private ImageView mBubbleRightView;
@@ -154,6 +158,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private Drawable mCircularProgress;
 	
 	private boolean mUrlBarVisible;
+	private boolean mToolsActionGridVisible = false;
 	
 	private HideToolbarsRunnable mHideToolbarsRunnable;
 	
@@ -165,7 +170,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	
 	private SwitchTabsMethod mSwitchTabsMethod = SwitchTabsMethod.BOTH;
 	
-	private QuickActionGrid mQuickActionGrid;
+	private QuickActionGrid mToolsActionGrid;
 	
 	private enum SwitchTabsMethod {
 		BUTTONS,
@@ -297,9 +302,32 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
      */
 	private void buildComponents() {
 		
-		mQuickActionGrid = new QuickActionGrid(this);
-		mQuickActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_stop, R.string.ApplicationName));
-		mQuickActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_close_tab, R.string.ApplicationName));
+		mToolsActionGrid = new QuickActionGrid(this);
+		//mQuickActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_stop, R.string.ApplicationName));
+		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_home, R.string.ApplicationName));
+		mToolsActionGrid.addQuickAction(new QuickAction(this, android.R.drawable.ic_menu_share, R.string.Main_MenuSharePage));
+		
+		mToolsActionGrid.setOnQuickActionClickListener(new OnQuickActionClickListener() {			
+			@Override
+			public void onQuickActionClicked(QuickActionWidget widget, int position) {
+				switch (position) {
+				case 0:
+					navigateToHome();
+					break;
+				case 1:
+					sharePage(mCurrentWebView.getTitle(), mCurrentWebView.getUrl());
+					break;
+				}
+			}
+		});
+		
+		mToolsActionGrid.setOnDismissListener(new PopupWindow.OnDismissListener() {			
+			@Override
+			public void onDismiss() {
+				mToolsActionGridVisible = false;
+				startToolbarsHideRunnable();
+			}
+		});
 		
 		mGestureDetector = new GestureDetector(this, new GestureListener());
     	
@@ -395,8 +423,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			
 			@Override
 			public void onClick(View v) {
-				//navigateToHome();
-				mQuickActionGrid.show(v);
+				navigateToHome();
 			}
 		});
     	
@@ -445,6 +472,15 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
             	}
             }          
         });
+    	
+    	mToolsButton = (ImageButton) findViewById(R.id.ToolsBtn);
+    	mToolsButton.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				mToolsActionGridVisible = true;
+				mToolsActionGrid.show(v);				
+			}
+		});
     	
     	mProgressBar = (ProgressBar) findViewById(R.id.WebViewProgress);
     	mProgressBar.setMax(100);
@@ -1611,7 +1647,8 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	 */
 	public void hideToolbars() {
 		if (mUrlBarVisible) {			
-			if (!mUrlEditText.hasFocus()) {
+			if ((!mUrlEditText.hasFocus()) &&
+					(!mToolsActionGridVisible)) {
 				
 				if (!mCurrentWebView.isLoading()) {
 					setToolbarsVisibility(false);
