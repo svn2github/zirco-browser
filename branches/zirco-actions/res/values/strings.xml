@@ -427,6 +427,9 @@
     <string name="HistoryListActivity.LastSevenDays">Last 7 days</string>
     <string name="HistoryListActivity.LastMonth">Last month</string>
     <string name="HistoryListActivity.Older">Older</string>
+    
+    <string name="QuickAction.Home">Home</string>
+    <string name="QuickAction.Share">Share</string>
 	
     
 </resources>
