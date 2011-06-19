@@ -305,7 +305,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		mToolsActionGrid = new QuickActionGrid(this);
 		//mQuickActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_stop, R.string.ApplicationName));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_home, R.string.ApplicationName));
-		mToolsActionGrid.addQuickAction(new QuickAction(this, android.R.drawable.ic_menu_share, R.string.Main_MenuSharePage));
+		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_share, R.string.Main_MenuSharePage));
 		
 		mToolsActionGrid.setOnQuickActionClickListener(new OnQuickActionClickListener() {			
 			@Override

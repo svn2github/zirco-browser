@@ -73,7 +73,7 @@
 					android:layout_marginTop="2dip"
 					android:layout_marginBottom="3dip"
 					android:layout_marginRight="3dip"
-					android:src="@drawable/ic_btn_go"></ImageButton>							
+					android:src="@drawable/ic_btn_tools"></ImageButton>							
 				
 			</LinearLayout>											
 			
