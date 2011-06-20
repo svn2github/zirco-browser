@@ -48,11 +48,20 @@
 					android:layout_marginBottom="3dip"
 					android:layout_marginLeft="3dip"
 					android:src="@drawable/ic_btn_home"></ImageButton>
+					
+				<ImageButton android:layout_height="wrap_content"
+					android:id="@+id/ToolsBtn" android:layout_width="wrap_content"
+					android:background="@drawable/btn_top_left"
+					android:layout_marginLeft="3dip"
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="3dip"
+					android:layout_marginRight="0dip"
+					android:src="@drawable/ic_btn_tools"></ImageButton>
 
 				<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/UrlText"
 					android:layout_marginTop="2dip"
-					android:layout_marginLeft="2dip"
-					android:layout_marginRight="2dip"
+					android:layout_marginLeft="0dip"
+					android:layout_marginRight="0dip"
 					android:layout_width="fill_parent"
 					android:layout_weight="0.75"
 					android:dropDownHeight="wrap_content"
@@ -61,19 +70,12 @@
 
 				<ImageButton android:layout_height="wrap_content"
 					android:id="@+id/GoBtn" android:layout_width="wrap_content"
-					android:background="@drawable/buttons"
+					android:background="@drawable/btn_top_right"
+					android:layout_marginLeft="0dip"
 					android:layout_marginTop="2dip"
 					android:layout_marginBottom="3dip"
 					android:layout_marginRight="3dip"
-					android:src="@drawable/ic_btn_go"></ImageButton>
-				
-				<ImageButton android:layout_height="wrap_content"
-					android:id="@+id/ToolsBtn" android:layout_width="wrap_content"
-					android:background="@drawable/buttons"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="3dip"
-					android:layout_marginRight="3dip"
-					android:src="@drawable/ic_btn_tools"></ImageButton>							
+					android:src="@drawable/ic_btn_go"></ImageButton>										
 				
 			</LinearLayout>											
 			
