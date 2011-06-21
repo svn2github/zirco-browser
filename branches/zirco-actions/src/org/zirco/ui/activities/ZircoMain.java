@@ -1177,12 +1177,15 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		BitmapDrawable favIcon = new BitmapDrawable(getResources(), mCurrentWebView.getFavicon());
 		
 		if (mCurrentWebView.getFavicon() != null) {
+			int imageButtonSize = ApplicationUtils.getImageButtonSize(this);
 			int favIconSize = ApplicationUtils.getFaviconSize(this);
 			
-			Bitmap bm = Bitmap.createBitmap(favIconSize, favIconSize, Bitmap.Config.ARGB_4444);
+			//Bitmap bm = Bitmap.createBitmap(favIconSize, favIconSize, Bitmap.Config.ARGB_4444);
+			Bitmap bm = Bitmap.createBitmap(imageButtonSize, imageButtonSize, Bitmap.Config.ARGB_4444);
 			Canvas canvas = new Canvas(bm);
 			
-			favIcon.setBounds(0, 0, favIconSize, favIconSize);			
+			//favIcon.setBounds(0, 0, favIconSize, favIconSize);
+			favIcon.setBounds((imageButtonSize / 2) - (favIconSize / 2), (imageButtonSize / 2) - (favIconSize / 2), (imageButtonSize / 2) + (favIconSize / 2), (imageButtonSize / 2) + (favIconSize / 2));
 			favIcon.draw(canvas);
 			
 			favIcon = new BitmapDrawable(getResources(), bm);
@@ -1197,11 +1200,11 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private void updateGoButton() {		
 		if (mCurrentWebView.isLoading()) {
 			mGoButton.setImageResource(R.drawable.ic_btn_stop);			
-			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(getNormalizedFavicon(), null, mCircularProgress, null);
+			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mCircularProgress, null);
 			((AnimationDrawable) mCircularProgress).start();
 		} else {
 			mGoButton.setImageResource(R.drawable.ic_btn_go);			
-			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(getNormalizedFavicon(), null, null, null);			
+			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);			
 			((AnimationDrawable) mCircularProgress).stop();
 		}
 	}
@@ -1209,11 +1212,21 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	/**
 	 * Update the fav icon display.
 	 */
-	private void updateFavIcon() {		
+	private void updateFavIcon() {
+		BitmapDrawable favicon = getNormalizedFavicon();
+		
+		if (mCurrentWebView.getFavicon() != null) {
+			mToolsButton.setImageDrawable(favicon);
+		} else {
+			mToolsButton.setImageResource(R.drawable.fav_icn_default);
+		}
+		
+		/*
 		mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(getNormalizedFavicon(),
 				null,
 				mUrlEditText.getCompoundDrawables()[2],
 				null);
+		*/
 	}
 	
 	/**
