@@ -428,8 +428,10 @@
     <string name="HistoryListActivity.LastMonth">Last month</string>
     <string name="HistoryListActivity.Older">Older</string>
     
-    <string name="QuickAction.Home">Home</string>
+    <string name="QuickAction.Home">Home page</string>
     <string name="QuickAction.Share">Share</string>
+    <string name="QuickAction.SelectText">Select text</string>
+    <string name="QuickAction.MobileView">Mobile view</string>
 	
     
 </resources>
