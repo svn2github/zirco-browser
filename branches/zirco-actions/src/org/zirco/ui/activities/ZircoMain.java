@@ -162,8 +162,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private boolean mUrlBarVisible;
 	private boolean mToolsActionGridVisible = false;
 	
-	private boolean mUrlModified = false;
-	
 	private TextWatcher mUrlTextWatcher;
 	
 	private HideToolbarsRunnable mHideToolbarsRunnable;
@@ -309,7 +307,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private void buildComponents() {
 		
 		mToolsActionGrid = new QuickActionGrid(this);
-		//mQuickActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_stop, R.string.ApplicationName));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_home, R.string.QuickAction_Home));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_share, R.string.QuickAction_Share));
 		
@@ -465,7 +462,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 
     		@Override
     		public void afterTextChanged(Editable arg0) {
-    			mUrlModified = true;
     			updateGoButton();
     		}
     	};
@@ -491,7 +487,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
             	
             	if (mCurrentWebView.isLoading()) {
             		mCurrentWebView.stopLoading();
-            	} else if (mUrlModified) {
+            	} else if (!mCurrentWebView.isSameUrl(mUrlEditText.getText().toString())) {
             		navigateToUrl();
             	} else {
             		mCurrentWebView.reload();
@@ -677,9 +673,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		mCurrentWebView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
-				((ZircoWebView) view).setProgress(newProgress);
-				
-				//activity.setProgress(mCurrentWebView.getProgress() * 100);
+				((ZircoWebView) view).setProgress(newProgress);				
 				mProgressBar.setProgress(mCurrentWebView.getProgress());
 			}
 						
@@ -1043,8 +1037,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     	// Needed to hide toolbars properly.
     	mUrlEditText.clearFocus();
     	
-    	mUrlModified = false;
-    	
     	if ((url != null) &&
     			(url.length() > 0)) {
     	
@@ -1208,11 +1200,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			int imageButtonSize = ApplicationUtils.getImageButtonSize(this);
 			int favIconSize = ApplicationUtils.getFaviconSize(this);
 			
-			//Bitmap bm = Bitmap.createBitmap(favIconSize, favIconSize, Bitmap.Config.ARGB_4444);
 			Bitmap bm = Bitmap.createBitmap(imageButtonSize, imageButtonSize, Bitmap.Config.ARGB_4444);
 			Canvas canvas = new Canvas(bm);
 			
-			//favIcon.setBounds(0, 0, favIconSize, favIconSize);
 			favIcon.setBounds((imageButtonSize / 2) - (favIconSize / 2), (imageButtonSize / 2) - (favIconSize / 2), (imageButtonSize / 2) + (favIconSize / 2), (imageButtonSize / 2) + (favIconSize / 2));
 			favIcon.draw(canvas);
 			
@@ -1231,7 +1221,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mCircularProgress, null);
 			((AnimationDrawable) mCircularProgress).start();
 		} else {
-			if (mUrlModified) {
+			if (!mCurrentWebView.isSameUrl(mUrlEditText.getText().toString())) {
 				mGoButton.setImageResource(R.drawable.ic_btn_go);
 			} else {
 				mGoButton.setImageResource(android.R.drawable.ic_btn_speak_now);
@@ -1275,7 +1265,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 		
 		mRemoveTabButton.setEnabled(mViewFlipper.getChildCount() > 1);
 		
-		//setProgress(mCurrentWebView.getProgress() * 100);
 		mProgressBar.setProgress(mCurrentWebView.getProgress());
 		
 		updateGoButton();
