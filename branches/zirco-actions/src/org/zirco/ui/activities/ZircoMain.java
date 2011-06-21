@@ -134,10 +134,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	private ImageView mPreviousTabView;
 	private ImageView mNextTabView;
 	
-	private ImageButton mHomeButton;
-	private AutoCompleteTextView mUrlEditText;
-	private ImageButton mGoButton;
 	private ImageButton mToolsButton;
+	private AutoCompleteTextView mUrlEditText;
+	private ImageButton mGoButton;	
 	private ProgressBar mProgressBar;	
 	
 	private ImageView mBubbleRightView;
@@ -432,19 +431,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			}
 		});
     	
-    	mHomeButton = (ImageButton) findViewById(R.id.HomeBtn);
-    	mHomeButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				navigateToHome();
-			}
-		});
-    	
-    	if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREFERENCES_UI_SHOW_HOME_BUTTON, true)) {
-    		mHomeButton.setVisibility(View.GONE);
-    	}
-    	
     	mUrlEditText = (AutoCompleteTextView) findViewById(R.id.UrlText);
     	mUrlEditText.setThreshold(1);
     	mUrlEditText.setAdapter(adapter);    	
@@ -564,12 +550,6 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     	setToolbarsVisibility(false);
     	
     	updateSwitchTabsMethod();
-    	
-    	if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREFERENCES_UI_SHOW_HOME_BUTTON, true)) {
-    		mHomeButton.setVisibility(View.GONE);
-    	} else {
-    		mHomeButton.setVisibility(View.VISIBLE);
-    	}
     	
     	for (ZircoWebView view : mWebViews) {
     		view.initializeOptions();

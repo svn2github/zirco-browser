@@ -310,9 +310,6 @@
     <string name="PreferencesActivity.UIPreferenceTitle">自定义首页</string>
     <string name="PreferencesActivity.UIPreferenceSummary">自定义首页界面</string>
     
-    <string name="PreferencesActivity.ShowHomeButtonPreferenceTitle">显示主页按钮</string>
-    <string name="PreferencesActivity.ShowHomeButtonPreferenceSummary">如果选中，主页按钮显示在地址栏上</string>
-    
     <string name="Main.MenuExit">退出</string>
     
     <string name="PreferencesActivity.RestartDialogTitle">需要重启</string>
