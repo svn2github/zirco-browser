@@ -63,6 +63,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -159,6 +161,10 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	
 	private boolean mUrlBarVisible;
 	private boolean mToolsActionGridVisible = false;
+	
+	private boolean mUrlModified = false;
+	
+	private TextWatcher mUrlTextWatcher;
 	
 	private HideToolbarsRunnable mHideToolbarsRunnable;
 	
@@ -438,15 +444,33 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     	mUrlEditText.setOnKeyListener(new View.OnKeyListener() {
 
 			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
+			public boolean onKey(View v, int keyCode, KeyEvent event) {												
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {
 					navigateToUrl();
 					return true;
 				}
+				
 				return false;
 			}
     		
     	});
+    	
+
+    	mUrlTextWatcher = new TextWatcher() {			
+    		@Override
+    		public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
+
+    		@Override
+    		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
+
+    		@Override
+    		public void afterTextChanged(Editable arg0) {
+    			mUrlModified = true;
+    			updateGoButton();
+    		}
+    	};
+    	
+    	mUrlEditText.addTextChangedListener(mUrlTextWatcher);
     	
     	mUrlEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -457,7 +481,7 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
     				mUrlEditText.setSelection(0, mUrlEditText.getText().length());
     			}
     		}
-    	});
+    	});    	
     	
     	mUrlEditText.setCompoundDrawablePadding(5);
     	    	
@@ -467,8 +491,10 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
             	
             	if (mCurrentWebView.isLoading()) {
             		mCurrentWebView.stopLoading();
-            	} else {
+            	} else if (mUrlModified) {
             		navigateToUrl();
+            	} else {
+            		mCurrentWebView.reload();
             	}
             }          
         });
@@ -1015,7 +1041,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
      */
     private void navigateToUrl(String url) {
     	// Needed to hide toolbars properly.
-    	mUrlEditText.clearFocus();    	
+    	mUrlEditText.clearFocus();
+    	
+    	mUrlModified = false;
     	
     	if ((url != null) &&
     			(url.length() > 0)) {
@@ -1203,7 +1231,12 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mCircularProgress, null);
 			((AnimationDrawable) mCircularProgress).start();
 		} else {
-			mGoButton.setImageResource(R.drawable.ic_btn_go);			
+			if (mUrlModified) {
+				mGoButton.setImageResource(R.drawable.ic_btn_go);
+			} else {
+				mGoButton.setImageResource(android.R.drawable.ic_btn_speak_now);
+			}			
+			
 			mUrlEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);			
 			((AnimationDrawable) mCircularProgress).stop();
 		}
@@ -1233,7 +1266,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 	 * Update the UI: Url edit text, previous/next button state,...
 	 */
 	private void updateUI() {
+		mUrlEditText.removeTextChangedListener(mUrlTextWatcher);
 		mUrlEditText.setText(mCurrentWebView.getUrl());
+		mUrlEditText.addTextChangedListener(mUrlTextWatcher);
 		
 		mPreviousButton.setEnabled(mCurrentWebView.canGoBack());
 		mNextButton.setEnabled(mCurrentWebView.canGoForward());
@@ -1568,8 +1603,9 @@ public class ZircoMain extends Activity implements IWebEventListener, IToolbarsC
 			}
 			
 		} else if (event.equals(EventConstants.EVT_WEB_ON_PAGE_STARTED)) {
-			
+			mUrlEditText.removeTextChangedListener(mUrlTextWatcher);
 			mUrlEditText.setText((CharSequence) data);
+			mUrlEditText.addTextChangedListener(mUrlTextWatcher);
 			
 			mPreviousButton.setEnabled(false);
 			mNextButton.setEnabled(false);
