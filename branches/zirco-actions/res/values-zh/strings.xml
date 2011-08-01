@@ -424,5 +424,7 @@
     <string name="QuickAction.Share">Share</string>
     <string name="QuickAction.SelectText">选择文本</string>
     <string name="QuickAction.MobileView">移动网关</string>
+    
+    <string name="AboutActivity.OtherLicenseText">This application include code from the GreenDroid project (https://github.com/cyrilmottier/GreenDroid/), licensed under the Apache license, version 2.</string>
 	
 </resources>

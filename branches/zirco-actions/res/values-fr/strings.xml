@@ -426,4 +426,6 @@
     <string name="QuickAction.SelectText">Sélectionner</string>
     <string name="QuickAction.MobileView">Vue mobile</string>
     
+    <string name="AboutActivity.OtherLicenseText">Cette application inclue du code du projet GreenDroid (https://github.com/cyrilmottier/GreenDroid/), distribué sous license Apache, version 2.</string>
+    
 </resources>
