@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.greendroid.QuickAction;
+import org.greendroid.QuickActionGrid;
+import org.greendroid.QuickActionWidget;
+import org.greendroid.QuickActionWidget.OnQuickActionClickListener;
 import org.zirco.R;
 import org.zirco.controllers.Controller;
 import org.zirco.events.EventConstants;
@@ -39,10 +43,6 @@ import org.zirco.utils.ApplicationUtils;
 import org.zirco.utils.Constants;
 import org.zirco.utils.UrlUtils;
 
-import external.greendroid.QuickAction;
-import external.greendroid.QuickActionGrid;
-import external.greendroid.QuickActionWidget;
-import external.greendroid.QuickActionWidget.OnQuickActionClickListener;
 
 import android.app.Activity;
 import android.app.AlarmManager;
