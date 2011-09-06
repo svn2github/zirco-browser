@@ -21,9 +21,14 @@
 
 	<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
 
+		<!--  
 		<ViewFlipper android:id="@+id/ViewFlipper"
 			android:layout_width="fill_parent" android:layout_height="fill_parent">
 		</ViewFlipper>
+		-->
+		<org.zirco.ui.components.CustomViewPager android:id="@+id/ViewPager"
+			android:layout_width="fill_parent" android:layout_height="fill_parent">
+		</org.zirco.ui.components.CustomViewPager>
 
 		<LinearLayout android:id="@+id/BarLayout"
 			android:layout_toRightOf="@+id/GoBtn" android:layout_width="fill_parent"
