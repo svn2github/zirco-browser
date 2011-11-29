@@ -1,10 +1,19 @@
 package org.zirco.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.provider.Settings;
+
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -12,7 +21,45 @@ import java.lang.reflect.Method;
  * Utility class for setting WebKit proxy used by Android WebView
  *
  */
-public class ProxySettings {
+public class ProxySettings 
+{
+	public static boolean testSystemProxy(Context ctx)
+	{
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		ContentResolver cr = ctx.getContentResolver();
+		String proxyString = Settings.Secure.getString(cr,Settings.Secure.HTTP_PROXY);
+		 
+		if (proxyString != null && proxyString != "" && proxyString.contains(":"))
+		{      
+		        String proxyAddress = proxyString.split(":")[0];
+		        int proxyPort = Integer.parseInt(proxyString.split(":")[1]);
+		        HttpHost proxy = new HttpHost(proxyAddress,proxyPort);
+		        // And when you have it, it's child's play to execute an HTTP request
+		        // passing through the proxy:
+		        httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+		}
+		                       
+		
+		try {
+			HttpGet request = new HttpGet("http://www.google.com");
+			HttpResponse response = httpclient.execute(request);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return true;
+	}
+	
+	
+	public static boolean setSystemProxy(Context ctx)
+	{
+		return setProxy(ctx,"192.168.2.2",8080);
+	}
 
     /**
      * Override WebKit Proxy settings
