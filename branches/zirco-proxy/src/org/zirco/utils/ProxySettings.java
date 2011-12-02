@@ -23,6 +23,16 @@ import java.lang.reflect.Method;
  */
 public class ProxySettings 
 {
+    public static String SystemProxyAddress;
+    public static String SystemProxyPort;
+    
+    
+    
+    public static boolean isSystemProxyReachable(Context ctx)
+    {
+        return true;
+    }
+    
 	public static boolean testSystemProxy(Context ctx)
 	{
 		DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -58,7 +68,7 @@ public class ProxySettings
 	
 	public static boolean setSystemProxy(Context ctx)
 	{
-		return setProxy(ctx,"192.168.2.2",8080);
+		return setProxy(ctx,"10.130.193.63",1973);
 	}
 
     /**

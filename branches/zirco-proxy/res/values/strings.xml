@@ -505,4 +505,7 @@
 		<item>STOCK</item>
 		<item>INTERNAL</item>
 	</string-array>
+    <string name="PreferencesActivity.EnableProxySettings">Enable System Proxy</string>
+    <string name="PreferencesActivity.EnableProxySettingsSummary">Enable or disable the support to system proxy settings</string>
+    <string name="QuickAction_ProxySettings">Toggle Proxy</string>
 </resources>

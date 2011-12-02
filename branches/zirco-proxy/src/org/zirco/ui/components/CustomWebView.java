@@ -108,8 +108,10 @@ public class CustomWebView extends WebView {
 		
 		settings.setSupportZoom(true);
 		
-		ProxySettings.setSystemProxy(mContext);
-		
+		if (Controller.getInstance().getPreferences().getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PROXY_SETTINGS, false))
+		{
+		    ProxySettings.setSystemProxy(mContext);
+		}
 		// Technical settings
 		settings.setSupportMultipleWindows(true);						
     	setLongClickable(true);

@@ -41,6 +41,7 @@ import org.zirco.ui.runnables.HistoryUpdater;
 import org.zirco.utils.AnimationManager;
 import org.zirco.utils.ApplicationUtils;
 import org.zirco.utils.Constants;
+import org.zirco.utils.ProxySettings;
 import org.zirco.utils.UrlUtils;
 
 
@@ -325,6 +326,8 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_find, R.string.QuickAction_Find));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_select, R.string.QuickAction_SelectText));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_mobile_view, R.string.QuickAction_MobileView));
+		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_proxy_settings, R.string.QuickAction_ProxySettings));
+		
 		
 		mToolsActionGrid.setOnQuickActionClickListener(new OnQuickActionClickListener() {			
 			@Override
@@ -354,6 +357,24 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 		    			navigateToUrl(url);
 		    		}
 		    		break;
+				case 5:
+				    // Toggle Proxy settings
+				    
+				    Boolean proxyEnabled = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PROXY_SETTINGS, false);
+				    Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+				    if(proxyEnabled)
+	                {
+	                    editor.putBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PROXY_SETTINGS, false);
+	                }
+	                else
+	                {
+	                    editor.putBoolean(Constants.PREFERENCES_BROWSER_ENABLE_PROXY_SETTINGS, true);
+	                    ProxySettings.setSystemProxy(getApplicationContext());
+	                }
+	                
+	                //editor.putInt(Constants.PREFERENCES_LAST_VERSION_CODE, currentVersionCode);
+	                editor.commit();
+				    break;
 				}
 			}
 		});

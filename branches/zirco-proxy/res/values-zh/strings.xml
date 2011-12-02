@@ -486,5 +486,8 @@
     
     <string name="QuickAction.Find">Find on page</string>
     <string name="SearchDialog.Hint">Find on page</string>
+    <string name="PreferencesActivity.EnableProxySettings">Enable System Proxy</string>
+    <string name="PreferencesActivity.EnableProxySettingsSummary">Enable or disable the support to system proxy settings</string>
+    <string name="QuickAction_ProxySettings">Toggle Proxy</string>
 	
 </resources>
