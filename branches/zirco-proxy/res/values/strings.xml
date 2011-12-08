@@ -508,4 +508,7 @@
     <string name="PreferencesActivity.EnableProxySettings">Enable System Proxy</string>
     <string name="PreferencesActivity.EnableProxySettingsSummary">Enable or disable the support to system proxy settings</string>
     <string name="QuickAction_ProxySettings">Toggle Proxy</string>
+    <string name="ProxySettings.ErrorProxySettingsNotValid">Invalid system proxy settings</string>
+    <string name="ProxySettings.ErrorProxyServerNotReachable">Proxy server is not reachable</string>
+    <string name="ProxySettings.ErrorProxyInternetNotReachable">Cannot access the Web through the specified proxy server</string>
 </resources>

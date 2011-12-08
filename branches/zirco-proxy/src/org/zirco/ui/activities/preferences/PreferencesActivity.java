@@ -32,6 +32,7 @@ import org.zirco.utils.ApplicationUtils;
 import org.zirco.utils.Constants;
 import org.zirco.utils.DateUtils;
 import org.zirco.utils.IOUtils;
+import org.zirco.utils.ProxySettings;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -75,7 +76,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		} else {
 			browserPreferenceCategory.removePreference(enablePluginsEclair);
 		}
-		
+				
 		Preference userAgentPref = (Preference) findPreference(Constants.PREFERENCES_BROWSER_USER_AGENT);
 		userAgentPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override

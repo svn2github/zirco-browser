@@ -326,7 +326,7 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_find, R.string.QuickAction_Find));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_select, R.string.QuickAction_SelectText));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_mobile_view, R.string.QuickAction_MobileView));
-		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_proxy_settings, R.string.QuickAction_ProxySettings));
+		//mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_proxy_settings, R.string.QuickAction_ProxySettings)); // Proxy Settings QuickAction
 		
 		
 		mToolsActionGrid.setOnQuickActionClickListener(new OnQuickActionClickListener() {			
@@ -357,6 +357,7 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 		    			navigateToUrl(url);
 		    		}
 		    		break;
+				/*
 				case 5:
 				    // Toggle Proxy settings
 				    
@@ -375,6 +376,7 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 	                //editor.putInt(Constants.PREFERENCES_LAST_VERSION_CODE, currentVersionCode);
 	                editor.commit();
 				    break;
+				 */
 				}
 			}
 		});
