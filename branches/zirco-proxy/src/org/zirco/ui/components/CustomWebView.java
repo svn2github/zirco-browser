@@ -112,6 +112,12 @@ public class CustomWebView extends WebView {
 		{
 		    ProxySettings.setSystemProxy(mContext);
 		}
+		else
+		{
+			ProxySettings.resetSystemProxy(mContext);
+		}
+		
+		
 		// Technical settings
 		settings.setSupportMultipleWindows(true);						
     	setLongClickable(true);

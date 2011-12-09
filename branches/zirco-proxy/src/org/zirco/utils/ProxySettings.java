@@ -154,7 +154,7 @@ public class ProxySettings
 		{
 			_proxyStatus = true;
 		}
-		
+
 		if (!_proxyStatus)
 			Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
 		
@@ -163,11 +163,33 @@ public class ProxySettings
 	
 	public static void setSystemProxy(Context ctx)
 	{
+		Toast.makeText(ctx, ctx.getResources().getString(R.string.ProxySettings_EnablingProxySettings), Toast.LENGTH_SHORT).show();
+
 		if (_proxyStatus == null || _proxyStatus == false)
 			testSystemProxy(ctx);
 		
 		if (_proxyStatus)
+		{
 			setProxy(ctx,getSystemProxyAddress(ctx),getSystemProxyPort(ctx));
+			Toast.makeText(ctx, ctx.getResources().getString(R.string.ProxySettings_ProxySettingsEnabled), Toast.LENGTH_LONG).show();
+		}
+		else
+			resetSystemProxy(ctx);
+	}
+	
+	public static void resetSystemProxy(Context ctx)
+	{
+		if (_proxyStatus != null && _proxyStatus == true)
+		{
+    		try
+    		{
+    			resetProxy(ctx);
+    		}
+    		catch (Exception e)
+    		{
+    			Log.e("ProxySettings","Exception resetting WebKit proxy settings: " + e.toString());
+    		}
+		}
 	}
 
     private static boolean setProxy(Context ctx, String host, int port) 
