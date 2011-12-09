@@ -223,7 +223,8 @@ public class ProxySettings
         }
     }
 
-    private static Object GetNetworkInstance(Context ctx) throws ClassNotFoundException
+    @SuppressWarnings("rawtypes")
+	private static Object GetNetworkInstance(Context ctx) throws ClassNotFoundException
     {
         Class networkClass = Class.forName("android.webkit.Network");
         return networkClass;
@@ -263,7 +264,8 @@ public class ProxySettings
         f.set(obj, value);
     }
 
-    private static Object invokeMethod(Object object, String methodName, Object[] params, Class... types) throws Exception 
+    @SuppressWarnings("rawtypes")
+	private static Object invokeMethod(Object object, String methodName, Object[] params, Class... types) throws Exception 
     {
         Object out = null;
         Class c = object instanceof Class ? (Class) object : object.getClass();

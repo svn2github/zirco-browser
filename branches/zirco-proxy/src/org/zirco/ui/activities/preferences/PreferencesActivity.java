@@ -32,8 +32,6 @@ import org.zirco.utils.ApplicationUtils;
 import org.zirco.utils.Constants;
 import org.zirco.utils.DateUtils;
 import org.zirco.utils.IOUtils;
-import org.zirco.utils.ProxySettings;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;

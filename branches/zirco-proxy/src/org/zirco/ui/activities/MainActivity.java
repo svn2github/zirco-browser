@@ -41,7 +41,6 @@ import org.zirco.ui.runnables.HistoryUpdater;
 import org.zirco.utils.AnimationManager;
 import org.zirco.utils.ApplicationUtils;
 import org.zirco.utils.Constants;
-import org.zirco.utils.ProxySettings;
 import org.zirco.utils.UrlUtils;
 
 
@@ -327,7 +326,6 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_find, R.string.QuickAction_Find));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_select, R.string.QuickAction_SelectText));
 		mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_mobile_view, R.string.QuickAction_MobileView));
-		//mToolsActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_btn_proxy_settings, R.string.QuickAction_ProxySettings)); // Proxy Settings QuickAction
 		
 		
 		mToolsActionGrid.setOnQuickActionClickListener(new OnQuickActionClickListener() {			
