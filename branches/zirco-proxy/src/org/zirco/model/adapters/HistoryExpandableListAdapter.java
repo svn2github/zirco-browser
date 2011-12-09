@@ -32,6 +32,8 @@ import android.view.ViewGroup;
 import android.webkit.DateSorter;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,14 +58,17 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 	
 	private int mFaviconSize;
 	
+	private OnCheckedChangeListener mBookmarkStarChangeListener;
+	
 	/**
 	 * Constructor.
 	 * @param context The current context.
 	 * @param cursor The data cursor.
 	 * @param dateIndex The date index ?
 	 */
-	public HistoryExpandableListAdapter(Context context, Cursor cursor, int dateIndex, int faviconSize) {
+	public HistoryExpandableListAdapter(Context context, OnCheckedChangeListener bookmarksChangeListener, Cursor cursor, int dateIndex, int faviconSize) {
 		mContext = context;
+		mBookmarkStarChangeListener = bookmarksChangeListener;
 		mCursor = cursor;
 		mDateIndex = dateIndex;
 		mFaviconSize = faviconSize;
@@ -71,7 +76,7 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 		mDateSorter = new DateSorter(mContext);
 		mIdIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
 		
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		
 		buildMap();
 	}
@@ -227,10 +232,13 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 		TextView urlView = (TextView) view.findViewById(R.id.HistoryRow_Url);		 					
 		urlView.setText(item.getUrl());
 		
-		if (item.isBookmark()) {
-			ImageView bookmarkIcon = (ImageView) view.findViewById(R.id.HistoryRow_BookmarksIcon);
-			bookmarkIcon.setImageResource(android.R.drawable.btn_star_big_on);
-		}
+		CheckBox bookmarkStar = (CheckBox) view.findViewById(R.id.HistoryRow_BookmarkStar);
+		
+		bookmarkStar.setTag(item.getId());
+		
+		bookmarkStar.setOnCheckedChangeListener(null);
+		bookmarkStar.setChecked(item.isBookmark());
+		bookmarkStar.setOnCheckedChangeListener(mBookmarkStarChangeListener);
 		
 		ImageView faviconView = (ImageView) view.findViewById(R.id.HistoryRow_Thumbnail);
 		Bitmap favicon = item.getFavicon();
@@ -244,7 +252,6 @@ public class HistoryExpandableListAdapter extends BaseExpandableListAdapter {
 			icon.draw(canvas);
 			
 			faviconView.setImageBitmap(bm);
-			//faviconView.setImageBitmap(item.getFavicon());
 		} else {
 			faviconView.setImageResource(R.drawable.fav_icn_unknown);
 		}

@@ -38,6 +38,7 @@ import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Browser;
 import android.util.Log;
 
@@ -298,6 +299,27 @@ public class BookmarksProviderWrapper {
 		}
 	}
 	
+	public static void toggleBookmark(ContentResolver contentResolver, long id, boolean bookmark) {
+		String[] colums = new String[] { Browser.BookmarkColumns._ID };
+		String whereClause = Browser.BookmarkColumns._ID + " = " + id;
+
+		Cursor cursor = contentResolver.query(BOOKMARKS_URI, colums, whereClause, null, null);
+		boolean recordExists = (cursor != null) && (cursor.moveToFirst());
+		
+		if (recordExists) {
+			ContentValues values = new ContentValues();
+			
+			values.put(Browser.BookmarkColumns.BOOKMARK, bookmark);
+			if (bookmark) {
+				values.put(Browser.BookmarkColumns.CREATED, new Date().getTime());
+			} else {
+				values.putNull(Browser.BookmarkColumns.CREATED);
+			}
+			
+			contentResolver.update(BOOKMARKS_URI, values, whereClause, null);
+		}
+	}
+	
 	public static Cursor getStockHistory(ContentResolver contentResolver) {
 		String whereClause = Browser.BookmarkColumns.VISITS + " > 0";
         String orderClause = Browser.BookmarkColumns.DATE + " DESC";
@@ -435,6 +457,11 @@ public class BookmarksProviderWrapper {
 
 		ContentValues values = new ContentValues();
 		values.put(Browser.BookmarkColumns.FAVICON, os.toByteArray());
+		
+		// Hack: Starting from Honeycomb, simple update of the favicon through an error, it need another field to update correctly...
+		if (Build.VERSION.SDK_INT >= 11) {
+			values.put(Browser.BookmarkColumns.URL, url);
+		}
 
 		try {
 			currentActivity.getContentResolver().update(BOOKMARKS_URI, values, whereClause, null);

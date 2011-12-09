@@ -123,7 +123,7 @@
 
 		<LinearLayout android:id="@+id/BottomBarLayout"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:scaleType="fitXY" android:background="@drawable/tb_background_bottom"
+			android:background="@drawable/tb_background_bottom" android:scaleType="fitXY"
 			android:layout_alignParentBottom="true" android:weightSum="5">
 			
 			<ImageButton android:layout_height="wrap_content"
