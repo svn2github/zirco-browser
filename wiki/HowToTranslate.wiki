@@ -1,6 +1,6 @@
 #summary This page describe how you can contribute to Zirco Browser by translating it to your own language.
 
-You must agree that your work will be released under the same license as Zirco, e.g. GPL version 3. Also do not forget that a software translation is not a one-shot work, and that new translations may be needed after your initial work.
+Before starting a translation, you must agree that your work will be released under the same license as Zirco, e.g. [http://www.gnu.org/copyleft/gpl.html GPL version 3]. Also do not forget that a software translation is not a one-shot work, and that new translations may be needed after your initial work.
 
 Translations are done is a language-specific XML file. A single translation string look like this :
 {{{
@@ -16,7 +16,7 @@ Where the part in the name parameter (here {{{Main.MenuAddBookmark}}}) is the st
 
 Then select “Save as...” in your browser, and save it where you want on your computer.
 
-== Translating ==
+== Translate ==
 
 Open the file you downloaded with a decent text editor (hint: Windows Notepad is *NOT* a decent text editor). Do not change the default encoding (UTF-8) and the default line breaks (Unix style).
 
@@ -77,3 +77,7 @@ So Google search result and Wikipedia results will use french.
 {{{
 <string name="DATE_FORMAT_ISO8601">yyyy-MM-dd\'T\'HH:mm:ss.SSS</string>
 }}}
+
+== Submit your translation ==
+
+Either send me an e-mail, with your modified file and the language you translated, or open an [http://code.google.com/p/zirco-browser/issues/list issue] and post your file there.
