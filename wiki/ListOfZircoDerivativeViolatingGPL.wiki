@@ -39,28 +39,3 @@ Market link: [https://market.android.com/details?id=org.zircosecure]
 Website: [http://www.markus-jakobsson.com/]
 
 Contact email: [mailto:markus.jakobsson@gmail.com]
-
-=bhasha.lk=
-
-Mail sent on Feb. 12th, 2012. No answer yet.
-
-==SETT Sinhala/Tamil (Sri Lanka/India) web browser==
-Market link: [https://market.android.com/details?id=lk.bhasha.sett]
-
-Website: [http://www.bhasha.lk/]
-
-Contact email: [mailto:info@bhasha.lk]
-
-==SETT Hindi web browser==
-Market link: [https://market.android.com/details?id=lk.bhasha.sett.hindi]
-
-Website: [http://www.bhasha.lk/]
-
-Contact email: [mailto:info@bhasha.lk]
-
-==SETT Bengali web browser==
-Market link: [https://market.android.com/details?id=lk.bhasha.sett.bengali]
-
-Website: [http://www.bhasha.lk/]
-
-Contact email: [mailto:info@bhasha.lk]
