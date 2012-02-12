@@ -5,6 +5,9 @@ There is currently several applications released on the Android market which are
 While i am glad that people find Zirco useful and base their work on it, i choose the GPL v3 on purpose, because i do not want any derivative to goes closed-source. The goal here is not to "kill" those applications, but to make them comply with the GPL v3.
 
 =khmertype=
+
+Mail sent on Feb. 12th, 2012. No answer yet.
+
 ==Zirco Khmer==
 Market link: [https://market.android.com/details?id=org.zircokhmer]
 
@@ -27,6 +30,9 @@ Website: [http://www.khmertype.blogspot.com/]
 Contact email: [mailto:danhhong@gmail.com]
 
 =markus-jakobsson=
+
+Mail sent on Feb. 12th, 2012. No answer yet.
+
 ==Zirco Secure==
 Market link: [https://market.android.com/details?id=org.zircosecure]
 
@@ -35,6 +41,9 @@ Website: [http://www.markus-jakobsson.com/]
 Contact email: [mailto:markus.jakobsson@gmail.com]
 
 =1stmm.net=
+
+Mail sent on Feb. 12th, 2012. No answer yet.
+
 ==1st Myanmar Browser==
 Market link: [https://market.android.com/details?id=org.firstmm]
 
@@ -43,6 +52,9 @@ Website: [http://1stmm.net/]
 Contact email: [mailto:mr.htinag@gmail.com]
 
 =bhasha.lk=
+
+Mail sent on Feb. 12th, 2012. No answer yet.
+
 ==SETT Sinhala/Tamil (Sri Lanka/India) web browser==
 Market link: [https://market.android.com/details?id=lk.bhasha.sett]
 
