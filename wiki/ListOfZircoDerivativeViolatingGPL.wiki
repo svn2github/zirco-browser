@@ -17,14 +17,14 @@ Market link: [https://market.android.com/details?id=com.beeline.khmum]
 
 Website: [http://www.khmertype.blogspot.com/]
 
-Contact email: [danhhong@gmail.com]
+Contact email: [mailto:danhhong@gmail.com]
 
 ==Nokora Browser==
 Market link: [https://market.android.com/details?id=org.nokorabrowser]
 
 Website: [http://www.khmertype.blogspot.com/]
 
-Contact email: [danhhong@gmail.com]
+Contact email: [mailto:danhhong@gmail.com]
 
 =markus-jakobsson=
 ==Zirco Secure==
@@ -32,7 +32,7 @@ Market link: [https://market.android.com/details?id=org.zircosecure]
 
 Website: [http://www.markus-jakobsson.com/]
 
-Contact email: [markus.jakobsson@gmail.com]
+Contact email: [mailto:markus.jakobsson@gmail.com]
 
 =1stmm.net=
 ==1st Myanmar Browser==
@@ -40,7 +40,7 @@ Market link: [https://market.android.com/details?id=org.firstmm]
 
 Website: [http://1stmm.net/]
 
-Contact email: [mr.htinag@gmail.com]
+Contact email: [mailto:mr.htinag@gmail.com]
 
 =bhasha.lk=
 ==SETT Sinhala/Tamil (Sri Lanka/India) web browser==
@@ -48,18 +48,18 @@ Market link: [https://market.android.com/details?id=lk.bhasha.sett]
 
 Website: [http://www.bhasha.lk/]
 
-Contact email: [info@bhasha.lk]
+Contact email: [mailto:info@bhasha.lk]
 
 ==SETT Hindi web browser==
 Market link: [https://market.android.com/details?id=lk.bhasha.sett.hindi]
 
 Website: [http://www.bhasha.lk/]
 
-Contact email: [info@bhasha.lk]
+Contact email: [mailto:info@bhasha.lk]
 
 ==SETT Bengali web browser==
 Market link: [https://market.android.com/details?id=lk.bhasha.sett.bengali]
 
 Website: [http://www.bhasha.lk/]
 
-Contact email: [info@bhasha.lk]
+Contact email: [mailto:info@bhasha.lk]
