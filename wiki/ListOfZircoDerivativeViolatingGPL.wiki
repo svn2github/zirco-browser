@@ -1,6 +1,6 @@
-#summary This page lists Zirco derivative applications not complying with the [http://www.gnu.org/licenses/gpl-3.0.en.html GPL V3 license] under which Zirco is released.
+#summary This page lists Zirco derivative applications not complying with the GPL V3 license under which Zirco is released.
 
-There is currently several applications released on the Android market which are obviously derivating from Zirco, but do not comply with the GPL v3. These applications do not state under which license they are released, and do not provide access to their source code.
+There is currently several applications released on the Android market which are obviously derivating from Zirco, but do not comply with the [http://www.gnu.org/licenses/gpl-3.0.en.html GPL V3 license]. These applications do not state under which license they are released, and do not provide access to their source code.
 
 While i am glad that people find Zirco useful and base their work on it, i choose the GPL v3 on purpose, because i do not want any derivative to goes closed-source. The goal here is not to "kill" those applications, but to make them comply with the GPL v3.
 
