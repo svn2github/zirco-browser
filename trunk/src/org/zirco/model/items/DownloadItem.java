@@ -63,6 +63,7 @@ public class DownloadItem {
 		
 		mUrl = url;
 		mFileName = mUrl.substring(mUrl.lastIndexOf("/") + 1);
+		mFileName = mFileName.substring(0, mFileName.indexOf("?"));
 		
 		mProgress = 0;
 	

@@ -63,7 +63,8 @@ public class DownloadRunnable implements Runnable {
 	 * @return The file name.
 	 */
 	private String getFileNameFromUrl() {
-		return mParent.getUrl().substring(mParent.getUrl().lastIndexOf("/") + 1);
+		String fileName = mParent.getUrl().substring(mParent.getUrl().lastIndexOf("/") + 1); 
+		return fileName.substring(0, fileName.indexOf("?"));
 	}
 	
 	/**
