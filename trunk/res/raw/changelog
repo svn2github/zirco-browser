@@ -1,3 +1,9 @@
+0.4.4:
+- Close last tab now return to home page (thanks to Martin).
+- Fix download error when url contains a "?".
+- Spanish translation (thanks to Isaac L.).
+- Brazilian Portuguese translation (thnaks to Cynthia R., Jéssica B. and Thales A.).
+
 0.4.3:
 - Much better handling of Youtube videos.
 - Volume keys can now be set to scroll page up/down (thanks to Martin).
