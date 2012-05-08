@@ -148,7 +148,7 @@
     <string name="PreferencesActivity.AdBlockerWhiteListPreferenceTitle">White list</string>
     <string name="PreferencesActivity.AdBlockerWhiteListPreferenceSummary">Manage Ad-blocker white list.</string>
     
-    <string name="Commons.Ok">Ok</string>
+    <string name="Commons.Ok">OK</string>
     <string name="Commons.Cancel">Cancel</string>
     <string name="Commons.PleaseWait">Please wait</string>
     <string name="Commons.Yes">Yes</string>
@@ -526,7 +526,7 @@
     <string name="ProxySettings.ErrorProxyInternetNotReachable">Cannot access the Web through the specified proxy server.</string>
     <string name="ProxySettings.ProxySettingsEnabled">Proxy settings succesfully enabled.</string>
     
-    <string name="AboutActivity.ContributorsText">Contributors:\n   • LeChuck (Proxy settings);\n   • Martin (Scroll with volume keys, German translation);\n   • Isaac L. (Spanish translation);</string>
+    <string name="AboutActivity.ContributorsText">Contributors:\n   • LeChuck (Proxy settings);\n   • Martin (Scroll with volume keys, German translation);\n   • Isaac L. (Spanish translation);\n • Cynthia R., Jéssica B. and Thales A (Portuguese translation);</string>
     
     <string name="PreferencesActivity.EnableRestoreLastPagePreferenceTitle">Restore last page</string>
     <string name="PreferencesActivity.EnableRestoreLastPagePreferenceSummary">If checked, the last page will be restore if available.</string>
