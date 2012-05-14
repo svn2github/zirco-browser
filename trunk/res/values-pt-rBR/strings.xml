@@ -526,7 +526,7 @@
     <string name="ProxySettings.ErrorProxyInternetNotReachable">Não é possível acessar a Web através do servidor proxy especificado.</string>
     <string name="ProxySettings.ProxySettingsEnabled">As configurações de proxy foram habilitadas com sucesso.</string>
     
-    <string name="AboutActivity.ContributorsText">Colaboradores:\n • LeChuck (Configurações de proxy);\n • Martin (Scroll com teclas de volume, tradução para alemão);\n • Isaac L. (tradução para espanhol);\n • Cynthia R., Jéssica B. and Thales A. (tradução para português);</string>
+    <string name="AboutActivity.ContributorsText">Colaboradores:\n • LeChuck (Configurações de proxy);\n • Martin (Scroll com teclas de volume, tradução para alemão);\n • Isaac L., Franky D. (tradução para espanhol);\n • Cynthia R., Jéssica B. and Thales A. (tradução para português);</string>
     
     <string name="PreferencesActivity.EnableRestoreLastPagePreferenceTitle">Restaurar a última página</string>
     <string name="PreferencesActivity.EnableRestoreLastPagePreferenceSummary">Se marcada, a última página será restaurada se disponível.</string>
