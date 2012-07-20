@@ -818,6 +818,19 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
 						OPEN_FILE_CHOOSER_ACTIVITY);
 			}
 			
+			@SuppressWarnings("unused")
+			// This is an undocumented method, it _is_ used, whatever Eclipse may think :)
+			// Used to show a file chooser dialog.
+			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+				mUploadMessage = uploadMsg;
+				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+				i.addCategory(Intent.CATEGORY_OPENABLE);
+				i.setType("*/*");
+				MainActivity.this.startActivityForResult(
+						Intent.createChooser(i, MainActivity.this.getString(R.string.Main_FileChooserPrompt)),
+						OPEN_FILE_CHOOSER_ACTIVITY);
+			}
+			
 			@Override
 			public Bitmap getDefaultVideoPoster() {
 				if (mDefaultVideoPoster == null) {
