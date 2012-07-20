@@ -22,6 +22,7 @@ import org.zirco.utils.ApplicationUtils;
 import org.zirco.utils.Constants;
 import org.zirco.utils.UrlUtils;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -73,6 +74,7 @@ public class CustomWebViewClient extends WebViewClient {
 		super.onPageStarted(view, url, favicon);
 	}
 
+	@TargetApi(8)
 	@Override
 	public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
 		
@@ -142,7 +144,7 @@ public class CustomWebViewClient extends WebViewClient {
 			view.loadUrl(newUrl);
 			return true;
 			
-		} else if (view.getHitTestResult().getType() == HitTestResult.EMAIL_TYPE) {
+		} else if (view.getHitTestResult() != null && view.getHitTestResult().getType() == HitTestResult.EMAIL_TYPE) {
 			mMainActivity.onMailTo(url);
 			return true;
 			
