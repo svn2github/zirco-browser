@@ -115,6 +115,25 @@ public class DownloadRunnable implements Runnable {
 							
 				int size = conn.getContentLength();
 				
+				String fileHeader = conn.getHeaderField("Content-Disposition");
+				if (fileHeader != null) {
+					fileHeader = fileHeader.toLowerCase();
+					int index = fileHeader.indexOf("filename");
+					if (index != -1) {
+						String name = fileHeader.substring(
+								index + "filename".length() + 1,
+								fileHeader.length());
+						
+						name = name.replace("'", "").replace("\"", "");
+						
+						if (downloadFile != null) {
+							downloadFile = new File(
+									IOUtils.getDownloadFolder(), name);
+							mParent.updateFileName(name);
+						}
+					}
+				}
+				
 				double oldCompleted = 0;
 				double completed = 0;
 				

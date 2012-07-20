@@ -66,10 +66,7 @@ public class DownloadItem {
 		mUrl = url;
 		mFileName = mUrl.substring(mUrl.lastIndexOf("/") + 1);
 		
-		int queryParamStart = mFileName.indexOf("?");
-		if (queryParamStart > 0) {
-		    mFileName = mFileName.substring(0, queryParamStart);
-		}
+		checkFileName();
 		
 		mProgress = 0;
 	
@@ -99,6 +96,11 @@ public class DownloadItem {
 	 */
 	public String getFileName() {
 		return mFileName;
+	}
+		
+	public void updateFileName(String fileName) {
+		mFileName = fileName;
+		checkFileName();
 	}
 	
 	public String getFilePath() {
@@ -197,6 +199,13 @@ public class DownloadItem {
 	 */
 	public boolean isAborted() {
 		return mIsAborted;
+	}
+	
+	private void checkFileName() {
+		int queryParamStart = mFileName.indexOf("?");
+		if (queryParamStart > 0) {
+		    mFileName = mFileName.substring(0, queryParamStart);
+		}
 	}
 	
 	/**
